@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termeni și Condiții – BV IMM Brokers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:     #0d1f35;
+      --navy2:    #152d4a;
+      --gold:     #b89554;
+      --gold2:    #d4af70;
+      --cream:    #f5f0e8;
+      --offwhite: #faf8f4;
+      --text:     #2a2a2a;
+      --muted:    #6b7280;
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-body:    'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-body);
+      color: var(--text);
+      background: var(--offwhite);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(13,31,53,0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(184,149,84,0.2);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .75rem; text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 38px; height: 38px; border: 2px solid var(--gold); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-icon svg { width: 22px; height: 22px; fill: var(--gold); }
+    .nav-logo-text { display: flex; flex-direction: column; }
+    .nav-logo-text span:first-child {
+      font-family: var(--ff-display); font-size: 1.25rem; font-weight: 600;
+      color: #fff; letter-spacing: .04em;
+    }
+    .nav-logo-text span:last-child {
+      font-size: .65rem; color: var(--gold2); letter-spacing: .15em; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,.8); text-decoration: none;
+      font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold2); }
+    .nav-cta {
+      background: transparent; border: 1px solid var(--gold);
+      color: var(--gold); padding: .55rem 1.4rem;
+      font-family: var(--ff-body); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; transition: background .2s, color .2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--navy); }
+
+    /* ─── HERO BANNER ─── */
+    .page-hero {
+      background: var(--navy);
+      padding: 8rem 5% 4rem;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(184,149,84,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184,149,84,.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .page-hero-inner { position: relative; z-index: 1; }
+    .page-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .75rem;
+      font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold2); margin-bottom: 1rem;
+    }
+    .page-hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+    .page-hero h1 {
+      font-family: var(--ff-display); font-weight: 300;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      color: #fff; line-height: 1.1;
+    }
+    .page-hero-sub {
+      margin-top: .75rem; font-size: .9rem; color: rgba(255,255,255,.5);
+    }
+
+    /* ─── CONTENT ─── */
+    .tc-wrapper {
+      max-width: 860px; margin: 0 auto;
+      padding: 4rem 5% 6rem;
+    }
+
+    .tc-section { margin-bottom: 3rem; }
+
+    .tc-section h2 {
+      font-family: var(--ff-body); font-size: .75rem;
+      font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); border-bottom: 1px solid rgba(184,149,84,.25);
+      padding-bottom: .6rem; margin-bottom: 1.2rem;
+    }
+
+    .tc-section p {
+      font-size: .93rem; line-height: 1.85; color: #444;
+      margin-bottom: .9rem;
+    }
+    .tc-section p:last-child { margin-bottom: 0; }
+
+    .tc-section ul {
+      list-style: none; padding: 0; margin-bottom: .9rem;
+    }
+    .tc-section ul li {
+      font-size: .93rem; line-height: 1.85; color: #444;
+      padding-left: 1.2rem; position: relative; margin-bottom: .5rem;
+    }
+    .tc-section ul li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--gold); font-weight: 300;
+    }
+
+    .tc-section strong { color: var(--navy); font-weight: 600; }
+
+    .tc-highlight {
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+      padding: 1.5rem 1.8rem;
+      margin-top: 1.2rem; margin-bottom: 1.2rem;
+    }
+    .tc-highlight p { font-size: .88rem; line-height: 1.8; color: #555; margin-bottom: .7rem; }
+    .tc-highlight p:last-child { margin-bottom: 0; }
+
+    .tc-rights-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 1.2rem;
+    }
+    .tc-right-item {
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(184,149,84,.25);
+      background: #fff;
+    }
+    .tc-right-item strong {
+      display: block; font-size: .8rem; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--navy); margin-bottom: .4rem;
+    }
+    .tc-right-item span { font-size: .83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.5);
+      padding: 3rem 5%;
+      display: flex; flex-wrap: wrap; gap: 2rem;
+      align-items: center; justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: var(--ff-display); font-size: 1.3rem; font-weight: 600;
+      color: #fff; letter-spacing: .05em;
+    }
+    .footer-logo span { color: var(--gold); }
+    footer p { font-size: .8rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      color: rgba(255,255,255,.45); font-size: .8rem;
+      text-decoration: none; transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .tc-rights-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/></svg>
+    </div>
+    <div class="nav-logo-text">
+      <span>BV IMM Brokers</span>
+      <span>Brokeraj de Asigurări · România</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">Despre noi</a></li>
+    <li><a href="index.html#services">Servicii</a></li>
+    <li><a href="index.html#why">De ce noi</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Solicită ofertă</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Documente legale</div>
+    <h1>Termeni și Condiții</h1>
+    <p class="page-hero-sub">Ultima actualizare: Februarie 2025</p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="tc-wrapper">
+
+  <!-- 1. DEFINIȚII -->
+  <div class="tc-section">
+    <h2>1. Definiții și Termeni</h2>
+    <ul>
+      <li><strong>BV IMM Brokers</strong> – este denumirea comercială a <strong>BV IMM BROKERS S.R.L.</strong>, persoană juridică cu sediul în Brașov, România, înregistrată la Registrul Comerțului sub nr. <strong>J8/942/2011</strong>, cod unic de înregistrare <strong>28561100</strong>, EUID <strong>ROONRC.J08/942/2011</strong>, înscrisă în Registrul Intermediarilor secundari al Autorității de Supraveghere Financiară sub nr. <strong>RAJ-503173</strong>, parte a Grupului Millenium Insurance Broker (MIB).</li>
+      <li><strong>Vânzător</strong> – angajat BV IMM Brokers sau orice partener cu drept de distribuție asigurări.</li>
+      <li><strong>Cumpărător</strong> – persoană fizică sau juridică ori orice entitate juridică care transmite o Comandă prin intermediul Site-ului sau direct către Vânzător.</li>
+      <li><strong>Site</strong> – domeniul <strong>brasovbrokers.ro</strong> și/sau subdomeniile acestuia.</li>
+      <li><strong>Comandă</strong> – document electronic sau solicitare scrisă/verbală ce intervine ca formă de comunicare între Vânzător și Cumpărător, prin care Cumpărătorul transmite intenția sa de a achiziționa produse de asigurare.</li>
+      <li><strong>Produs</strong> – orice serviciu de brokeraj sau poliță de asigurare furnizată Cumpărătorului ca urmare a unui Contract încheiat.</li>
+      <li><strong>Contract</strong> – contractul încheiat între Vânzător și Cumpărător, inclusiv la distanță, fără prezența fizică simultană a ambelor părți.</li>
+    </ul>
+  </div>
+
+  <!-- 2. ACCEPTAREA -->
+  <div class="tc-section">
+    <h2>2. Acceptarea Termenilor și Condițiilor</h2>
+    <ul>
+      <li>Folosirea Site-ului (vizitarea, solicitarea de oferte, achiziționarea produselor de asigurare oferite de <strong>BV IMM Brokers</strong>) implică acceptarea în totalitate și necondiționată a prezenților Termeni și Condiții.</li>
+      <li>Serviciile furnizate prin Site sunt rezervate exclusiv persoanelor care au împlinit <strong>18 ani</strong>.</li>
+      <li>Prin transmiterea unei Comenzi, Cumpărătorul este de acord cu forma de comunicare prin care Vânzătorul își derulează operațiunile comerciale.</li>
+      <li>Întregul conținut al Site-ului este protejat de <strong>Legea drepturilor de autor</strong>, toate drepturile fiind proprietatea BV IMM Brokers.</li>
+      <li>Eventualele reclamații legate de Site pot fi depuse în scris la adresa de email <a href="mailto:office@brasovbrokers.ro" style="color:var(--gold);">office@brasovbrokers.ro</a>. Reclamația trebuie să conțină cel puțin: numele și prenumele Cumpărătorului, adresa de e-mail, adresa de corespondență și descrierea problemei.</li>
+      <li><strong>BV IMM Brokers</strong> nu răspunde pentru nicio pagubă directă sau indirectă adusă Cumpărătorului referitoare la utilizarea Site-ului, erorile, omisiunile, defecțiunile, întârzierile în operare sau transmitere, viruși sau orice alți factori similari.</li>
+      <li><strong>BV IMM Brokers</strong> nu garantează accesul sigur, continuu și neîntrerupt la serviciile sale și nu va fi responsabilă pentru nicio problemă a rețelelor, liniilor telefonice, serverelor sau a echipamentelor terților.</li>
+      <li>Informațiile prezentate pe Site au caracter informativ și pot fi modificate oricând, fără anunțare prealabilă. Prețurile/tarifele afișate pot fi eronate; în cazul unei Comenzi cu preț eronat, <strong>BV IMM Brokers</strong> are dreptul să anuleze Comanda sau să corecteze oferta transmisă.</li>
+    </ul>
+  </div>
+
+  <!-- 3. DREPTURILE VÂNZĂTORULUI -->
+  <div class="tc-section">
+    <h2>3. Drepturile și Obligațiile Vânzătorului</h2>
+    <ul>
+      <li><strong>BV IMM Brokers</strong> este Asistent in brokeraj al Millenium Insurance Broker și nu furnizor direct al produselor de asigurare. Informațiile și descrierile de pe Site (texte, imagini, prezentări multimedia) sunt utilizate exclusiv cu titlu de prezentare și nu reprezintă o obligație contractuală din partea Vânzătorului.</li>
+      <li>Notificarea trimisă Cumpărătorului după transmiterea unei Comenzi/cereri de ofertă are rol informativ și nu reprezintă acceptarea Comenzii. Emiterea poliței poate fi condiționată de transmiterea unor documente suplimentare, conform metodologiei fiecărui asigurător.</li>
+      <li>Vânzătorul poate cesiona și/sau subcontracta o terță parte pentru servicii ce țin de onorarea Comenzii, fără a fi necesar acordul Cumpărătorului.</li>
+      <li>În cazul în care un produs solicitat de Cumpărător nu poate fi furnizat, Vânzătorul va informa Cumpărătorul și va returna contravaloarea achitată în termen de maxim <strong>14 zile</strong>.</li>
+      <li>Vânzătorul poate anula Comanda cu notificare prealabilă, fără obligații ulterioare, în cazul: neacceptării tranzacției de către banca emitentă; invalidării tranzacției de către procesatorul de plăți; furnizării de date incorecte, incomplete sau false de către Cumpărător.</li>
+    </ul>
+  </div>
+
+  <!-- 4. DREPTURILE CUMPĂRĂTORULUI -->
+  <div class="tc-section">
+    <h2>4. Drepturile și Obligațiile Cumpărătorului</h2>
+    <ul>
+      <li>Cumpărătorul se obligă să completeze formularele cu date corecte și conforme cu realitatea. <strong>BV IMM Brokers</strong> nu poate fi făcut responsabil pentru pierderi cauzate de furnizarea de informații incorecte sau incomplete.</li>
+      <li>Prin plasarea unei Comenzi, Cumpărătorul confirmă că și-a dat acordul pentru procesarea datelor cu caracter personal conform politicii GDPR; că toate datele furnizate sunt corecte, complete și reale la data Comenzii; că Vânzătorul îl poate contacta prin orice mijloc disponibil pentru validarea informațiilor necesare ofertării sau emiterii poliței.</li>
+      <li>Cumpărătorul este obligat să actualizeze datele atunci când situația o cere. În cazul furnizării de informații false, <strong>BV IMM Brokers</strong> își rezervă dreptul de a refuza toate încercările curente sau viitoare de utilizare a serviciilor Site-ului.</li>
+    </ul>
+  </div>
+
+  <!-- 5. FACTURARE ȘI PLĂȚI -->
+  <div class="tc-section">
+    <h2>5. Politica de Facturare și Plăți</h2>
+    <ul>
+      <li>Conform legislației în vigoare, pentru polițele de asigurare nu se emite factură, acestea reprezentând și documentul de plată.</li>
+      <li>Produsele și Serviciile incluse în Comandă vor fi furnizate Cumpărătorului numai după efectuarea plății.</li>
+      <li>Prețul de achiziție este cel comunicat în oferta transmisă. Prețul final poate diferi în funcție de politica fiecărui asigurător și de informațiile declarate de client.</li>
+    </ul>
+  </div>
+
+  <!-- 6. ANULĂRI ȘI MODIFICĂRI -->
+  <div class="tc-section">
+    <h2>6. Anulări sau Modificări ale Contractelor de Asigurare</h2>
+    <ul>
+      <li>Momentul încheierii contractului îl constituie momentul confirmării de către Vânzător a acceptării Comenzii, care trebuie să coincidă cu momentul plății serviciului contractat.</li>
+      <li>Consumatorul are dreptul de a denunța unilateral contractul la distanță în termen de <strong>14 zile calendaristice</strong>, fără penalități. Pentru contractele de asigurare de viață și pensii individuale, termenul este de <strong>30 de zile calendaristice</strong>.</li>
+      <li>Dreptul de denunțare unilaterală nu se aplică polițelor de asigurare de călătorie/bagaje sau polițelor pe termen scurt (cel mult o lună calendaristică).</li>
+      <li>Pentru vehiculele radiate sau transferate ca proprietate în perioada de asigurare, asigurătorul poate restitui, la cererea scrisă a asiguratului, parte din prima achitată, conform condițiilor generale ale companiei de asigurări.</li>
+      <li>Eventualele erori înscrise în poliță vor fi corectate prin acte adiționale emise de societatea de asigurare.</li>
+    </ul>
+  </div>
+
+  <!-- 7. CONFIDENȚIALITATE -->
+  <div class="tc-section">
+    <h2>7. Confidențialitate</h2>
+    <ul>
+      <li>Informațiile furnizate de Cumpărător vor rămâne în utilizarea Vânzătorului cel puțin pe durata relațiilor contractuale dintre părți.</li>
+      <li>Nicio declarație publică, comunicat de presă sau dezvăluire către terți privind Comanda/Contractul nu va fi făcută de Cumpărător fără acordul prealabil scris al Vânzătorului.</li>
+      <li><strong>BV IMM Brokers</strong> nu constituie subiect al unor obligații de confidențialitate referitoare la informațiile primite, cu excepția cazurilor prevăzute de legislația în vigoare.</li>
+    </ul>
+  </div>
+
+  <!-- 8. FORȚA MAJORĂ -->
+  <div class="tc-section">
+    <h2>8. Forța Majoră</h2>
+    <ul>
+      <li>Niciuna din părți nu va fi răspunzătoare pentru neexecutarea obligațiilor contractuale dacă aceasta este cauzată de un eveniment de forță majoră — eveniment imprevizibil, în afara controlului părților și care nu poate fi evitat.</li>
+      <li>Dacă în termen de <strong>15 zile</strong> de la producerea evenimentului acesta nu încetează, fiecare parte va putea notifica celeilalte încetarea de plin drept a Contractului, fără daune-interese.</li>
+    </ul>
+  </div>
+
+  <!-- 9. LEGE APLICABILĂ -->
+  <div class="tc-section">
+    <h2>9. Legea Aplicabilă – Jurisdicția</h2>
+    <p>Legislația aplicabilă este <strong>legea română</strong>. Eventualele litigii apărute între <strong>BV IMM Brokers</strong> și Cumpărători se vor rezolva pe cale amiabilă sau, în cazul în care aceasta nu este posibilă, de instanțele judecătorești române competente.</p>
+  </div>
+
+  <!-- 10. GDPR -->
+  <div class="tc-section">
+    <h2>10. Prelucrarea Datelor cu Caracter Personal (GDPR)</h2>
+
+    <div class="tc-highlight">
+      <p>Conform <strong>Regulamentului UE 2016/679</strong> privind protecția datelor cu caracter personal, aplicabil din 25 mai 2018, <strong>BV IMM BROKERS S.R.L.</strong>, cu sediul în Brașov, România, înregistrată la Registrul Comerțului sub nr. <strong>J8/942/2011</strong>, CUI <strong>28561100</strong>, înscrisă în Registrul Intermediarilor secundari al ASF sub nr. <strong>RAJ-503173</strong>, parte a Grupului Millenium Insurance Broker (MIB), vă informează că prelucrează datele următoarelor categorii de persoane fizice: clienți sau potențiali clienți, beneficiari sau potențiali beneficiari declarați ai contractului de asigurare.</p>
+      <p>Datele cu Caracter Personal prelucrate sunt doar datele necesare scopurilor prelucrării.</p>
+    </div>
+
+    <p><strong>Scopurile prelucrării:</strong> identificarea clientului; propunere de cotații de primă pentru riscurile identificate și/sau solicitate de client; propunere de contracte și condiții de asigurare colectate de la asigurători; emitere sau reînnoire poliță; transmitere a contractelor de asigurare; încasări asociate contractelor; activități de marketing pentru produse și servicii de asigurare; îndeplinire a obligațiilor legale.</p>
+
+    <p><strong>Temeiurile legale ale prelucrării:</strong> acord privind datele necesare activității de marketing; executarea contractului de asigurare la care persoana vizată este parte sau pentru a face demersuri la cererea acesteia înainte de încheierea contractului; îndeplinirea prevederilor legale aplicabile (legislația specifică asigurărilor, legislația privind spălarea banilor și combaterea actelor de terorism).</p>
+
+    <p><strong>Categorii de destinatari:</strong> societăți de asigurare/reasigurare, PAID, FGA, BAAR, autorități ale statului, furnizori de servicii IT, bănci, furnizori de servicii de arhivare, cabinete de avocatură, firme de curierat, alți intermediari în asigurări în cazul co-brokerajului sau transferului de portofoliu.</p>
+
+    <p><strong>Durata prelucrării:</strong> pentru asigurări generale — <strong>60 de zile</strong> de la data ofertării; pentru asigurare de viață — <strong>180 de zile</strong> de la data ofertării. Dacă în acest termen nu se emite un contract sau nu există un acord expres de marketing, datele vor fi șterse. Datele aferente contractelor emise se stochează conform legislației aplicabile (legea arhivării, legislația din asigurări, legislația fiscală și contabilă).</p>
+
+    <p><strong>Drepturile persoanelor fizice:</strong></p>
+    <div class="tc-rights-grid">
+      <div class="tc-right-item">
+        <strong>Dreptul la informare</strong>
+        <span>Dreptul de a fi informat cu privire la colectarea și utilizarea datelor personale.</span>
+      </div>
+      <div class="tc-right-item">
+        <strong>Dreptul de acces</strong>
+        <span>Dreptul de a accesa datele personale și de a verifica legalitatea prelucrării.</span>
+      </div>
+      <div class="tc-right-item">
+        <strong>Dreptul la rectificare</strong>
+        <span>Dreptul de a obține corectarea datelor inexacte sau completarea celor incomplete.</span>
+      </div>
+      <div class="tc-right-item">
+        <strong>Dreptul la ștergere</strong>
+        <span>Dreptul de a fi uitat, în situațiile reglementate expres de lege.</span>
+      </div>
+      <div class="tc-right-item">
+        <strong>Dreptul la portabilitate</strong>
+        <span>Dreptul de a primi datele furnizate într-un format structurat, citibil automat.</span>
+      </div>
+      <div class="tc-right-item">
+        <strong>Dreptul la restricționare</strong>
+        <span>Dreptul de a obține restricționarea prelucrării în situații reglementate de lege.</span>
+      </div>
+      <div class="tc-right-item">
+        <strong>Dreptul la opoziție</strong>
+        <span>Dreptul de a vă opune prelucrării bazate pe interes legitim sau marketing direct.</span>
+      </div>
+      <div class="tc-right-item">
+        <strong>Retragerea consimțământului</strong>
+        <span>Dreptul de a retrage oricând consimțământul pentru prelucrarea datelor.</span>
+      </div>
+    </div>
+
+    <div class="tc-highlight" style="margin-top:1.5rem;">
+      <p>Pentru exercitarea drepturilor menționate, pentru retragerea consimțământului sau pentru orice întrebări privind prelucrarea datelor, puteți contacta <strong>BV IMM Brokers</strong> la adresa de email: <a href="mailto:office@brasovbrokers.ro" style="color:var(--gold);font-weight:500;">office@brasovbrokers.ro</a>, menționând în obiect „Solicitare GDPR".</p>
+      <p>În cazul în care datele comunicate sunt ale unui minor, părintele/tutorele va fi cel informat. Dacă nu sunteți de acord cu prelucrarea datelor conform celor de mai sus, vom fi în imposibilitate de a vă oferi serviciile noastre.</p>
+    </div>
+  </div>
+
+</div><!-- end tc-wrapper -->
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">BV IMM <span>Brokers</span></div>
+    <p style="margin-top:.5rem;">Broker de asigurare autorizat ASF · Parte a Grupului MIB</p>
+  </div>
+  <div class="footer-links">
+    <a href="index.html">Acasă</a>
+    <a href="index.html#services">Servicii</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="termeni-si-conditii.html" style="color:var(--gold2);">Termeni și Condiții</a>
+  </div>
+  <p>© 2025 BV IMM Brokers · Toate drepturile rezervate</p>
+</footer>
+
+</body>
+</html>
