@@ -883,11 +883,20 @@
   // Run geo-check on load
   window.addEventListener("load", checkGeoRedirect);
   
-  // Set manual choice flag when user clicks language switcher
-  document.querySelectorAll(".lang-switcher a").forEach(link => {
+  // Set manual choice flag only when switching to different language
+  document.querySelectorAll(".lang-switcher a:not(.active)").forEach(link => {
     link.addEventListener("click", () => {
       localStorage.setItem("manual-lang-choice", "true");
     });
+  });
+  
+  // Clear manual choice if user explicitly clicks current language (reset geo)
+  document.querySelector(".lang-switcher a.active")?.addEventListener("click", (e) => {
+    if (e.ctrlKey || e.metaKey) { // Ctrl/Cmd + click = reset geo behavior
+      localStorage.removeItem("manual-lang-choice");
+      alert("Geo-redirect reset. Refresh page to test.");
+      e.preventDefault();
+    }
   });
 </script>
 </body>
