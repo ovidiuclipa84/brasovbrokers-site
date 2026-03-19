@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Terms and Conditions - BV IMM Brokers</title><link rel="icon" type="image/svg+xml" href="../favicon.svg" /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" /><style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:     #0d1f35;
+      --navy2:    #152d4a;
+      --gold:     #b89554;
+      --gold2:    #d4af70;
+      --cream:    #f5f0e8;
+      --offwhite: #faf8f4;
+      --text:     #2a2a2a;
+      --muted:    #6b7280;
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-body:    'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-body);
+      color: var(--text);
+      background: var(--offwhite);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(13,31,53,0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(184,149,84,0.2);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .75rem; text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 38px; height: 38px; border: 2px solid var(--gold); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-icon svg { width: 22px; height: 22px; fill: var(--gold); }
+    .nav-logo-text { display: flex; flex-direction: column; }
+    .nav-logo-text span:first-child {
+      font-family: var(--ff-display); font-size: 1.25rem; font-weight: 600;
+      color: #fff; letter-spacing: .04em;
+    }
+    .nav-logo-text span:last-child {
+      font-size: .65rem; color: var(--gold2); letter-spacing: .15em; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,.8); text-decoration: none;
+      font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold2); }
+    .nav-cta {
+      background: transparent; border: 1px solid var(--gold);
+      color: var(--gold); padding: .55rem 1.4rem;
+      font-family: var(--ff-body); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; transition: background .2s, color .2s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--navy); }
+
+    /* ─── HERO BANNER ─── */
+    .page-hero {
+      background: var(--navy);
+      padding: 8rem 5% 4rem;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(184,149,84,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184,149,84,.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .page-hero-inner { position: relative; z-index: 1; }
+    .page-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .75rem;
+      font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold2); margin-bottom: 1rem;
+    }
+    .page-hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+    .page-hero h1 {
+      font-family: var(--ff-display); font-weight: 300;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      color: #fff; line-height: 1.1;
+    }
+    .page-hero-sub {
+      margin-top: .75rem; font-size: .9rem; color: rgba(255,255,255,.5);
+    }
+
+    /* ─── CONTENT ─── */
+    .tc-wrapper {
+      max-width: 860px; margin: 0 auto;
+      padding: 4rem 5% 6rem;
+    }
+
+    .tc-section { margin-bottom: 3rem; }
+
+    .tc-section h2 {
+      font-family: var(--ff-body); font-size: .75rem;
+      font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); border-bottom: 1px solid rgba(184,149,84,.25);
+      padding-bottom: .6rem; margin-bottom: 1.2rem;
+    }
+
+    .tc-section p {
+      font-size: .93rem; line-height: 1.85; color: #444;
+      margin-bottom: .9rem;
+    }
+    .tc-section p:last-child { margin-bottom: 0; }
+
+    .tc-section ul {
+      list-style: none; padding: 0; margin-bottom: .9rem;
+    }
+    .tc-section ul li {
+      font-size: .93rem; line-height: 1.85; color: #444;
+      padding-left: 1.2rem; position: relative; margin-bottom: .5rem;
+    }
+    .tc-section ul li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--gold); font-weight: 300;
+    }
+
+    .tc-section strong { color: var(--navy); font-weight: 600; }
+
+    .tc-highlight {
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+      padding: 1.5rem 1.8rem;
+      margin-top: 1.2rem; margin-bottom: 1.2rem;
+    }
+    .tc-highlight p { font-size: .88rem; line-height: 1.8; color: #555; margin-bottom: .7rem; }
+    .tc-highlight p:last-child { margin-bottom: 0; }
+
+    .tc-rights-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 1.2rem;
+    }
+    .tc-right-item {
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(184,149,84,.25);
+      background: #fff;
+    }
+    .tc-right-item strong {
+      display: block; font-size: .8rem; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--navy); margin-bottom: .4rem;
+    }
+    .tc-right-item span { font-size: .83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.5);
+      padding: 3rem 5%;
+      display: flex; flex-wrap: wrap; gap: 2rem;
+      align-items: center; justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: var(--ff-display); font-size: 1.3rem; font-weight: 600;
+      color: #fff; letter-spacing: .05em;
+    }
+    .footer-logo span { color: var(--gold); }
+    footer p { font-size: .8rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      color: rgba(255,255,255,.45); font-size: .8rem;
+      text-decoration: none; transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .tc-rights-grid { grid-template-columns: 1fr; }
+    }
+  </style></head><body><nav>
+  <a href="index.html" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" height="44" viewBox="0 0 260 80">
+      <defs><linearGradient id="nav-cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4af70"/><stop offset="100%" stop-color="#8b6914"/></linearGradient></defs>
+      <path d="M18 52 L18 28 L27 38 L40 18 L53 38 L62 28 L62 52 Z" fill="url(#nav-cg)" opacity="0.95"/>
+      <path d="M24 52 L24 36 L31 44 L40 26 L49 44 L56 36 L56 52 Z" fill="#0d1f35"/>
+      <rect x="16" y="52" width="48" height="5" rx="1" fill="url(#nav-cg)"/>
+      <text x="80" y="30" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="600" fill="#ffffff" letter-spacing="0.5">Brasov</text>
+      <text x="80" y="54" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="300" fill="#d4af70" letter-spacing="0.5" font-style="italic">Brokers</text>
+      <line x1="80" y1="59" x2="248" y2="59" stroke="rgba(184,149,84,0.3)" stroke-width="0.5"/>
+      <text x="80" y="70" font-family="DM Sans, Arial, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.4)" letter-spacing="2.5">INSURANCE BROKERAGE</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#why">Why Us</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Get a Quote</a>
+</nav><div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow">Legal documents</div>
+    <h1>Terms &amp; Conditions</h1>
+    <p class="page-hero-sub">Last updated: February 2025</p>
+  </div>
+</div><div class="tc-wrapper">
+  <div class="tc-section"><h2>1. Definitions</h2><ul>
+    <li><strong>BV IMM Brokers</strong> - the trading name of <strong>BV IMM BROKERS S.R.L.</strong>, a legal entity headquartered in Brasov, Romania, registered at the Trade Registry under no. <strong>J8/942/2011</strong>, fiscal code <strong>28561100</strong>, EUID <strong>ROONRC.J08/942/2011</strong>, enrolled in the Secondary Intermediaries Register of ASF under no. <strong>RAJ-503173</strong>, part of the Millenium Insurance Broker (MIB) Group.</li>
+    <li><strong>Seller</strong> - an employee of BV IMM Brokers or any partner with the right to distribute insurance products.</li>
+    <li><strong>Buyer</strong> - any natural or legal person that submits an Order via the Website or directly to the Seller.</li>
+    <li><strong>Website</strong> - the domain <strong>brasovbrokers.ro</strong> and/or its subdomains.</li>
+    <li><strong>Order</strong> - an electronic document or written/verbal request constituting a form of communication between the Seller and the Buyer, through which the Buyer expresses the intention to purchase insurance products.</li>
+    <li><strong>Product</strong> - any brokerage service or insurance policy provided to the Buyer pursuant to a concluded Contract.</li>
+    <li><strong>Contract</strong> - the agreement concluded between the Seller and the Buyer, including at a distance, without the simultaneous physical presence of both parties.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>2. Acceptance of Terms and Conditions</h2><ul>
+    <li>Use of the Website implies full and unconditional acceptance of these Terms and Conditions.</li>
+    <li>Services provided through the Website are reserved exclusively for persons who have reached the age of <strong>18</strong>.</li>
+    <li>By submitting an Order, the Buyer agrees to the form of communication through which the Seller conducts its commercial operations.</li>
+    <li>All content on the Website is protected by <strong>copyright law</strong>, with all rights belonging to BV IMM Brokers.</li>
+    <li>Complaints may be submitted in writing to <a href="mailto:office@brasovbrokers.ro" style="color:var(--gold);">office@brasovbrokers.ro</a>, including the Buyer full name, email, postal address and description of the issue.</li>
+    <li><strong>BV IMM Brokers</strong> shall not be liable for any direct or indirect damage caused in connection with the use of the Website, errors, omissions, malfunctions, delays, viruses, or similar factors.</li>
+    <li>Information on the Website is for informational purposes and may be changed at any time without prior notice.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>3. Rights and Obligations of the Seller</h2><ul>
+    <li><strong>BV IMM Brokers</strong> acts as a brokerage assistant of Millenium Insurance Broker and is not a direct provider of insurance products.</li>
+    <li>The notification sent to the Buyer after submission of an Order is for informational purposes only and does not constitute acceptance of the Order.</li>
+    <li>The Seller may assign and/or subcontract a third party for services related to fulfilling the Order, without requiring the Buyer consent.</li>
+    <li>If a product cannot be provided, the Seller shall inform the Buyer and refund any amount paid within a maximum of <strong>14 days</strong>.</li>
+    <li>The Seller may cancel the Order with prior notice in the event of: non-acceptance by the issuing bank; invalidation by the payment processor; provision of incorrect or false data by the Buyer.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>4. Rights and Obligations of the Buyer</h2><ul>
+    <li>The Buyer undertakes to complete all forms with accurate and truthful data.</li>
+    <li>By placing an Order, the Buyer confirms: consent to GDPR data processing; that all data provided is correct and accurate; that the Seller may contact the Buyer to validate information required for quoting or issuing a policy.</li>
+    <li>The Buyer is obliged to update their data whenever circumstances require it.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>5. Billing and Payment Policy</h2><ul>
+    <li>In accordance with applicable legislation, no invoice is issued for insurance policies, as the policy itself constitutes the payment document.</li>
+    <li>Products and Services will be provided to the Buyer only after payment has been made.</li>
+    <li>The purchase price is that communicated in the transmitted offer and may vary depending on each insurer policy and the information declared by the client.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>6. Cancellations and Modifications</h2><ul>
+    <li>The consumer has the right to unilaterally terminate a distance contract within <strong>14 calendar days</strong>, without penalty. For life insurance and individual pension contracts, the period is <strong>30 calendar days</strong>.</li>
+    <li>The right of unilateral termination does not apply to travel/baggage insurance or short-term policies of no more than one calendar month.</li>
+    <li>Any errors recorded in the policy will be corrected through addenda issued by the insurance company.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>7. Confidentiality</h2><ul>
+    <li>Information provided by the Buyer will remain in the use of the Seller at least for the duration of the contractual relationship.</li>
+    <li>No public statement or disclosure to third parties regarding the Order/Contract shall be made by the Buyer without prior written consent of the Seller.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>8. Force Majeure</h2><ul>
+    <li>Neither party shall be liable for failure to fulfil contractual obligations caused by a force majeure event.</li>
+    <li>If within <strong>15 days</strong> of the occurrence the event has not ceased, either party may notify the other of the termination of the Contract by operation of law, without damages.</li>
+  </ul></div>
+
+  <div class="tc-section"><h2>9. Applicable Law</h2>
+    <p>The applicable law is <strong>Romanian law</strong>. Any disputes shall be resolved amicably or, where not possible, by the competent Romanian courts.</p>
+  </div>
+
+  <div class="tc-section"><h2>10. Personal Data Processing (GDPR)</h2>
+    <div class="tc-highlight">
+      <p>In accordance with <strong>EU Regulation 2016/679</strong>, <strong>BV IMM BROKERS S.R.L.</strong>, headquartered in Brasov, Romania, registered under no. <strong>J8/942/2011</strong>, fiscal code <strong>28561100</strong>, ASF Register no. <strong>RAJ-503173</strong>, part of the Millenium Insurance Broker (MIB) Group, informs you that it processes data of clients, potential clients, and beneficiaries of insurance contracts.</p>
+      <p>Only personal data necessary for the purposes of processing is collected.</p>
+    </div>
+    <p><strong>Purposes of processing:</strong> client identification; premium quotations; contract proposals; policy issuance or renewal; collections; marketing for insurance products; fulfilment of legal obligations.</p>
+    <p><strong>Legal bases:</strong> consent for marketing; performance of the insurance contract; compliance with applicable legislation (insurance law, anti-money laundering legislation).</p>
+    <p><strong>Categories of recipients:</strong> insurance/reinsurance companies, PAID, FGA, BAAR, state authorities, IT providers, banks, archiving providers, law firms, courier companies, other insurance intermediaries.</p>
+    <p><strong>Duration:</strong> general insurance - <strong>60 days</strong> from quotation date; life insurance - <strong>180 days</strong> from quotation date. Data relating to issued contracts is stored per applicable legislation.</p>
+    <p><strong>Your rights:</strong></p>
+    <div class="tc-rights-grid">
+      <div class="tc-right-item"><strong>Right to information</strong><span>To be informed about the collection and use of your personal data.</span></div>
+      <div class="tc-right-item"><strong>Right of access</strong><span>To access your personal data and verify the lawfulness of processing.</span></div>
+      <div class="tc-right-item"><strong>Right to rectification</strong><span>To obtain correction of inaccurate or incomplete data.</span></div>
+      <div class="tc-right-item"><strong>Right to erasure</strong><span>To be forgotten, in situations regulated by law.</span></div>
+      <div class="tc-right-item"><strong>Right to portability</strong><span>To receive your data in a structured, machine-readable format.</span></div>
+      <div class="tc-right-item"><strong>Right to restriction</strong><span>To obtain restriction of processing in situations regulated by law.</span></div>
+      <div class="tc-right-item"><strong>Right to object</strong><span>To object to processing based on legitimate interest or direct marketing.</span></div>
+      <div class="tc-right-item"><strong>Withdrawal of consent</strong><span>To withdraw consent for data processing at any time.</span></div>
+    </div>
+    <div class="tc-highlight" style="margin-top:1.5rem;">
+      <p>To exercise your rights or for any questions regarding data processing, contact us at <a href="mailto:office@brasovbrokers.ro" style="color:var(--gold);font-weight:500;">office@brasovbrokers.ro</a> with subject line "GDPR Request".</p>
+    </div>
+  </div>
+</div><footer>
+  <div>
+    <div class="footer-logo">BV IMM <span>Brokers</span></div>
+    <p style="margin-top:.5rem;">Authorised insurance broker (ASF) - Part of MIB Group</p>
+  </div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="terms-and-conditions.html" style="color:var(--gold2);">Terms &amp; Conditions</a>
+  </div>
+  <p>2025 BV IMM Brokers - All rights reserved</p>
+</footer></body></html>
