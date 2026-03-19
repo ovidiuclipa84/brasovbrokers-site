@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BV IMM Brokers – Brokeraj de Asigurări | Parte a Millenium Insurance Broker</title>
+  <title>BV IMM Brokers Ð Brokeraj in Asiguraùri</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="shortcut icon" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,7 +34,7 @@
       overflow-x: hidden;
     }
 
-    /* ─── NAV ─── */
+    /* ??? NAV ??? */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -77,8 +77,12 @@
       transition: background .2s, color .2s;
     }
     .nav-cta:hover { background: var(--gold); color: var(--navy); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .lang-switch { display: flex; gap: .3rem; align-items: center; }
+    .lang-btn { background: transparent; border: 1px solid rgba(184,149,84,0.4); color: rgba(255,255,255,.6); padding: .3rem .7rem; font-family: var(--ff-body); font-size: .72rem; letter-spacing: .1em; cursor: pointer; text-decoration: none; text-transform: uppercase; transition: all .2s; }
+    .lang-btn.active, .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-    /* ─── HERO ─── */
+    /* ??? HERO ??? */
     #hero {
       min-height: 100vh;
       background: var(--navy);
@@ -155,7 +159,7 @@
       letter-spacing: .1em; text-transform: uppercase; margin-top: .3rem;
     }
 
-    /* ─── SECTION BASE ─── */
+    /* ??? SECTION BASE ??? */
     section { padding: 6rem 5%; }
     .section-label {
       font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
@@ -169,7 +173,7 @@
       color: var(--navy);
     }
 
-    /* ─── ABOUT ─── */
+    /* ??? ABOUT ??? */
     #about {
       background: var(--offwhite);
       display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
@@ -215,7 +219,7 @@
     .pillar-title { font-weight: 500; font-size: .9rem; color: var(--navy); margin-bottom: .3rem; }
     .pillar-text { font-size: .8rem; color: var(--muted); line-height: 1.6; }
 
-    /* ─── SERVICES ─── */
+    /* ??? SERVICES ??? */
     #services { background: var(--navy); }
     #services .section-label { color: var(--gold2); }
     #services .section-label::after { background: var(--gold2); }
@@ -248,7 +252,7 @@
     }
     .service-card p { font-size: .87rem; color: rgba(255,255,255,.55); line-height: 1.75; }
 
-    /* ─── MIB BANNER ─── */
+    /* ??? MIB BANNER ??? */
     .mib-banner {
       display: flex; align-items: flex-start; gap: 1.5rem;
       background: var(--navy); color: #fff;
@@ -272,7 +276,7 @@
     }
     .mib-banner-link:hover { background: var(--gold); color: var(--navy); }
 
-    /* ─── WHY US ─── */
+    /* ??? WHY US ??? */
     #why { background: var(--cream); }
     #why h2 { margin-bottom: 3rem; }
     .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; }
@@ -289,7 +293,7 @@
     .why-card h4 { font-size: 1rem; font-weight: 500; color: var(--navy); margin-bottom: .5rem; }
     .why-card p { font-size: .85rem; color: var(--muted); line-height: 1.7; }
 
-    /* ─── CONTACT ─── */
+    /* ??? CONTACT ??? */
     #contact {
       background: var(--offwhite);
       display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem;
@@ -338,7 +342,7 @@
     }
     .form-submit:hover { background: var(--gold); color: var(--navy); }
 
-    /* ─── FOOTER ─── */
+    /* ??? FOOTER ??? */
     footer {
       background: var(--navy); color: rgba(255,255,255,.5);
       padding: 3rem 5%;
@@ -355,7 +359,7 @@
     .footer-links a { color: rgba(255,255,255,.45); font-size: .8rem; text-decoration: none; transition: color .2s; }
     .footer-links a:hover { color: var(--gold); }
 
-    /* ─── ANIMATIONS ─── */
+    /* ??? ANIMATIONS ??? */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -369,12 +373,12 @@
     .reveal:nth-child(5) { animation-delay: .4s; }
     .reveal:nth-child(6) { animation-delay: .5s; }
 
-    /* fallback: dacă JS nu rulează sau e blocat */
+    /* fallback: dacaù JS nu ruleazaù sau e blocat */
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; }
     }
 
-    /* ─── RESPONSIVE ─── */
+    /* ??? RESPONSIVE ??? */
     @media (max-width: 860px) {
       #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
       .about-image-wrap { order: -1; }
@@ -424,7 +428,7 @@
       <text x="80" y="30" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="600" fill="#ffffff" letter-spacing="0.5">Brasov</text>
       <text x="80" y="54" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="300" fill="#d4af70" letter-spacing="0.5" font-style="italic">Brokers</text>
       <line x1="80" y1="59" x2="248" y2="59" stroke="rgba(184,149,84,0.3)" stroke-width="0.5"/>
-      <text x="80" y="70" font-family="DM Sans, Arial, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.4)" letter-spacing="4.5">BROKERAJ DE ASIGURĂRI</text>
+      <text x="80" y="70" font-family="DM Sans, Arial, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.4)" letter-spacing="4.5">BROKERAJ DE ASIGURAùRI</text>
     </svg>
   </a>
   <ul class="nav-links">
@@ -433,7 +437,13 @@
     <li><a href="#why">De ce noi</a></li>
     <li><a href="#track-record">Portofoliu</a></li><li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Solicită ofertă</a>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <a href="#" class="lang-btn active">RO</a>
+      <a href="/en/" class="lang-btn">EN</a>
+    </div>
+    <a href="#contact" class="nav-cta">Solicitaù ofertaù</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -441,28 +451,28 @@
   <div class="hero-bg-lines"></div>
   <div class="hero-accent"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Brokeraj de asigurări · România</div>
-    <h1>Protecție <em>inteligentă</em><br>pentru afacerea ta</h1>
+    <div class="hero-eyebrow">Brokeraj de asiguraùri á Romnia</div>
+    <h1>Protec?ie <em>inteligentaù</em><br>pentru afacerea ta</h1>
     <p class="hero-sub">
-      BV IMM Brokers oferă soluții personalizate de asigurare pentru IMM-uri și proiecte industriale complexe la nivel național. Îți analizăm riscurile, negociem condițiile și te reprezentăm în relația cu asigurătorii.
+      BV IMM Brokers oferaù solu?ii personalizate de asigurare pentru IMM-uri ?i proiecte industriale complexe la nivel na?ional. ë?i analizaùm riscurile, negociem condi?iile ?i te reprezentaùm n rela?ia cu asiguraùtorii.
     </p>
     <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Solicită o consultație gratuită</a>
-      <a href="#services" class="btn-outline">Descoperă serviciile</a>
+      <a href="#contact" class="btn-primary">Solicitaù o consulta?ie gratuitaù</a>
+      <a href="#services" class="btn-outline">Descoperaù serviciile</a>
     </div>
   </div>
   <div class="hero-stats">
     <div class="hero-stat">
       <div class="hero-stat-num">20+</div>
-      <div class="hero-stat-label">Ani de experiență</div>
+      <div class="hero-stat-label">Ani de experien?aù</div>
     </div>
     <div class="hero-stat">
       <div class="hero-stat-num">2000+</div>
-      <div class="hero-stat-label">Clienți activi</div>
+      <div class="hero-stat-label">Clien?i activi</div>
     </div>
     <div class="hero-stat">
       <div class="hero-stat-num">15+</div>
-      <div class="hero-stat-label">Asigurători parteneri</div>
+      <div class="hero-stat-label">Asiguraùtori parteneri</div>
     </div>
   </div>
 </section>
@@ -471,34 +481,34 @@
 <section id="about">
   <div class="about-image-wrap reveal">
     <div class="about-img-placeholder">
-      <img src="about.jpg" alt="BV IMM Brokers – Brokeraj de Asigurări" style="width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.1) contrast(1.05);" />
+      <img src="about.jpg" alt="BV IMM Brokers Ð Brokeraj de Asiguraùri" style="width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.1) contrast(1.05);" />
     </div>
   </div>
   <div class="about-text reveal">
     <div class="section-label">Despre noi</div>
-    <h2>Expertiză regională,<br>acoperire națională</h2>
+    <h2>Expertizaù regionalaù,<br>acoperire na?ionalaù</h2>
     <p>
-      <strong>BV IMM Brokers</strong> este o firmă de brokeraj de asigurări parte a <strong>Millenium Insurance Broker (MIB)</strong>, unul dintre cei mai importanți brokeri de asigurări din România. Prin această apartenență, clienții noștri beneficiază de puterea de negociere și expertiza unui grup cu prezență națională.
+      <strong>BV IMM Brokers</strong> este o firmaù de brokeraj de asiguraùri parte a <strong>Millenium Insurance Broker (MIB)</strong>, unul dintre cei mai importan?i brokeri de asiguraùri din Romnia. Prin aceastaù apartenen?aù, clien?ii no?tri beneficiazaù de puterea de negociere ?i expertiza unui grup cu prezen?aù na?ionalaù.
     </p>
     <p>
-      Suntem specializați în soluții pentru întreprinderi mici și mijlocii, dar și pentru proiecte industriale de mare anvergură. Lucrăm cu peste 15 companii de asigurare autorizate în România, asigurând acces la cele mai competitive condiții de piață, indiferent de localizarea ta geografică.
+      Suntem specializa?i n solu?ii pentru ntreprinderi mici ?i mijlocii, dar ?i pentru proiecte industriale de mare anverguraù. Lucraùm cu peste 15 companii de asigurare autorizate n Romnia, asigurnd acces la cele mai competitive condi?ii de pia?aù, indiferent de localizarea ta geograficaù.
     </p>
     <div class="about-pillars">
       <div class="pillar">
-        <div class="pillar-title">Independență</div>
-        <div class="pillar-text">Nu suntem legați de niciun asigurător. Recomandăm cea mai bună soluție pentru tine.</div>
+        <div class="pillar-title">Independen?aù</div>
+        <div class="pillar-text">Nu suntem lega?i de niciun asiguraùtor. Recomandaùm cea mai bunaù solu?ie pentru tine.</div>
       </div>
       <div class="pillar">
-        <div class="pillar-title">Transparență</div>
-        <div class="pillar-text">Explicam clienților ce cumpără, nu doar ce costă. Condiții clare, fără surprize.</div>
+        <div class="pillar-title">Transparen?aù</div>
+        <div class="pillar-text">Explicam clien?ilor ce cumpaùraù, nu doar ce costaù. Condi?ii clare, faùraù surprize.</div>
       </div>
       <div class="pillar">
         <div class="pillar-title">Disponibilitate</div>
-        <div class="pillar-text">Răspundem rapid la solicitări și te însoțim în fiecare etapă, inclusiv la daune.</div>
+        <div class="pillar-text">Raùspundem rapid la solicitaùri ?i te nso?im n fiecare etapaù, inclusiv la daune.</div>
       </div>
       <div class="pillar">
-        <div class="pillar-title">Expertiză tehnică</div>
-        <div class="pillar-text">Plasamente complexe – constructori, industrie, răspundere profesională.</div>
+        <div class="pillar-title">Expertizaù tehnicaù</div>
+        <div class="pillar-text">Plasamente complexe Ð constructori, industrie, raùspundere profesionalaù.</div>
       </div>
     </div>
   </div>
@@ -516,8 +526,8 @@
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
         <polyline points="9 22 9 12 15 12 15 22"/>
       </svg>
-      <h3>Asigurări IMM</h3>
-      <p>Pachete complete pentru întreprinderi mici și mijlocii: patrimoniu, răspundere civilă, afacere întreruptă, stoc.</p>
+      <h3>Asiguraùri IMM</h3>
+      <p>Pachete complete pentru ntreprinderi mici ?i mijlocii: patrimoniu, raùspundere civilaù, afacere ntreruptaù, stoc.</p>
     </div>
 
     <div class="service-card reveal">
@@ -527,8 +537,8 @@
         <line x1="12" y1="12" x2="12" y2="16"/>
         <line x1="10" y1="14" x2="14" y2="14"/>
       </svg>
-      <h3>Asigurări de Construcții-Montaj</h3>
-      <p>Polițe CAR/EAR pentru proiecte de construcție și montaj, inclusiv răspundere față de terți pe șantier.</p>
+      <h3>Asiguraùri de Construc?ii-Montaj</h3>
+      <p>Poli?e CAR/EAR pentru proiecte de construc?ie ?i montaj, inclusiv raùspundere fa?aù de ter?i pe ?antier.</p>
     </div>
 
     <div class="service-card reveal">
@@ -536,8 +546,8 @@
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 8v4l3 3"/>
       </svg>
-      <h3>Răspundere Profesională</h3>
-      <p>Acoperire pentru erori și omisiuni profesionale, esențială pentru consultanți, proiectanți, antreprenori specializați.</p>
+      <h3>Raùspundere Profesionalaù</h3>
+      <p>Acoperire pentru erori ?i omisiuni profesionale, esen?ialaù pentru consultan?i, proiectan?i, antreprenori specializa?i.</p>
     </div>
 
     <div class="service-card reveal">
@@ -551,8 +561,8 @@
         <path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/>
         <path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/>
       </svg>
-      <h3>Poluare Accidentală</h3>
-      <p>Polițe de răspundere pentru poluare accidentală, obligatorii în sectoarele petrochimice și industriale.</p>
+      <h3>Poluare Accidentalaù</h3>
+      <p>Poli?e de raùspundere pentru poluare accidentalaù, obligatorii n sectoarele petrochimice ?i industriale.</p>
     </div>
 
     <div class="service-card reveal">
@@ -562,16 +572,16 @@
         <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
         <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
-      <h3>Asigurări Fleet & Angajați</h3>
-      <p>Asigurare flotă auto, accidente de muncă, sănătate colectivă și viață pentru angajații companiei tale.</p>
+      <h3>Asiguraùri Fleet & Angaja?i</h3>
+      <p>Asigurare flotaù auto, accidente de muncaù, saùnaùtate colectivaù ?i via?aù pentru angaja?ii companiei tale.</p>
     </div>
 
     <div class="service-card reveal">
       <svg class="service-icon" viewBox="0 0 24 24">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
-      <h3>Consultanță & Audit</h3>
-      <p>Analiză independentă a portofoliului de asigurări existent, identificarea lacunelor de acoperire și optimizarea costurilor.</p>
+      <h3>Consultan?aù & Audit</h3>
+      <p>Analizaù independentaù a portofoliului de asiguraùri existent, identificarea lacunelor de acoperire ?i optimizarea costurilor.</p>
     </div>
 
     <div class="service-card reveal">
@@ -583,8 +593,8 @@
         <line x1="17" y1="11" x2="22" y2="11"/>
         <line x1="19.5" y1="8.5" x2="19.5" y2="13.5"/>
       </svg>
-      <h3>Asigurări D&O</h3>
-      <p>Răspundere pentru directori și ofițeri (Directors & Officers) — protecție personală pentru conducerea executivă și consiliile de administrație împotriva cererilor de despăgubire ale acționarilor, angajaților sau terților.</p>
+      <h3>Asiguraùri D&O</h3>
+      <p>Raùspundere pentru directori ?i ofi?eri (Directors & Officers) Ñ protec?ie personalaù pentru conducerea executivaù ?i consiliile de administra?ie mpotriva cererilor de despaùgubire ale ac?ionarilor, angaja?ilor sau ter?ilor.</p>
     </div>
 
     <div class="service-card reveal">
@@ -597,7 +607,7 @@
         <path d="M17 6v2l1 1"/>
       </svg>
       <h3>Cyber Insurance</h3>
-      <p>Acoperire pentru riscuri cibernetice: atacuri ransomware, breșe de date, întreruperea activității IT și răspundere față de terți afectați de incidente de securitate digitală.</p>
+      <p>Acoperire pentru riscuri cibernetice: atacuri ransomware, bre?e de date, ntreruperea activitaù?ii IT ?i raùspundere fa?aù de ter?i afecta?i de incidente de securitate digitalaù.</p>
     </div>
 
   </div>
@@ -615,32 +625,32 @@
     </div>
     <div class="mib-banner-body">
       <div class="mib-banner-title">Parte a Millenium Insurance Broker</div>
-      <div class="mib-banner-text">BV IMM Brokers SRL funcționează ca Asistent in Brokeraj în cadrul grupului MIB – unul dintre primii 10 brokeri de asigurări din România, cu o cotă de piață de 2,74% și o rețea națională de distribuție. Această apartenența ne conferă acces la resurse, instrumente și putere de negociere la nivel de grup.</div>
+      <div class="mib-banner-text">BV IMM Brokers SRL func?ioneazaù ca Asistent in Brokeraj n cadrul grupului MIB Ð unul dintre primii 10 brokeri de asiguraùri din Romnia, cu o cotaù de pia?aù de 2,74% ?i o re?ea na?ionalaù de distribu?ie. Aceastaù apartenen?a ne conferaù acces la resurse, instrumente ?i putere de negociere la nivel de grup.</div>
     </div>
-    <a href="https://www.myinsurance.ro" target="_blank" class="mib-banner-link">Grupul MIB →</a>
+    <a href="https://www.myinsurance.ro" target="_blank" class="mib-banner-link">Grupul MIB ?</a>
   </div>
 
   <br>
   <div class="why-grid">
     <div class="why-card reveal">
       <div class="why-num">01</div>
-      <h4>Analiză independentă</h4>
-      <p>Nu avem contracte de exclusivitate. Comparăm ofertele tuturor asigurătorilor parteneri și îți prezentăm opțiunile obiectiv.</p>
+      <h4>Analizaù independentaù</h4>
+      <p>Nu avem contracte de exclusivitate. Comparaùm ofertele tuturor asiguraùtorilor parteneri ?i ?i prezentaùm op?iunile obiectiv.</p>
     </div>
     <div class="why-card reveal">
       <div class="why-num">02</div>
-      <h4>Negociere profesionistă</h4>
-      <p>Cunoaștem piața și știm cum să negociem condiții superioare față de ce ai obține contactând direct un asigurător.</p>
+      <h4>Negociere profesionistaù</h4>
+      <p>Cunoa?tem pia?a ?i ?tim cum saù negociem condi?ii superioare fa?aù de ce ai ob?ine contactnd direct un asiguraùtor.</p>
     </div>
     <div class="why-card reveal">
       <div class="why-num">03</div>
-      <h4>Asistență la daune</h4>
-      <p>Suntem alături de tine în procesul de daună – de la notificare până la recuperarea despăgubirii.</p>
+      <h4>Asisten?aù la daune</h4>
+      <p>Suntem alaùturi de tine n procesul de daunaù Ð de la notificare pnaù la recuperarea despaùgubirii.</p>
     </div>
     <div class="why-card reveal">
       <div class="why-num">04</div>
-      <h4>Soluții pentru proiecte complexe</h4>
-      <p>Experiență dovedită în plasamente multi-asigurător pentru proiecte industriale, petrochimice și de construcții.</p>
+      <h4>Solu?ii pentru proiecte complexe</h4>
+      <p>Experien?aù doveditaù n plasamente multi-asiguraùtor pentru proiecte industriale, petrochimice ?i de construc?ii.</p>
     </div>
   </div>
 </section>
@@ -698,9 +708,9 @@
 <section id="contact">
   <div class="contact-info reveal">
     <div class="section-label">Contact</div>
-    <h2>Hai să discutăm<br>despre riscurile tale</h2>
+    <h2>Hai saù discutaùm<br>despre riscurile tale</h2>
     <p>
-      Completează formularul sau contactează-ne direct. Un broker specializat îți va răspunde în cel mult 24 de ore cu o analiză preliminară.
+      Completeazaù formularul sau contacteazaù-ne direct. Un broker specializat ?i va raùspunde n cel mult 24 de ore cu o analizaù preliminaraù.
     </p>
 
     <div class="contact-detail">
@@ -709,7 +719,7 @@
       </div>
       <div class="contact-detail-body">
         <div class="contact-detail-label">Sediu</div>
-        <div class="contact-detail-val">Brașov, România</div>
+        <div class="contact-detail-val">Bra?ov, Romnia</div>
       </div>
     </div>
 
@@ -737,12 +747,12 @@
   <form class="contact-form" id="contactForm">
     <!-- Web3Forms access key - trebuie inlocuit cu cheia ta de pe web3forms.com -->
     <input type="hidden" name="access_key" value="419a342b-56f4-4925-9d64-633771d1695e" />
-    <input type="hidden" name="subject" value="Cerere ofertă BV IMM Brokers" />
+    <input type="hidden" name="subject" value="Cerere ofertaù BV IMM Brokers" />
     <input type="hidden" name="from_name" value="BV IMM Brokers Website" />
     <input type="hidden" name="redirect" value="false" />
     <div class="form-row">
       <div class="field">
-        <label>Nume și prenume *</label>
+        <label>Nume ?i prenume *</label>
         <input type="text" name="name" required placeholder="Ion Popescu" />
       </div>
       <div class="field">
@@ -757,23 +767,23 @@
     <div class="field">
       <label>Tipul de asigurare dorit</label>
       <select name="type">
-        <option value="">Selectează...</option>
-        <option>Asigurări IMM</option>
-        <option>Construcții-Montaj (CAR/EAR)</option>
-        <option>Răspundere Profesională</option>
-        <option>Poluare Accidentală</option>
-        <option>Fleet & Angajați</option>
-        <option>Consultanță & Audit</option>
+        <option value="">Selecteazaù...</option>
+        <option>Asiguraùri IMM</option>
+        <option>Construc?ii-Montaj (CAR/EAR)</option>
+        <option>Raùspundere Profesionalaù</option>
+        <option>Poluare Accidentalaù</option>
+        <option>Fleet & Angaja?i</option>
+        <option>Consultan?aù & Audit</option>
         <option>Altele</option>
       </select>
     </div>
     <div class="field">
       <label>Mesaj</label>
-      <textarea name="message" placeholder="Descrie pe scurt activitatea companiei și ce tip de protecție cauți..."></textarea>
+      <textarea name="message" placeholder="Descrie pe scurt activitatea companiei ?i ce tip de protec?ie cau?i..."></textarea>
     </div>
-    <button type="submit" class="form-submit" id="submitBtn">Trimite solicitarea →</button>
-    <p id="form-success" style="font-size:.85rem;color:#4ade80;display:none;margin-top:.5rem;">✓ Mesaj trimis! Te vom contacta în curând.</p>
-    <p id="form-error" style="font-size:.85rem;color:#f87171;display:none;margin-top:.5rem;">✗ A apărut o eroare. Te rugăm să ne contactezi direct pe email.</p>
+    <button type="submit" class="form-submit" id="submitBtn">Trimite solicitarea ?</button>
+    <p id="form-success" style="font-size:.85rem;color:#4ade80;display:none;margin-top:.5rem;">? Mesaj trimis! Te vom contacta n curnd.</p>
+    <p id="form-error" style="font-size:.85rem;color:#f87171;display:none;margin-top:.5rem;">? A apaùrut o eroare. Te rugaùm saù ne contactezi direct pe email.</p>
   </form>
 </section>
 
@@ -781,15 +791,15 @@
 <footer>
   <div>
     <div class="footer-logo">BV IMM <span>Brokers</span></div>
-    <p style="margin-top:.5rem;">Broker de asigurare autorizat ASF · Parte a Millenium Insurance Broker</p>
+    <p style="margin-top:.5rem;">Broker de asigurare autorizat ASF á Parte a Millenium Insurance Broker</p>
   </div>
   <div class="footer-links">
     <a href="#about">Despre noi</a>
     <a href="#services">Servicii</a>
     <a href="#track-record">Portofoliu</a> <a href="#contact">Contact</a>
-    <a href="termeni-si-conditii.html">Termeni și Condiții</a>
+    <a href="termeni-si-conditii.html">Termeni ?i Condi?ii</a>
   </div>
-  <p>© 2025 BV IMM Brokers · Toate drepturile rezervate</p>
+  <p>© 2025 BV IMM Brokers á Toate drepturile rezervate</p>
 
 <script>
   // Contact form - Web3Forms
@@ -817,11 +827,11 @@
       document.getElementById('form-error').style.display = 'block';
       document.getElementById('form-success').style.display = 'none';
     }
-    btn.textContent = 'Trimite solicitarea →';
+    btn.textContent = 'Trimite solicitarea ?';
     btn.disabled = false;
   });
 
-  // Smooth scroll fără # în URL
+  // Smooth scroll faùraù # n URL
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', function(e) {
       const target = document.querySelector(this.getAttribute('href'));
@@ -842,6 +852,36 @@
       if (!link) return;
       link.style.color = (s.offsetTop <= y && s.offsetTop + s.offsetHeight > y)
         ? 'var(--gold2)' : '';
+    });
+  });
+</script>
+
+  // Geo-redirect for international visitors
+  async function checkGeoRedirect() {
+    try {
+      // Skip if already in EN or user manually chose language
+      if (localStorage.getItem("manual-lang-choice") || window.location.pathname.includes("/en/")) return;
+      
+      const response = await fetch("https://ipapi.co/country_code/");
+      const countryCode = await response.text();
+      
+      // Redirect non-Romanian visitors to EN version
+      if (countryCode.trim() !== "RO") {
+        window.location.href = "/en/";
+      }
+    } catch (error) {
+      // Fail silently if geo service unavailable
+      console.log("Geo-redirect unavailable");
+    }
+  }
+  
+  // Run geo-check on load
+  window.addEventListener("load", checkGeoRedirect);
+  
+  // Set manual choice flag when user clicks language switcher
+  document.querySelectorAll(".lang-switcher a").forEach(link => {
+    link.addEventListener("click", () => {
+      localStorage.setItem("manual-lang-choice", "true");
     });
   });
 </script>
