@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ro"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asigurari Fleet & Angajati – BV IMM Brokers Brasov</title>
+  <meta name="description" content="Programe integrate de asigurare Fleet auto si angajati pentru companii din Romania. RCA, Casco, accidente de munca, sanatate colectiva si asigurare de viata. Tarife preferentiale pentru volume." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.brasovbrokers.ro/servicii/fleet-angajati.html" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0d1f35; --navy2: #152d4a; --gold: #b89554; --gold2: #d4af70;
+      --cream: #f5f0e8; --offwhite: #faf8f4; --text: #2a2a2a; --muted: #6b7280;
+      --ff-display: 'Cormorant Garamond', Georgia, serif; --ff-body: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--ff-body); color: var(--text); background: var(--offwhite); overflow-x: hidden; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 5%; background: rgba(13,31,53,0.97); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(184,149,84,0.2); }
+    .nav-logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,.8); text-decoration: none; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--gold2); }
+    .nav-cta { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: .55rem 1.4rem; font-family: var(--ff-body); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background .2s, color .2s; }
+    .nav-cta:hover { background: var(--gold); color: var(--navy); }
+    .svc-hero { background: var(--navy); padding: 8rem 5% 4rem; position: relative; overflow: hidden; }
+    .svc-hero::after { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(184,149,84,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(184,149,84,.05) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
+    .svc-hero-inner { position: relative; z-index: 1; max-width: 760px; }
+    .svc-eyebrow { display: inline-flex; align-items: center; gap: .75rem; font-size: .7rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold2); margin-bottom: 1rem; }
+    .svc-eyebrow::before { content: ""; width: 36px; height: 1px; background: var(--gold); }
+    .svc-hero h1 { font-family: var(--ff-display); font-weight: 300; font-size: clamp(2.2rem, 5vw, 3.8rem); color: #fff; line-height: 1.1; margin-bottom: 1rem; }
+    .svc-hero-lead { font-size: 1.05rem; color: rgba(255,255,255,.65); line-height: 1.8; max-width: 640px; }
+    .svc-cta-hero { display: inline-block; margin-top: 2rem; background: var(--gold); color: var(--navy); padding: .85rem 2.2rem; font-size: .85rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: background .2s; }
+    .svc-cta-hero:hover { background: var(--gold2); }
+    .svc-wrapper { max-width: 860px; margin: 0 auto; padding: 4rem 5% 6rem; }
+    .svc-section { margin-bottom: 3rem; }
+    .svc-section h2 { font-family: var(--ff-body); font-size: .75rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid rgba(184,149,84,.25); padding-bottom: .6rem; margin-bottom: 1.2rem; }
+    .svc-section h3 { font-family: var(--ff-display); font-size: 1.4rem; font-weight: 400; color: var(--navy); margin-bottom: .8rem; margin-top: 1.5rem; }
+    .svc-section p { font-size: .93rem; line-height: 1.85; color: #444; margin-bottom: .9rem; }
+    .svc-section ul { list-style: none; padding: 0; margin-bottom: .9rem; }
+    .svc-section ul li { font-size: .93rem; line-height: 1.85; color: #444; padding-left: 1.2rem; position: relative; margin-bottom: .5rem; }
+    .svc-section ul li::before { content: "—"; position: absolute; left: 0; color: var(--gold); font-weight: 300; }
+    .svc-section strong { color: var(--navy); font-weight: 600; }
+    .svc-highlight { background: var(--cream); border-left: 3px solid var(--gold); padding: 1.5rem 1.8rem; margin: 1.2rem 0; }
+    .svc-highlight p { font-size: .88rem; line-height: 1.8; color: #555; margin-bottom: .7rem; }
+    .svc-highlight p:last-child { margin-bottom: 0; }
+    .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+    .svc-card { padding: 1.2rem 1.4rem; border: 1px solid rgba(184,149,84,.25); background: #fff; }
+    .svc-card strong { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--navy); margin-bottom: .4rem; }
+    .svc-card span { font-size: .83rem; color: var(--muted); line-height: 1.6; }
+    .svc-faq { margin-top: 1rem; }
+    .svc-faq details { border-bottom: 1px solid rgba(184,149,84,.2); padding: .8rem 0; }
+    .svc-faq summary { font-size: .93rem; font-weight: 500; color: var(--navy); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    .svc-faq summary::after { content: "+"; color: var(--gold); font-size: 1.2rem; font-weight: 300; }
+    .svc-faq details[open] summary::after { content: "−"; }
+    .svc-faq details p { font-size: .88rem; color: #555; line-height: 1.75; margin-top: .7rem; padding-left: .5rem; }
+    .breadcrumb { font-size: .75rem; color: rgba(255,255,255,.45); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--gold2); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    footer { background: var(--navy); color: rgba(255,255,255,.5); padding: 3rem 5%; display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: var(--ff-display); font-size: 1.3rem; font-weight: 600; color: #fff; letter-spacing: .05em; }
+    .footer-logo span { color: var(--gold); }
+    footer p { font-size: .8rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: rgba(255,255,255,.45); font-size: .8rem; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold); }
+    @media (max-width: 640px) { .nav-links { display: none; } .svc-grid { grid-template-columns: 1fr; } }
+</style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Asigurari Fleet si Angajati",
+    "provider": {"@type": "InsuranceAgency", "name": "BV IMM Brokers", "url": "https://www.brasovbrokers.ro"},
+    "areaServed": {"@type": "Country", "name": "Romania"},
+    "url": "https://www.brasovbrokers.ro/servicii/fleet-angajati.html"
+  }
+  </script>
+</head><body>
+<nav>
+  <a href="../index.html" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" height="44" viewBox="0 0 260 80">
+      <defs><linearGradient id="nav-cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4af70"/><stop offset="100%" stop-color="#8b6914"/></linearGradient></defs>
+      <path d="M18 52 L18 28 L27 38 L40 18 L53 38 L62 28 L62 52 Z" fill="url(#nav-cg)" opacity="0.95"/>
+      <path d="M24 52 L24 36 L31 44 L40 26 L49 44 L56 36 L56 52 Z" fill="#0d1f35"/>
+      <rect x="16" y="52" width="48" height="5" rx="1" fill="url(#nav-cg)"/>
+      <text x="80" y="30" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="600" fill="#ffffff" letter-spacing="0.5">Brasov</text>
+      <text x="80" y="54" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="300" fill="#d4af70" letter-spacing="0.5" font-style="italic">Brokers</text>
+      <line x1="80" y1="59" x2="248" y2="59" stroke="rgba(184,149,84,0.3)" stroke-width="0.5"/>
+      <text x="80" y="70" font-family="DM Sans, Arial, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.4)" letter-spacing="2.5">BROKERAJ DE ASIGURARI</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">Despre noi</a></li>
+    <li><a href="../index.html#services">Servicii</a></li>
+    <li><a href="../index.html#why">De ce noi</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="../index.html#contact" class="nav-cta">Solicita oferta</a>
+</nav>
+<div class="svc-hero">
+  <div class="svc-hero-inner">
+    <div class="breadcrumb"><a href="../index.html">Acasa</a> › <a href="../index.html#services">Servicii</a> › Asigurari Fleet & Angajati</div>
+    <div class="svc-eyebrow">Mobilitate si Resurse Umane</div>
+    <h1>Asigurari Fleet & Angajati</h1>
+    <p class="svc-hero-lead">Programe integrate pentru protectia flotei auto a companiei si a angajatilor &#8212; de la asigurari auto obligatorii si facultative pana la asigurari de sanatate, viata si accidente de munca.</p>
+    <a href="../index.html#contact" class="svc-cta-hero">Solicita o oferta personalizata &#8594;</a>
+  </div>
+</div>
+<div class="svc-wrapper">
+<div class="svc-section"><h2>De ce un program integrat Fleet &amp; Angajati?</h2>
+    <p>Gestionarea separata a zecilor de polite RCA, Casco, sanatate si viata genereaza costuri administrative ridicate si lipsuri de acoperire. Un program integrat negociat unitar ofera conditii mai bune, reinnoiri coordonate si un singur interlocutor pentru toate evenimentele.</p>
+    </div>
+    <div class="svc-section"><h2>Componente Fleet</h2>
+    <div class="svc-grid">
+    <div class="svc-card"><strong>RCA Fleet</strong><span>Asigurare obligatorie de raspundere civila auto pentru intreaga flota, cu tarife preferentiale pentru volume.</span></div>
+    <div class="svc-card"><strong>Casco Fleet</strong><span>Acoperire all-risks sau doar riscuri nominalizate pentru autovehicule. Fransize adaptate, reparatii la service autorizat.</span></div>
+    <div class="svc-card"><strong>Asistenta Rutiera</strong><span>Servicii de asistenta 24/7 pe teritoriul Romaniei si in Europa.</span></div>
+    <div class="svc-card"><strong>Carte Verde</strong><span>Extindere internationala a asigurarii RCA pentru deplasari in afara Romaniei.</span></div>
+    </div></div>
+    <div class="svc-section"><h2>Componente Angajati</h2>
+    <div class="svc-grid">
+    <div class="svc-card"><strong>Accidente de Munca</strong><span>Indemnizatii pentru incapacitate temporara sau permanenta, cheltuieli medicale, deces din accident de munca.</span></div>
+    <div class="svc-card"><strong>Sanatate Colectiva</strong><span>Acces la servicii medicale private, consultatii, investigatii, spitalizare &#8212; beneficiu apreciat de angajati.</span></div>
+    <div class="svc-card"><strong>Asigurare de Viata</strong><span>Suma asigurata platita familiei in caz de deces. Poate include si invaliditate permanenta.</span></div>
+    <div class="svc-card"><strong>Calatorii de Afaceri</strong><span>Acoperire medicala si de raspundere pentru angajatii aflati in deplasari internationale.</span></div>
+    </div></div>
+    <div class="svc-section"><h2>Intrebari frecvente</h2>
+    <div class="svc-faq">
+    <details><summary>De cate masini am nevoie pentru un program fleet?</summary><p>In general, de la 5 autovehicule in sus se pot negocia conditii fleet cu tarife preferentiale. Sub aceasta limita, politele individuale pot fi totusi grupate pentru reinnoire coordonata.</p></details>
+    <details><summary>Asigurarea de sanatate colectiva este deductibila fiscal?</summary><p>Da, in limitele prevazute de Codul Fiscal roman. Va recomandam sa verificati cu consultantul fiscal situatia specifica a companiei dumneavoastra.</p></details>
+    </div></div>
+</div>
+<footer>
+  <div>
+    <div class="footer-logo">BV IMM <span>Brokers</span></div>
+    <p style="margin-top:.5rem;">Broker de asigurare autorizat ASF &middot; Parte a Grupului MIB</p>
+  </div>
+  <div class="footer-links">
+    <a href="../index.html#about">Despre noi</a>
+    <a href="../index.html#services">Servicii</a>
+    <a href="../index.html#contact">Contact</a>
+    <a href="../termeni-si-conditii.html">Termeni si Conditii</a>
+  </div>
+  <p>&copy; 2011&ndash;2026 BV IMM Brokers &middot; Toate drepturile rezervate</p>
+</footer>
+</body></html>
