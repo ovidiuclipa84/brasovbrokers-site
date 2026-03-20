@@ -867,10 +867,7 @@
 
   <form class="contact-form" id="contactForm" data-cmp-no-block="1">
     <!-- Web3Forms access key - trebuie inlocuit cu cheia ta de pe web3forms.com -->
-    <input type="hidden" name="access_key" value="419a342b-56f4-4925-9d64-633771d1695e" />
-    <input type="hidden" name="subject" value="Cerere ofertă BV IMM Brokers" />
-    <input type="hidden" name="from_name" value="BV IMM Brokers Website" />
-    <input type="hidden" name="redirect" value="false" />
+    <!-- Formspree endpoint: ovidiu@brasovbrokers.ro -->
     <div class="form-row">
       <div class="field">
         <label>Nume și prenume *</label>
@@ -934,17 +931,27 @@
   const form = document.getElementById('contactForm');
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    // Validare campuri obligatorii
+    const nameVal = form.querySelector('[name=name]').value.trim();
+    const phoneVal = form.querySelector('[name=phone]').value.trim();
+    const emailVal = form.querySelector('[name=email]').value.trim();
+    if (!nameVal || !phoneVal || !emailVal) {
+      document.getElementById('form-error').textContent = 'Te rugăm completează Numele, Telefonul si Email-ul.';
+      document.getElementById('form-error').style.display = 'block';
+      return;
+    }
+    document.getElementById('form-error').style.display = 'none';
     const btn = document.getElementById('submitBtn');
     btn.textContent = 'Se trimite...';
     btn.disabled = true;
     try {
       const data = new FormData(form);
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('https://formspree.io/ovidiu@brasovbrokers.ro', {
         method: 'POST',
         body: data
       });
       const json = await res.json();
-      if (json.success) {
+      if (json.ok) {
         document.getElementById('form-success').style.display = 'block';
         document.getElementById('form-error').style.display = 'none';
         form.reset();
