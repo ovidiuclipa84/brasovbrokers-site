@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="description" content="Broker de asigurari autorizat ASF in Brasov, parte a Grupului MIB. Solutii specializate pentru IMM-uri, CAR/EAR, D&O, Cyber Insurance si credit comercial. 21 ani experienta." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://www.google.com/recaptcha/api.js?render=6LeXh5EsAAAAAEIPHp9KByo_tOfM9F1sy_R8rTtu"></script>
   <title>BV IMM Brokers – Brokeraj de Asigurări | Parte a Millenium Insurance Broker</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="shortcut icon" href="favicon.svg" />
@@ -945,7 +946,9 @@
     btn.textContent = 'Se trimite...';
     btn.disabled = true;
     try {
+      const token = await grecaptcha.execute('6LeXh5EsAAAAAEIPHp9KByo_tOfM9F1sy_R8rTtu', {action: 'contact'});
       const data = new FormData(form);
+      data.append('g-recaptcha-response', token);
       const res = await fetch('https://formspree.io/f/xeerdvoa', {
         method: 'POST',
         body: data,
