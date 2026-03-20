@@ -865,7 +865,7 @@
     </div>
   </div>
 
-  <form class="contact-form" id="contactForm">
+  <form class="contact-form" id="contactForm" data-cmp-no-block="1">
     <!-- Web3Forms access key - trebuie inlocuit cu cheia ta de pe web3forms.com -->
     <input type="hidden" name="access_key" value="419a342b-56f4-4925-9d64-633771d1695e" />
     <input type="hidden" name="subject" value="Cerere ofertă BV IMM Brokers" />
@@ -889,12 +889,18 @@
       <label>Tipul de asigurare dorit</label>
       <select name="type">
         <option value="">Selectează...</option>
-        <option>Asigurări IMM</option>
+        <option>Asigurări IMM &amp; Corporate</option>
         <option>Construcții-Montaj (CAR/EAR)</option>
         <option>Răspundere Profesională</option>
         <option>Poluare Accidentală</option>
-        <option>Fleet & Angajați</option>
-        <option>Consultanță & Audit</option>
+        <option>Asigurări Auto Flote</option>
+        <option>Sănătate &amp; Accidente</option>
+        <option>Consultanță &amp; Audit</option>
+        <option>Asigurări D&amp;O</option>
+        <option>Cyber Insurance</option>
+        <option>Credit Comercial</option>
+        <option>Cargo &amp; CMR</option>
+        <option>Mijloace Aeriene &amp; Feroviare</option>
         <option>Altele</option>
       </select>
     </div>
@@ -923,7 +929,7 @@
   <p>© 2011–2026 BV IMM Brokers · Toate drepturile rezervate</p>
     
 
-<script>
+<script type="text/javascript" data-cmp-ab="2">
   // Contact form - Web3Forms
   const form = document.getElementById('contactForm');
   form.addEventListener('submit', async function(e) {
