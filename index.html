@@ -948,7 +948,8 @@
       const data = new FormData(form);
       const res = await fetch('https://formspree.io/f/xeerdvoa', {
         method: 'POST',
-        body: data
+        body: data,
+        headers: { 'Accept': 'application/json' }
       });
       const json = await res.json();
       if (json.ok) {
