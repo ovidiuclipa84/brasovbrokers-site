@@ -951,8 +951,7 @@
         body: data,
         headers: { 'Accept': 'application/json' }
       });
-      const json = await res.json();
-      if (json.ok) {
+      if (res.ok) {
         document.getElementById('form-success').style.display = 'block';
         document.getElementById('form-error').style.display = 'none';
         form.reset();
