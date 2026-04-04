@@ -498,8 +498,7 @@ function renderCompany(d, fin) {
             ${p.message ? `<span style="color:var(--mu2);font-size:.68rem;flex:1">${p.message.substring(0,90)}${p.message.length>90?'…':''}</span>` : ''}
           </div>`;
         }).join('')}
-      </div>
-      ${finChart(sorted,ind)}`;
+      </div>`;
   }
 
   // ── CAEN autorizate
@@ -549,7 +548,8 @@ function renderCompany(d, fin) {
             <div class="fin-row"><span class="fin-lbl">Angajați</span><span class="fin-val">${emp || '—'}</span></div>
           </div>`;
         }).join('')}
-      </div>`;
+      </div>
+      ${finChart(sorted,ind)}`;
   }
 
   return `<div class="card">
