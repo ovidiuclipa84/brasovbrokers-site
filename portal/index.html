@@ -423,7 +423,7 @@ async function doCUI() {
 
 function renderCompany(d, fin) {
   // Badges
-  const isActive = !d.inactive && (!d.onrcStatusLabel || /funcți|activ/i.test(d.onrcStatusLabel));
+  const isActive = !d.inactive && !(/radiat|suspen|inactiv|dizolvat/i.test(d.onrcStatusLabel || ''));
   const hasTVA   = d.vatRegistered;
   const tvaInc   = d.cashBasisVat;
   const eFactura = d.eFacturaRegistered;
