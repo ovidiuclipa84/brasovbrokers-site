@@ -62,7 +62,7 @@ async function doLogin(){
     });
     const d=await r.json();
     if(!d.success){errEl.textContent=d.error?.message||'Credentiale incorecte.';document.getElementById('p').value='';document.getElementById('p').focus();return;}
-    localStorage.setItem(TK,JSON.stringify({token:d.data.token,user:d.data.username,role:d.data.role,exp:new Date(d.data.expiresAt).getTime()}));
+    localStorage.setItem(TK,JSON.stringify({token:d.data.token,user:d.data.username,role:d.data.role,exp:Date.now()+8*3600*1000}));
     window.location.href='./index.html';
   }catch(e){errEl.textContent='Eroare conexiune: '+e.message;}
   finally{btn.disabled=false;btn.textContent='Autentificare';}
