@@ -163,8 +163,6 @@
 
 
     /* PRESS */
-    .press-it:hover{border-color:rgba(200,169,110,.3)}
-    .press-link:hover{color:var(--gold2)}
 
     /* DVD */
     .dvd{height:1px;background:linear-gradient(to right,transparent,var(--bd),transparent);margin:1.4rem 0}
@@ -206,7 +204,134 @@
 </script></head>
 <body>
 
+<!-- ── LOGIN ─────────────────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">BV IMM Brokers</div>
+    <div class="login-sub">Portal Fiscal</div>
+    <div class="login-ornament"></div>
+    <div class="login-field">
+      <label>Utilizator</label>
+      <input type="text" id="l-user" placeholder="utilizator" autocomplete="username"
+             onkeydown="if(event.key==='Enter')document.getElementById('l-pass').focus()"/>
+    </div>
+    <div class="login-field">
+      <label>Parolă</label>
+      <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-err" id="l-err"></div>
+    <button class="login-btn" onclick="doLogin()">Autentificare</button>
+    <div class="login-note">Acces restricționat — uz intern BV IMM Brokers</div>
+  </div>
+</div>
 
+<!-- ── APP ───────────────────────────────────────────────────── -->
+<div id="app">
+
+<header>
+  <div class="hdr">
+    <div class="logo" style="display:flex;align-items:center">
+      BV IMM Brokers <em>Portal Fiscal</em>
+      <div class="logo-dot" title="Live — worker conectat"></div>
+    </div>
+    <nav>
+      <button class="tab active" onclick="showTab('cui',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Firmă
+      </button>
+      <button class="tab" onclick="showTab('search',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Căutare
+      </button>
+      <button class="tab" onclick="showTab('cal',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendar
+      </button>
+      <button class="tab" onclick="showTab('caen',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>CAEN
+      </button>
+      <button class="tab" onclick="showTab('people',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Persoane
+      </button>
+      <button class="tab" style="color:var(--err);border-color:transparent" onclick="confirmReset()" title="Șterge istoricul de căutări salvat">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Reset
+      </button>
+    <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="doLogout()" title="Iesire">Iesire</button></nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ══ CUI ═════════════════════════════════════════════════════ -->
+<section class="sec active" id="sec-cui">
+  <div class="eyebrow">ANAF — Registrul Contribuabililor</div>
+  <h1 class="pgt">Verificare Firmă</h1>
+  <p class="pgs">Stare fiscală, TVA, adresă, administratori și date financiare pe 8 ani.</p>
+  <div id="cui-rec"></div>
+  <div class="row">
+    <input class="inp inp-grow" id="cui-inp" placeholder="CUI sau cod fiscal"
+           onkeydown="if(event.key==='Enter')doCUI()"/>
+    <button class="btn" id="cui-btn" onclick="doCUI()">Verifică</button>
+  </div>
+  <div id="cui-out"></div>
+</section>
+
+<!-- ══ SEARCH ═══════════════════════════════════════════════════ -->
+<section class="sec" id="sec-search">
+  <div class="eyebrow">ONRC — 4 milioane+ firme</div>
+  <h1 class="pgt">Căutare după Nume</h1>
+  <p class="pgs">Full-text search pe baza ONRC. Click pe orice rezultat pentru fișa completă.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="sr-inp" placeholder="Denumire firmă"
+           onkeydown="if(event.key==='Enter')doSearch()"/>
+    <select class="inp" id="sr-limit" style="width:78px">
+      <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option>
+    </select>
+    <button class="btn" id="sr-btn" onclick="doSearch()">Caută</button>
+  </div>
+  <div id="sr-out"></div>
+</section>
+
+<!-- ══ CALENDAR ══════════════════════════════════════════════════ -->
+<section class="sec" id="sec-cal">
+  <div class="eyebrow">Ministerul Finanțelor</div>
+  <h1 class="pgt">Calendar Fiscal</h1>
+  <p class="pgs">Scadențe declarații și obligații fiscale lunare.</p>
+  <div class="cal-nav">
+    <div class="nvbtns">
+      <button class="nvb" onclick="moveMo(-1)">‹</button>
+      <div class="cal-mo" id="cal-lbl"></div>
+      <button class="nvb" onclick="moveMo(1)">›</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="goNow()">Luna curentă</button>
+  </div>
+  <div class="dls" id="dl-list"></div>
+</section>
+
+<!-- ══ CAEN ════════════════════════════════════════════════════════ -->
+<section class="sec" id="sec-caen">
+  <div class="eyebrow">CAEN Rev.2 — 615 coduri</div>
+  <h1 class="pgt">Căutare Coduri CAEN</h1>
+  <p class="pgs">Cod numeric sau cuvânt cheie din denumirea activității.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="caen-inp" placeholder="Cod CAEN sau activitate"
+           onkeydown="if(event.key==='Enter')doCAEN()"/>
+    <button class="btn" onclick="doCAEN()">Caută</button>
+  </div>
+  <div id="caen-out"></div>
+</section>
+
+<!-- ══ PERSOANE ════════════════════════════════════════════════════ -->
+<section class="sec" id="sec-people">
+  <div class="eyebrow">ONRC — 3.6 milioane înregistrări</div>
+  <h1 class="pgt">Căutare Persoane</h1>
+  <p class="pgs">Administratori, directori și reprezentanți legali. Caută o persoană și vezi toate funcțiile deținute în firme.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="ppl-inp" placeholder="Nume persoană (minim 3 caractere)"
+           oninput="doPeopleDebounce()" onkeydown="if(event.key==='Enter')doPeople()"/>
+  </div>
+  <div id="ppl-out"></div>
+</section>
+
+<!-- ══ COMUNICATE ══════════════════════════════════════════════════ -->
 
 </main>
 
@@ -677,9 +802,6 @@ function expandPerson(el, encoded) {
 }
 
 
-
-
-// ── RESET DATE ────────────────────────────────────────────────
 function confirmReset() {
   const modal = document.createElement('div');
   modal.id='reset-modal';modal.style.cssText = 'position:fixed;inset:0;background:rgba(13,10,8,.88);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)';
