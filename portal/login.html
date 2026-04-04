@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - BV IMM Brokers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0a08;color:#f5f0e8;font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.box{width:100%;max-width:380px;text-align:center}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:#c8a96e;letter-spacing:.06em;margin-bottom:.3rem}
+.sub{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,240,232,.48);margin-bottom:2.5rem}
+.orn{width:40px;height:1px;background:linear-gradient(to right,transparent,#c8a96e,transparent);margin:0 auto 2.5rem}
+.field{margin-bottom:1rem;text-align:left}
+.field label{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,240,232,.48);margin-bottom:.4rem}
+.field input{width:100%;background:#1b1510;border:1px solid rgba(200,169,110,.16);border-radius:3px;padding:.8rem 1rem;font-family:'Jost',sans-serif;font-size:.92rem;color:#f5f0e8;outline:none;transition:border-color .25s}
+.field input:focus{border-color:#c8a96e}
+.err{font-size:.75rem;color:#ef4444;margin-bottom:1rem;min-height:1.1rem;text-align:center}
+.btn{width:100%;padding:.85rem;background:#921a40;color:#f5f0e8;border:none;border-radius:3px;font-family:'Jost',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .25s;margin-top:.25rem}
+.btn:hover{background:#6e1330}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.note{font-size:.62rem;color:rgba(245,240,232,.25);margin-top:1.5rem;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">BV IMM Brokers</div>
+  <div class="sub">Portal Fiscal</div>
+  <div class="orn"></div>
+  <div class="field">
+    <label>Utilizator</label>
+    <input type="text" id="u" placeholder="utilizator" autocomplete="username"
+           onkeydown="if(event.key==='Enter')document.getElementById('p').focus()">
+  </div>
+  <div class="field">
+    <label>Parola</label>
+    <input type="password" id="p" placeholder="parola" autocomplete="current-password"
+           onkeydown="if(event.key==='Enter')doLogin()">
+  </div>
+  <div class="err" id="err"></div>
+  <button class="btn" id="btn" onclick="doLogin()">Autentificare</button>
+  <div class="note">Acces restrictionat - uz intern BV IMM Brokers</div>
+</div>
+<script>
+const TK = 'bvimm_token_v1';
+const API = 'https://portal-fiscal-brasov-brokers.ovidiu-clipa.workers.dev';
+
+async function doLogin(){
+  const user=document.getElementById('u').value.trim();
+  const pass=document.getElementById('p').value;
+  const errEl=document.getElementById('err');
+  const btn=document.getElementById('btn');
+  if(!user||!pass){errEl.textContent='Completati ambele campuri.';return;}
+  btn.disabled=true;btn.textContent='Se verifica...';
+  try{
+    const r=await fetch(API+'/api/auth/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username:user,password:pass})
+    });
+    const d=await r.json();
+    if(!d.success){errEl.textContent=d.error?.message||'Credentiale incorecte.';document.getElementById('p').value='';document.getElementById('p').focus();return;}
+    localStorage.setItem(TK,JSON.stringify({token:d.data.token,user:d.data.username,role:d.data.role,exp:new Date(d.data.expiresAt).getTime()}));
+    window.location.href='./index.html';
+  }catch(e){errEl.textContent='Eroare conexiune: '+e.message;}
+  finally{btn.disabled=false;btn.textContent='Autentificare';}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Fiscal — BV IMM Brokers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:    #0d0a08;
+      --ink2:   #131008;
+      --ink3:   #1b1510;
+      --ink4:   #221a12;
+      --gold:   #c8a96e;
+      --gold2:  #e8d5a8;
+      --cream:  #f5f0e8;
+      --mu:     rgba(245,240,232,.48);
+      --mu2:    rgba(245,240,232,.25);
+      --bd:     rgba(200,169,110,.16);
+      --bd2:    rgba(200,169,110,.07);
+      --wine:   #921a40;
+      --wine2:  #6e1330;
+      --ok:     #22c55e;
+      --warn:   #f59e0b;
+      --err:    #ef4444;
+      --blue:   #3b82f6;
+      --purple: #a855f7;
+      --teal:   #14b8a6;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:15px;scroll-behavior:smooth}
+    body{background:var(--ink);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;line-height:1.65;min-height:100vh}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--wine);border-radius:3px}
+
+    /* HEADER */
+    header{position:sticky;top:0;z-index:200;background:rgba(13,10,8,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+    .hdr{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:0 1.5rem;height:52px}
+    .logo{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+    .logo em{font-style:normal;color:var(--mu);font-size:.7rem;font-family:'Jost',sans-serif;margin-left:.35rem}
+    .logo-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);margin-left:.5rem;animation:pulse 2.5s ease-in-out infinite;flex-shrink:0}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    nav{display:flex;overflow-x:auto;scrollbar-width:none;flex:1;justify-content:flex-end}
+    nav::-webkit-scrollbar{display:none}
+    .tab{height:52px;padding:0 .85rem;display:flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0}
+    .tab svg{opacity:.45;transition:opacity .2s}
+    .tab:hover{color:var(--cream)}.tab:hover svg{opacity:.75}
+    .tab.active{color:var(--gold);border-bottom-color:var(--gold)}.tab.active svg{opacity:1}
+
+    /* LAYOUT */
+    main{max-width:1160px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+    .sec{display:none;animation:fi .28s ease}
+    .sec.active{display:block}
+    @keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+    .eyebrow{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+    .eyebrow::before{content:'';width:18px;height:1px;background:var(--gold);flex-shrink:0}
+    h1.pgt{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:400;color:var(--cream);margin-bottom:.35rem;line-height:1.15}
+    .pgs{font-size:.8rem;color:var(--mu);margin-bottom:2rem}
+
+    /* CARDS */
+    .card{background:var(--ink2);border:1px solid var(--bd);border-radius:3px}
+    .ch{padding:.68rem 1.2rem;border-bottom:1px solid var(--bd);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);display:flex;align-items:center;gap:.45rem}
+
+    /* INPUTS */
+    .row{display:flex;gap:.55rem;margin-bottom:1.5rem;flex-wrap:wrap}
+    .inp{background:var(--ink3);border:1px solid var(--bd);border-radius:3px;padding:.7rem .95rem;font-family:'Jost',sans-serif;font-size:.9rem;color:var(--cream);outline:none;transition:border-color .25s}
+    .inp::placeholder{color:var(--mu2)}.inp:focus{border-color:var(--gold)}
+    .inp-grow{flex:1;min-width:200px}
+    select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23c8a96e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center;padding-right:2rem}
+    .btn{padding:.7rem 1.4rem;background:var(--wine);color:var(--cream);border:none;border-radius:3px;font-family:'Jost',sans-serif;font-size:.63rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap;flex-shrink:0}
+    .btn:hover{background:var(--wine2)}.btn:disabled{opacity:.38;cursor:not-allowed}
+    .btn-ghost{background:transparent;border:1px solid var(--bd);color:var(--mu)}
+    .btn-ghost:hover{background:transparent;border-color:var(--gold);color:var(--gold)}
+    .btn-sm{padding:.5rem .9rem;font-size:.6rem}
+
+    /* BADGES */
+    .b{display:inline-flex;align-items:center;padding:.17rem .55rem;border-radius:2px;font-size:.57rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+    .b-ok    {background:rgba(34,197,94,.11);color:var(--ok);border:1px solid rgba(34,197,94,.2)}
+    .b-off   {background:rgba(239,68,68,.11);color:var(--err);border:1px solid rgba(239,68,68,.2)}
+    .b-gold  {background:rgba(200,169,110,.1);color:var(--gold);border:1px solid var(--bd)}
+    .b-blue  {background:rgba(59,130,246,.11);color:var(--blue);border:1px solid rgba(59,130,246,.2)}
+    .b-purple{background:rgba(168,85,247,.11);color:var(--purple);border:1px solid rgba(168,85,247,.2)}
+    .b-teal  {background:rgba(20,184,166,.11);color:var(--teal);border:1px solid rgba(20,184,166,.2)}
+    .b-warn  {background:rgba(245,158,11,.11);color:var(--warn);border:1px solid rgba(245,158,11,.2)}
+
+    /* STATES */
+    .loading{display:flex;align-items:center;gap:.65rem;padding:2.5rem;justify-content:center;color:var(--mu);font-size:.8rem}
+    .spin{width:15px;height:15px;border:2px solid var(--bd);border-top-color:var(--gold);border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .msg{padding:1.4rem;border:1px solid var(--bd);border-radius:3px;background:var(--ink2);font-size:.8rem;color:var(--mu);text-align:center;line-height:1.75}
+    .msg.err{border-color:rgba(239,68,68,.22);color:var(--err)}
+
+    /* RECENTS */
+    .chips{display:flex;flex-wrap:wrap;gap:.38rem;margin-bottom:.9rem}
+    .chip{padding:.18rem .6rem;background:var(--ink3);border:1px solid var(--bd);border-radius:2px;font-size:.7rem;color:var(--mu);cursor:pointer;transition:all .2s}
+    .chip:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* COMPANY */
+    .co-top{padding:1.4rem;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+    .co-name{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:500;line-height:1.12}
+    .co-sub{font-size:.67rem;letter-spacing:.08em;color:var(--mu);margin-top:.25rem}
+    .co-badges{display:flex;flex-direction:column;gap:.32rem;align-items:flex-end;flex-shrink:0}
+    .fgrid{display:grid;grid-template-columns:1fr 1fr}
+    @media(max-width:540px){.fgrid{grid-template-columns:1fr}}
+    .fi{padding:.72rem 1.2rem;border-bottom:1px solid var(--bd2);border-right:1px solid var(--bd2)}
+    .fgrid .fi:nth-child(even){border-right:none}
+    .fl{font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mu);margin-bottom:.2rem}
+    .fv{font-size:.83rem;color:var(--cream)}
+
+    /* ADMINS */
+    .adm-wrap{padding:.8rem 1.1rem;display:flex;flex-direction:column;gap:.4rem}
+    .adm{display:flex;align-items:center;gap:.75rem;padding:.6rem .85rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px}
+    .adm-av{width:30px;height:30px;border-radius:50%;background:rgba(200,169,110,.1);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--gold);flex-shrink:0}
+    .adm-name{font-size:.83rem;color:var(--cream)}
+    .adm-role{font-size:.65rem;color:var(--mu);text-transform:capitalize}
+
+    /* FINANCIALS */
+    .fin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;padding:.9rem}
+    .fin-yr{background:var(--ink3);border:1px solid var(--bd);border-radius:3px;padding:.85rem}
+    .fin-hd{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;justify-content:space-between;align-items:center}
+    .fin-row{display:flex;justify-content:space-between;align-items:baseline;padding:.26rem 0;border-bottom:1px solid var(--bd2);font-size:.73rem}
+    .fin-row:last-child{border:none}
+    .fin-lbl{color:var(--mu)}
+    .fin-val{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--cream)}
+    .pos{color:var(--ok)}.neg{color:var(--err)}
+
+    /* SEARCH RESULTS */
+    .sr-list{display:flex;flex-direction:column;gap:.42rem}
+    .sr{display:flex;align-items:center;gap:.8rem;padding:.78rem 1.1rem;background:var(--ink2);border:1px solid var(--bd);border-radius:3px;cursor:pointer;transition:border-color .2s}
+    .sr:hover{border-color:rgba(200,169,110,.32)}
+    .sr-name{font-size:.87rem;color:var(--cream);flex:1}
+    .sr-sub{font-size:.67rem;color:var(--mu)}
+
+
+
+    /* CALENDAR */
+    .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.65rem;flex-wrap:wrap;gap:1rem}
+    .cal-mo{font-family:'Cormorant Garamond',serif;font-size:1.65rem;font-weight:400}
+    .nvbtns{display:flex;align-items:center;gap:.4rem}
+    .nvb{width:30px;height:30px;background:var(--ink3);border:1px solid var(--bd);border-radius:2px;color:var(--cream);cursor:pointer;font-size:.88rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .nvb:hover{border-color:var(--gold);color:var(--gold)}
+    .dls{display:flex;flex-direction:column;gap:.52rem}
+    .dl{display:flex;gap:.85rem;align-items:flex-start;background:var(--ink2);border:1px solid var(--bd);border-left:3px solid var(--bd);border-radius:3px;padding:.82rem 1.1rem;transition:border-left-color .2s}
+    .dl:hover{border-left-color:var(--gold)}
+    .dl.urg{border-left-color:var(--err)}.dl.soon{border-left-color:var(--warn)}.dl.done{border-left-color:var(--ok)}.dl.past{opacity:.35}
+    .dl-d{min-width:40px;text-align:center;flex-shrink:0}
+    .dl-day{font-family:'Cormorant Garamond',serif;font-size:1.5rem;line-height:1;color:var(--gold)}
+    .dl-mo{font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mu)}
+    .dl-body{flex:1}
+    .dl-title{font-size:.84rem;color:var(--cream);margin-bottom:.16rem}
+    .dl-desc{font-size:.7rem;color:var(--mu);line-height:1.55}
+    .dl-meta{display:flex;flex-direction:column;align-items:flex-end;gap:.28rem;flex-shrink:0}
+    .dl-dz{font-size:.58rem;font-weight:500}
+
+    /* CAEN */
+    .caen-list{display:flex;flex-direction:column;gap:.4rem;max-height:500px;overflow-y:auto}
+    .caen-it{padding:.68rem 1.1rem;background:var(--ink2);border:1px solid var(--bd);border-radius:3px}
+    .caen-code{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold);margin-bottom:.18rem}
+    .caen-name{font-size:.82rem;color:var(--cream)}
+    .caen-sec{font-size:.66rem;color:var(--mu);margin-top:.1rem}
+
+
+
+    /* PRESS */
+    .press-list{display:flex;flex-direction:column;gap:.52rem}
+    .press-it{padding:.92rem 1.2rem;background:var(--ink2);border:1px solid var(--bd);border-radius:3px;transition:border-color .2s}
+    .press-it:hover{border-color:rgba(200,169,110,.3)}
+    .press-title{font-size:.86rem;color:var(--cream);margin-bottom:.28rem;line-height:1.45}
+    .press-meta{font-size:.65rem;color:var(--mu);display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+    .press-link{color:var(--gold);text-decoration:none;font-size:.67rem;margin-top:.3rem;display:inline-block}
+    .press-link:hover{color:var(--gold2)}
+
+    /* DVD */
+    .dvd{height:1px;background:linear-gradient(to right,transparent,var(--bd),transparent);margin:1.4rem 0}
+
+    /* FOOT */
+    .fnote{margin-top:4rem;padding-top:1.5rem;border-top:1px solid var(--bd);font-size:.62rem;color:rgba(245,240,232,.16);text-align:center;line-height:2}
+    /* LOGIN */
+    #login-screen{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .login-box{width:100%;max-width:380px;text-align:center}
+    .login-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:var(--gold);letter-spacing:.06em;margin-bottom:.3rem}
+    .login-sub{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mu);margin-bottom:2.5rem}
+    .login-ornament{width:40px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:0 auto 2.5rem}
+    .login-field{margin-bottom:1rem;text-align:left}
+    .login-field label{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mu);margin-bottom:.4rem}
+    .login-field input{width:100%;background:var(--ink3);border:1px solid var(--bd);border-radius:3px;padding:.8rem 1rem;font-family:'Jost',sans-serif;font-size:.92rem;color:var(--cream);outline:none;transition:border-color .25s}
+    .login-field input:focus{border-color:var(--gold)}
+    .login-field input::placeholder{color:var(--mu2)}
+    .login-err{font-size:.75rem;color:var(--err);margin-bottom:1rem;min-height:1.1rem;text-align:center}
+    .login-btn{width:100%;padding:.85rem;background:var(--wine);color:var(--cream);border:none;border-radius:3px;font-family:'Jost',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .25s;margin-top:.25rem}
+    .login-btn:hover{background:var(--wine2)}
+    .login-note{font-size:.62rem;color:var(--mu2);margin-top:1.5rem;line-height:1.7}
+    #app{display:none}
+  </style>
+<script>
+(function(){
+  var TK='bvimm_token_v1';
+  try{
+    var s=localStorage.getItem(TK);
+    if(!s)throw 'no token';
+    var d=JSON.parse(s);
+    if(!d.token||Date.now()>d.exp)throw 'expired';
+    window.__AUTH={token:d.token,user:d.user,role:d.role};
+  }catch(e){
+    localStorage.removeItem(TK);
+    window.location.replace('./login.html');
+  }
+})();
+</script></head>
+<body>
+
+<!-- ── LOGIN ─────────────────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">BV IMM Brokers</div>
+    <div class="login-sub">Portal Fiscal</div>
+    <div class="login-ornament"></div>
+    <div class="login-field">
+      <label>Utilizator</label>
+      <input type="text" id="l-user" placeholder="utilizator" autocomplete="username"
+             onkeydown="if(event.key==='Enter')document.getElementById('l-pass').focus()"/>
+    </div>
+    <div class="login-field">
+      <label>Parolă</label>
+      <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-err" id="l-err"></div>
+    <button class="login-btn" onclick="doLogin()">Autentificare</button>
+    <div class="login-note">Acces restricționat — uz intern BV IMM Brokers</div>
+  </div>
+</div>
+
+<!-- ── APP ───────────────────────────────────────────────────── -->
+<div id="app">
+
+<header>
+  <div class="hdr">
+    <div class="logo" style="display:flex;align-items:center">
+      BV IMM Brokers <em>Portal Fiscal</em>
+      <div class="logo-dot" title="Live — worker conectat"></div>
+    </div>
+    <nav>
+      <button class="tab active" onclick="showTab('cui',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Firmă
+      </button>
+      <button class="tab" onclick="showTab('search',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Căutare
+      </button>
+      <button class="tab" onclick="showTab('cal',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendar
+      </button>
+      <button class="tab" onclick="showTab('caen',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>CAEN
+      </button>
+      <button class="tab" onclick="showTab('people',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Persoane
+      </button>
+      <button class="tab" onclick="showTab('press',this);initPress()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a4 4 0 0 1-4 4zm0 0a4 4 0 0 1-4-4V4h2"/></svg>Comunicate
+      </button>
+      <button class="tab" style="color:var(--err);border-color:transparent" onclick="confirmReset()" title="Șterge istoricul de căutări salvat">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Reset
+      </button>
+    <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="doLogout()" title="Iesire">Iesire</button></nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ══ CUI ═════════════════════════════════════════════════════ -->
+<section class="sec active" id="sec-cui">
+  <div class="eyebrow">ANAF — Registrul Contribuabililor</div>
+  <h1 class="pgt">Verificare Firmă</h1>
+  <p class="pgs">Stare fiscală, TVA, adresă, administratori și date financiare pe 8 ani.</p>
+  <div id="cui-rec"></div>
+  <div class="row">
+    <input class="inp inp-grow" id="cui-inp" placeholder="CUI sau cod fiscal"
+           onkeydown="if(event.key==='Enter')doCUI()"/>
+    <button class="btn" id="cui-btn" onclick="doCUI()">Verifică</button>
+  </div>
+  <div id="cui-out"></div>
+</section>
+
+<!-- ══ SEARCH ═══════════════════════════════════════════════════ -->
+<section class="sec" id="sec-search">
+  <div class="eyebrow">ONRC — 4 milioane+ firme</div>
+  <h1 class="pgt">Căutare după Nume</h1>
+  <p class="pgs">Full-text search pe baza ONRC. Click pe orice rezultat pentru fișa completă.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="sr-inp" placeholder="Denumire firmă"
+           onkeydown="if(event.key==='Enter')doSearch()"/>
+    <select class="inp" id="sr-limit" style="width:78px">
+      <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option>
+    </select>
+    <button class="btn" id="sr-btn" onclick="doSearch()">Caută</button>
+  </div>
+  <div id="sr-out"></div>
+</section>
+
+<!-- ══ CALENDAR ══════════════════════════════════════════════════ -->
+<section class="sec" id="sec-cal">
+  <div class="eyebrow">Ministerul Finanțelor</div>
+  <h1 class="pgt">Calendar Fiscal</h1>
+  <p class="pgs">Scadențe declarații și obligații fiscale lunare.</p>
+  <div class="cal-nav">
+    <div class="nvbtns">
+      <button class="nvb" onclick="moveMo(-1)">‹</button>
+      <div class="cal-mo" id="cal-lbl"></div>
+      <button class="nvb" onclick="moveMo(1)">›</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="goNow()">Luna curentă</button>
+  </div>
+  <div class="dls" id="dl-list"></div>
+</section>
+
+<!-- ══ CAEN ════════════════════════════════════════════════════════ -->
+<section class="sec" id="sec-caen">
+  <div class="eyebrow">CAEN Rev.2 — 615 coduri</div>
+  <h1 class="pgt">Căutare Coduri CAEN</h1>
+  <p class="pgs">Cod numeric sau cuvânt cheie din denumirea activității.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="caen-inp" placeholder="Cod CAEN sau activitate"
+           onkeydown="if(event.key==='Enter')doCAEN()"/>
+    <button class="btn" onclick="doCAEN()">Caută</button>
+  </div>
+  <div id="caen-out"></div>
+</section>
+
+<!-- ══ PERSOANE ════════════════════════════════════════════════════ -->
+<section class="sec" id="sec-people">
+  <div class="eyebrow">ONRC — 3.6 milioane înregistrări</div>
+  <h1 class="pgt">Căutare Persoane</h1>
+  <p class="pgs">Administratori, directori și reprezentanți legali. Caută o persoană și vezi toate funcțiile deținute în firme.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="ppl-inp" placeholder="Nume persoană (minim 3 caractere)"
+           oninput="doPeopleDebounce()" onkeydown="if(event.key==='Enter')doPeople()"/>
+  </div>
+  <div id="ppl-out"></div>
+</section>
+
+<!-- ══ COMUNICATE ══════════════════════════════════════════════════ -->
+<section class="sec" id="sec-press">
+  <div class="eyebrow">ANAF — Comunicare Oficială</div>
+  <h1 class="pgt">Comunicate de Presă</h1>
+  <p class="pgs">Ultimele comunicări oficiale ANAF.</p>
+  <div id="press-out"></div>
+</section>
+
+</main>
+
+</div><!-- /#app -->
+
+<div class="fnote">
+  Date live — ANAF · BNR · ONRC local · BV IMM Brokers SRL<br>
+  Nu înlocuiește consultanța fiscală autorizată.
+</div>
+
+<script>
+function doLogout(){
+  var TK='bvimm_token_v1';
+  var d=JSON.parse(localStorage.getItem(TK)||'{}');
+  if(d.token)fetch(W+'/api/auth/logout',{headers:{'X-Auth-Token':d.token}}).catch(()=>{});
+  localStorage.removeItem(TK);
+  window.location.replace('./login.html');
+}
+const W = 'https://portal-fiscal-brasov-brokers.ovidiu-clipa.workers.dev';
+const RK = 'bvimm_rec_v4';
+
+async function api(path) {
+  const r = await fetch(W + '/api' + path);
+  const d = await r.json();
+  if (!d.success) throw new Error(d.error?.message || 'Eroare API');
+  return d.data;
+}
+
+function setOut(id, html) { document.getElementById(id + '-out').innerHTML = html; }
+function loading(id, msg) { setOut(id, `<div class="loading"><div class="spin"></div>${msg}</div>`); }
+
+function showTab(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══ CUI ═══════════════════════════════════════════════════════
+function getRec() { try { return JSON.parse(localStorage.getItem(RK)||'[]'); } catch { return []; } }
+function saveRec(cui, name) {
+  let r = getRec().filter(x => x.cui !== String(cui));
+  r.unshift({ cui: String(cui), name: name || String(cui) });
+  localStorage.setItem(RK, JSON.stringify(r.slice(0,12)));
+  renderRec();
+}
+function renderRec() {
+  const r = getRec();
+  document.getElementById('cui-rec').innerHTML = r.length
+    ? `<div class="chips">${r.map(x=>`<div class="chip" onclick="cuiDirect('${x.cui}')">${x.name}</div>`).join('')}</div>` : '';
+}
+function cuiDirect(v) { document.getElementById('cui-inp').value = v; doCUI(); }
+
+async function doCUI() {
+  const raw = document.getElementById('cui-inp').value.trim();
+  if (!raw) return;
+  const cui = raw.replace(/^RO/i,'').replace(/\D/g,'');
+  if (!cui || !/^\d{1,10}$/.test(cui)) {
+    setOut('cui','<div class="msg err">CUI invalid — introduceți doar cifre (ex: 25165241)</div>'); return;
+  }
+  document.getElementById('cui-btn').disabled = true;
+  loading('cui', `Se verifică CUI ${cui}…`);
+  try {
+    const [co, fin] = await Promise.all([
+      api(`/company/${cui}`),
+      api(`/company/${cui}/financials`).catch(() => [])
+    ]);
+    saveRec(co.cui, co.name);
+    setOut('cui', renderCompany(co, fin));
+  } catch(e) {
+    setOut('cui', `<div class="msg err">CUI ${cui} nu a fost găsit sau eroare: ${e.message}</div>`);
+  } finally { document.getElementById('cui-btn').disabled = false; }
+}
+
+function renderCompany(d, fin) {
+  // Badges
+  const isActive = !d.inactive && (!d.onrcStatusLabel || /funcți|activ/i.test(d.onrcStatusLabel));
+  const hasTVA   = d.vatRegistered;
+  const tvaInc   = d.cashBasisVat;
+  const eFactura = d.eFacturaRegistered;
+  const insolv   = d.isInsolvent;
+
+  const badges = [
+    isActive  ? '<span class="b b-ok">Activ</span>'           : '<span class="b b-off">Inactiv / Radiat</span>',
+    hasTVA    ? '<span class="b b-ok">Plătitor TVA</span>'    : '<span class="b b-off">Neplătitor TVA</span>',
+    tvaInc    ? '<span class="b b-gold">TVA la Încasare</span>' : '',
+    eFactura  ? '<span class="b b-blue">e-Factura</span>'     : '',
+    insolv    ? '<span class="b b-off">Insolvență</span>'     : '',
+  ].filter(Boolean).join('');
+
+  // Address
+  const hq   = d.headquartersAddress || {};
+  const loc  = [hq.locality, hq.county].filter(Boolean).join(', ') || '—';
+  const adr  = [hq.street, hq.number].filter(Boolean).join(' ') || d.address || '—';
+  const cp   = hq.postalCode || d.postalCode || '—';
+
+  // Fields
+  const fields = [
+    ['Adresă',         adr],
+    ['Localitate',     loc],
+    ['Cod Poștal',     cp],
+    ['Formă Juridică', d.legalForm || '—'],
+    ['Cod CAEN',       d.caenCode || '—'],
+    ['Data Înreg.',    d.registrationDate || '—'],
+    ['Nr. Reg. Com.',  d.registrationNumber || '—'],
+    ['Stare ONRC',     d.onrcStatusLabel || (isActive ? 'Funcțiune' : '—')],
+    ['Autoritate Fiscală', d.fiscalAuthority || '—'],
+    ['Telefon',        d.phone || '—'],
+  ];
+
+  // ── PERSOANE (Administratori) — mereu vizibil
+  const admins = d.administrators || [];
+  const adminsHTML = `
+    <div class="dvd" style="margin:.4rem 0 0"></div>
+    <div class="ch">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Persoane (${admins.length || '—'})
+    </div>
+    <div class="adm-wrap">
+      ${admins.length ? admins.map(a => {
+        const nm   = a.name || '—';
+        const init = nm.split(/\s+/).map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+        const role = (a.role || 'administrator').toLowerCase();
+        return `<div class="adm">
+          <div class="adm-av">${init}</div>
+          <div>
+            <div class="adm-name">${nm}</div>
+            <div class="adm-role">${role}</div>
+          </div>
+        </div>`;
+      }).join('') : '<div style="padding:.5rem;font-size:.75rem;color:var(--mu2)">Date persoane indisponibile pentru această firmă.</div>'}
+    </div>`;
+
+  // ── TVA Periods
+  const vatP = d.vatPeriods || [];
+  let vatHTML = '';
+  if (vatP.length) {
+    vatHTML = `
+      <div class="dvd" style="margin:.4rem 0 0"></div>
+      <div class="ch">Istoric TVA</div>
+      <div style="padding:.6rem 1.1rem;display:flex;flex-direction:column;gap:.35rem">
+        ${vatP.map(p => {
+          const active = !p.end;
+          return `<div style="display:flex;gap:.75rem;align-items:baseline;font-size:.78rem;padding:.35rem .65rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px">
+            <span class="${active ? 'b b-ok' : 'b b-off'}" style="font-size:.55rem">${active ? 'Activ' : 'Încetat'}</span>
+            <span style="color:var(--mu)">${p.start || '—'}</span>
+            ${p.end ? `<span style="color:var(--mu2)">→</span><span style="color:var(--mu)">${p.end}</span>` : ''}
+            ${p.message ? `<span style="color:var(--mu2);font-size:.68rem;flex:1">${p.message.substring(0,90)}${p.message.length>90?'…':''}</span>` : ''}
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  // ── CAEN autorizate
+  const caenAuth = d.authorizedCaenCodes || [];
+  let caenAuthHTML = '';
+  if (caenAuth.length) {
+    caenAuthHTML = `
+      <div class="dvd" style="margin:.4rem 0 0"></div>
+      <div class="ch">CAEN Autorizate (${caenAuth.length})</div>
+      <div style="padding:.6rem 1.1rem">
+        <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+          ${caenAuth.map(c => `<span class="b b-gold" style="font-size:.62rem;font-family:'Cormorant Garamond',serif;font-size:.82rem">${c}</span>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  // ── Financiare — toți indicatorii relevanți
+  let finHTML = '';
+  if (fin && fin.length) {
+    const sorted = [...fin].sort((a,b) => b.year - a.year).slice(0, 6);
+    const ind = (yr, code) => (yr.indicators||[]).find(i=>i.code===code)?.value || 0;
+    finHTML = `
+      <div class="dvd" style="margin:.4rem 0 0"></div>
+      <div class="ch">Date Financiare (${sorted[0]?.year}–${sorted[sorted.length-1]?.year})</div>
+      <div class="fin-grid">
+        ${sorted.map(yr => {
+          const ca   = ind(yr,'I13');
+          const rev  = ind(yr,'I14');
+          const np   = ind(yr,'I18') - ind(yr,'I19');
+          const gp   = ind(yr,'I16') - ind(yr,'I17');
+          const emp  = ind(yr,'I20');
+          const dat  = ind(yr,'I7');
+          const cap  = ind(yr,'I10');
+          const act  = ind(yr,'I1') + ind(yr,'I2');
+          return `<div class="fin-yr">
+            <div class="fin-hd">
+              <span>${yr.year}</span>
+              <span class="${np>=0?'b b-ok':'b b-off'}" style="font-size:.52rem">${np>=0?'▲ Profit':'▼ Pierdere'}</span>
+            </div>
+            <div class="fin-row"><span class="fin-lbl">Cifră afaceri</span><span class="fin-val">${fmt(ca)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Venituri totale</span><span class="fin-val">${fmt(rev)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Profit brut</span><span class="fin-val ${gp>=0?'pos':'neg'}">${fmt(gp)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Profit net</span><span class="fin-val ${np>=0?'pos':'neg'}">${fmt(np)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Total active</span><span class="fin-val">${fmt(act)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Datorii</span><span class="fin-val">${fmt(dat)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Capitaluri proprii</span><span class="fin-val">${fmt(cap)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Angajați</span><span class="fin-val">${emp || '—'}</span></div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  return `<div class="card">
+    <div class="co-top">
+      <div>
+        <div class="co-name">${d.name || '—'}</div>
+        <div class="co-sub">CUI RO${d.cui}${d.registrationNumber ? ' · ' + d.registrationNumber : ''}</div>
+      </div>
+      <div class="co-badges">${badges}</div>
+    </div>
+    <div class="fgrid">
+      ${fields.map(([l,v])=>`<div class="fi"><div class="fl">${l}</div><div class="fv">${v||'—'}</div></div>`).join('')}
+    </div>
+    ${adminsHTML}
+    ${vatHTML}
+    ${caenAuthHTML}
+    ${finHTML}
+  </div>`;
+}
+
+function fmt(n) {
+  if (!n && n !== 0) return '—';
+  const s = n < 0 ? '-' : '', a = Math.abs(n);
+  if (a >= 1e9) return s + (a/1e9).toFixed(2) + ' Mld';
+  if (a >= 1e6) return s + (a/1e6).toFixed(2) + ' M RON';
+  if (a >= 1e3) return s + (a/1e3).toFixed(0) + ' K RON';
+  return s + a.toLocaleString('ro-RO') + ' RON';
+}
+
+// ══ SEARCH ════════════════════════════════════════════════════
+async function doSearch() {
+  const q = document.getElementById('sr-inp').value.trim();
+  if (q.length < 2) { setOut('sr','<div class="msg">Introduceți minim 2 caractere.</div>'); return; }
+  const limit = document.getElementById('sr-limit').value;
+  document.getElementById('sr-btn').disabled = true;
+  loading('sr', `Se caută „${q}"…`);
+  try {
+    const data = await api(`/search?q=${encodeURIComponent(q)}&limit=${limit}`);
+    const list = Array.isArray(data) ? data : (data.results || []);
+    if (!list.length) { setOut('sr','<div class="msg">Niciun rezultat pentru „'+q+'".</div>'); return; }
+    setOut('sr', `
+      <p style="font-size:.68rem;color:var(--mu);margin-bottom:.72rem">${list.length} rezultate</p>
+      <div class="sr-list">
+        ${list.map(c => {
+          const name = c.name || '—';
+          const cui  = c.cui || '—';
+          const loc  = [c.locality, c.county].filter(Boolean).join(', ');
+          const st   = c.statusLabel || '';
+          const ins  = c.isInsolvent ? ' <span class="b b-off" style="font-size:.54rem">Insolvență</span>' : '';
+          const stBadge = st && !/funcți/i.test(st) ? ` <span class="b b-warn" style="font-size:.54rem">${st}</span>` : '';
+          return `<div class="sr" onclick="goToCUI('${cui}')">
+            <div style="flex:1">
+              <div class="sr-name">${name}${ins}${stBadge}</div>
+              <div class="sr-sub">CUI ${cui}${loc ? ' · ' + loc : ''}${c.legalForm ? ' · ' + c.legalForm : ''}</div>
+            </div>
+            <div style="color:var(--mu);font-size:1rem">›</div>
+          </div>`;
+        }).join('')}
+      </div>`);
+  } catch(e) {
+    setOut('sr', `<div class="msg err">Eroare: ${e.message}</div>`);
+  } finally { document.getElementById('sr-btn').disabled = false; }
+}
+
+function goToCUI(cui) {
+  document.getElementById('cui-inp').value = String(cui);
+  showTab('cui', document.querySelector('.tab'));
+  doCUI();
+}
+
+// ══ CALENDAR ══════════════════════════════════════════════════
+const MO=['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
+let cY = new Date().getFullYear(), cM = new Date().getMonth();
+const TC = {
+  tva:       {fg:'#3b82f6', lbl:'TVA'},
+  impozit:   {fg:'#f59e0b', lbl:'Impozit'},
+  social:    {fg:'#a855f7', lbl:'Contribuții'},
+  anual:     {fg:'#22c55e', lbl:'Anual'},
+  declarativ:{fg:'#14b8a6', lbl:'Declarativ'},
+};
+
+function getDL(y,m) {
+  const m1 = m+1, isQ = [1,4,7,10].includes(m1);
+  const all = [], a = (day,title,desc,type) => all.push({day,title,desc,type});
+
+  a(25,'D112 — Salarii și contribuții','CAS, CASS, impozit salariu — luna precedentă.','social');
+  a(25,'D100 — Impozit reținut la sursă','Dividende, chirii, drepturi de autor, comisioane.','impozit');
+  a(25,'D300 — Decont TVA (lunar)','TVA de plată sau de recuperat — plătitori lunari.','tva');
+  a(25,'D406 — SAF-T (mari contribuabili)','Fișier standard de control fiscal.','declarativ');
+
+  if(isQ){
+    a(25,'D300 — Decont TVA (trimestrial)','TVA trimestrial — plătitori cu perioadă trimestrială.','tva');
+    a(25,'D390 — TVA intracomunitar','Livrări și achiziții intracomunitare — trimestrul precedent.','tva');
+    a(25,'D101 / D700 — Impozit profit / micro','Plată anticipată trimestrială.','impozit');
+    a(25,'D394 — Declarație informativă','Livrări/achiziții pe teritoriul național — trim. precedent.','tva');
+  }
+  if(m1===1)  a(25,'D205 — Impozit reținut anual','Declarație anuală impozit reținut la sursă.','anual');
+  if(m1===2)  a(28,'D207 — Venituri externe PF','Venituri din surse externe — persoane fizice rezidente.','anual');
+  if(m1===3) {
+    a(25,'D101 — Impozit pe profit anual','Declarație finală + diferența de plată — an precedent.','anual');
+    a(31,'Situații financiare anuale','Bilanț + cont profit/pierdere — Ministerul Finanțelor.','anual');
+  }
+  if(m1===5) {
+    a(25,'D200 / D212 — Declarație unică PF','Venituri din activități independente, chirii, investiții.','anual');
+    a(25,'D204 — Entități asociative','Asocieri fără personalitate juridică, co-titulari.','declarativ');
+  }
+  if(m1===6)  a(25,'Plată anticipată impozit PF — tranșa 1','Prima tranșă din plăți anticipate impozit venit.','impozit');
+  if(m1===9)  a(25,'D406 SAF-T — contribuabili mijlocii','Extindere obligație SAF-T.','declarativ');
+  if(m1===12) a(31,'Inventariere anuală patrimoniu','Inventarierea activelor, datoriilor și capitalurilor.','anual');
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  return all.sort((a,b)=>a.day-b.day).map(d => {
+    const dl   = new Date(y,m,d.day);
+    const diff = Math.ceil((dl-today)/86400000);
+    const urg  = diff < 0 ? 'past' : diff <= 4 ? 'urg' : diff <= 12 ? 'soon' : 'done';
+    return {...d, diff, urg};
+  });
+}
+
+function renderCal() {
+  document.getElementById('cal-lbl').textContent = MO[cM]+' '+cY;
+  const dl = getDL(cY,cM);
+  document.getElementById('dl-list').innerHTML = !dl.length
+    ? '<div class="msg">Nicio scadență identificată.</div>'
+    : dl.map(d => {
+        const t = TC[d.type] || TC.impozit;
+        const dz = d.urg !== 'past'
+          ? `<span class="dl-dz" style="color:${d.urg==='urg'?'var(--err)':d.urg==='soon'?'var(--warn)':'var(--ok)'}">${d.diff===0?'AZI':d.diff+'z'}</span>` : '';
+        return `<div class="dl ${d.urg}">
+          <div class="dl-d"><div class="dl-day">${d.day}</div><div class="dl-mo">${MO[cM].slice(0,3)}</div></div>
+          <div class="dl-body"><div class="dl-title">${d.title}</div><div class="dl-desc">${d.desc}</div></div>
+          <div class="dl-meta"><span class="b" style="background:${t.fg}18;color:${t.fg};border:1px solid ${t.fg}30">${t.lbl}</span>${dz}</div>
+        </div>`;
+      }).join('');
+}
+function moveMo(d){cM+=d;if(cM>11){cM=0;cY++;}if(cM<0){cM=11;cY--;}renderCal();}
+function goNow(){cY=new Date().getFullYear();cM=new Date().getMonth();renderCal();}
+
+// ══ CAEN ══════════════════════════════════════════════════════
+async function doCAEN() {
+  const q = document.getElementById('caen-inp').value.trim();
+  if (!q) { setOut('caen','<div class="msg">Introduceți un cod sau termen.</div>'); return; }
+  loading('caen','Se caută în CAEN Rev.2…');
+  try {
+    const d = await api(`/caen?q=${encodeURIComponent(q)}`);
+    const list = Array.isArray(d) ? d : (d.items || d.results || []);
+    if (!list.length) { setOut('caen','<div class="msg">Niciun cod CAEN găsit.</div>'); return; }
+    setOut('caen', `
+      <p style="font-size:.68rem;color:var(--mu);margin-bottom:.68rem">${list.length} coduri</p>
+      <div class="caen-list">
+        ${list.map(c => `<div class="caen-it">
+          <div class="caen-code">${c.code||c.cod||''}</div>
+          <div class="caen-name">${c.name||c.denumire||c.description||''}</div>
+          ${c.section||c.sec?`<div class="caen-sec">Secțiunea ${c.section||c.sec}</div>`:''}
+        </div>`).join('')}
+      </div>`);
+  } catch(e) { setOut('caen',`<div class="msg err">${e.message}</div>`); }
+}
+
+// ══ PERSOANE ══════════════════════════════════════════════════
+let pplTimer = null;
+function doPeopleDebounce() {
+  clearTimeout(pplTimer);
+  const q = document.getElementById('ppl-inp').value.trim();
+  if (q.length < 3) { setOut('ppl',''); return; }
+  pplTimer = setTimeout(doPeople, 380);
+}
+
+async function doPeople() {
+  const q = document.getElementById('ppl-inp').value.trim();
+  if (q.length < 3) { setOut('ppl','<div class="msg">Introduceți minim 3 caractere.</div>'); return; }
+  loading('ppl', `Se caută persoane pentru „${q}"…`);
+  try {
+    const data = await api(`/search/people?q=${encodeURIComponent(q)}&limit=20`);
+    const list = Array.isArray(data) ? data : (data.results || []);
+    if (!list.length) {
+      setOut('ppl', `<div class="msg">Niciun rezultat pentru „${q}".</div>`); return;
+    }
+    const totalAssoc = list.reduce((s, p) => s + (p.companies||[]).length, 0);
+    setOut('ppl', `
+      <p style="font-size:.68rem;color:var(--mu);margin-bottom:.85rem">
+        ${list.length} ${list.length===1?'persoană':'persoane'} · ${totalAssoc} asocieri în firme
+      </p>
+      <div style="display:flex;flex-direction:column;gap:.65rem">
+        ${list.map(p => renderPerson(p)).join('')}
+      </div>
+    `);
+  } catch(e) {
+    setOut('ppl', `<div class="msg err">Eroare: ${e.message}</div>`);
+  }
+}
+
+function renderPerson(p) {
+  const name = p.name || '—';
+  const init = name.split(/\s+/).map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+  const cos  = p.companies || [];
+  const show = cos.slice(0, 3);
+  const more = cos.length - show.length;
+
+  const meta = [p.birthDate, p.birthPlace].filter(Boolean).join(' · ');
+
+  return `<div class="card">
+    <div style="padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:.9rem">
+      <div class="adm-av" style="width:36px;height:36px;font-size:.95rem;flex-shrink:0;margin-top:.1rem">${init}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.2rem">
+          <span style="font-size:.95rem;color:var(--cream);font-weight:400">${name}</span>
+          <span class="b b-gold">${cos.length} ${cos.length===1?'firmă':'firme'}</span>
+        </div>
+        ${meta ? `<div style="font-size:.68rem;color:var(--mu2);margin-bottom:.75rem">${meta}</div>` : '<div style="margin-bottom:.65rem"></div>'}
+        <div style="display:flex;flex-direction:column;gap:.32rem">
+          ${show.map(c => `
+            <div onclick="goToCUI('${c.companyCui}')"
+                 style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem .8rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px;cursor:pointer;transition:border-color .2s"
+                 onmouseover="this.style.borderColor='rgba(200,169,110,.32)'" onmouseout="this.style.borderColor='var(--bd2)'">
+              <div style="min-width:0">
+                <div style="font-size:.82rem;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.companyName || '—'}</div>
+                <div style="font-size:.65rem;color:var(--mu)">CUI ${c.companyCui}${c.county ? ' · ' + c.county : ''}</div>
+              </div>
+              <span class="b b-purple" style="flex-shrink:0">${c.role || 'administrator'}</span>
+            </div>`).join('')}
+          ${more > 0 ? `
+            <div style="font-size:.7rem;color:var(--mu);padding:.35rem .8rem;text-align:center;cursor:pointer;border:1px dashed var(--bd2);border-radius:2px"
+                 onclick="expandPerson(this, '${encodeURIComponent(JSON.stringify(cos))}')">
+              + ${more} ${more===1?'firmă':'firme'} — arată tot
+            </div>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function expandPerson(el, encoded) {
+  const cos = JSON.parse(decodeURIComponent(encoded));
+  el.parentElement.innerHTML = cos.map(c => `
+    <div onclick="goToCUI('${c.companyCui}')"
+         style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem .8rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px;cursor:pointer;transition:border-color .2s"
+         onmouseover="this.style.borderColor='rgba(200,169,110,.32)'" onmouseout="this.style.borderColor='var(--bd2)'">
+      <div style="min-width:0">
+        <div style="font-size:.82rem;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.companyName || '—'}</div>
+        <div style="font-size:.65rem;color:var(--mu)">CUI ${c.companyCui}${c.county ? ' · ' + c.county : ''}</div>
+      </div>
+      <span class="b b-purple" style="flex-shrink:0">${c.role || 'administrator'}</span>
+    </div>`).join('');
+}
+
+
+let pressDone = false;
+async function initPress() {
+  if (pressDone) return;
+  pressDone = true;
+  loading('press','Se preiau comunicatele ANAF…');
+  try {
+    const d    = await api('/press');
+    const list = Array.isArray(d) ? d : (d.items || d.articles || []);
+    if (!list.length) { setOut('press','<div class="msg">Niciun comunicat disponibil.</div>'); return; }
+    setOut('press', `<div class="press-list">
+      ${list.map(p => {
+        const title = p.title||p.titlu||'—', date = p.date||p.data||'', link = p.url||p.link||p.pdfUrl||'', cat = p.category||p.categorie||'';
+        return `<div class="press-it">
+          <div class="press-title">${title}</div>
+          <div class="press-meta">${date?`<span>${date}</span>`:''} ${cat?`<span class="b b-gold">${cat}</span>`:''}</div>
+          ${link?`<a class="press-link" href="${link}" target="_blank" rel="noopener">Citește comunicatul →</a>`:''}
+        </div>`;
+      }).join('')}
+    </div>`);
+  } catch(e) { setOut('press',`<div class="msg err">${e.message}</div>`); }
+}
+
+// ── RESET DATE ────────────────────────────────────────────────
+function confirmReset() {
+  const modal = document.createElement('div');
+  modal.id='reset-modal';modal.style.cssText = 'position:fixed;inset:0;background:rgba(13,10,8,.88);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)';
+  modal.innerHTML = `
+    <div style="background:var(--ink2);border:1px solid var(--bd);border-radius:3px;padding:2rem;max-width:360px;width:90%;text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:1rem">⚠</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--cream);margin-bottom:.5rem">Reset Date</div>
+      <div style="font-size:.78rem;color:var(--mu);line-height:1.7;margin-bottom:1.5rem">
+        Șterge istoricul de CUI-uri căutate (recent searches).<br>
+        Datele din ANAF și ONRC nu sunt afectate.
+      </div>
+      <div style="display:flex;gap:.75rem;justify-content:center">
+        <button onclick="doReset();document.getElementById('reset-modal').remove()"
+          style="padding:.65rem 1.5rem;background:var(--err);color:var(--cream);border:none;border-radius:3px;font-family:'Jost',sans-serif;font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer">
+          Confirmă Reset
+        </button>
+        <button onclick="this.closest('[style]').remove()"
+          style="padding:.65rem 1.2rem;background:transparent;color:var(--mu);border:1px solid var(--bd);border-radius:3px;font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">
+          Anulează
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function doReset() {
+  localStorage.removeItem(RK);
+  document.getElementById('cui-rec').innerHTML = '';
+  document.getElementById('cui-inp').value = '';
+  document.getElementById('cui-out').innerHTML = '';
+  document.getElementById('ppl-inp').value = '';
+  document.getElementById('ppl-out').innerHTML = '';
+}
+
+// ── LOGIN ─────────────────────────────────────────────────────
+// Credentiale stocate ca perechi user:parola
+// Pentru a schimba parola: modifici valoarea din CREDS direct
+const CREDS = {
+  'ovidiu': 'REDACTED',
+  'portal': 'REDACTED',
+  'office': 'REDACTED',
+};
+
+const SK = 'bvimm_auth_v4';
+
+function doLogin() {
+  const user = document.getElementById('l-user').value.trim().toLowerCase();
+  const pass = document.getElementById('l-pass').value;
+  const err  = document.getElementById('l-err');
+
+  if (!user || !pass) { err.textContent = 'Completați ambele câmpuri.'; return; }
+
+  if (!CREDS[user] || CREDS[user] !== pass) {
+    err.textContent = 'Credențiale incorecte.';
+    document.getElementById('l-pass').value = '';
+    document.getElementById('l-pass').focus();
+    return;
+  }
+
+  const session = { user, exp: Date.now() + 8 * 3600 * 1000 };
+  sessionStorage.setItem(SK, JSON.stringify(session));
+  showApp(user);
+}
+
+function checkSession() {
+  try {
+    const s = JSON.parse(sessionStorage.getItem(SK));
+    if (s && s.exp > Date.now()) { showApp(s.user); return; }
+  } catch {}
+}
+
+function showApp(user) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  renderRec();
+  renderCal();
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+checkSession();
+</script>
+</body>
+</html>
