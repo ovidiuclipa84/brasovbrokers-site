@@ -110,7 +110,7 @@
 
     /* ADMINS */
     .adm-wrap{padding:.8rem 1.1rem;display:flex;flex-direction:column;gap:.4rem}
-    .adm{display:flex;align-items:center;gap:.75rem;padding:.6rem .85rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px}
+    .adm{display:flex;align-items:center;gap:.75rem;padding:.6rem .85rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px;cursor:pointer;transition:all .15s}.adm:hover{background:rgba(184,149,84,.08);border-color:var(--gold)}.adm:hover .adm-name{color:var(--gold2)}
     .adm-av{width:30px;height:30px;border-radius:50%;background:rgba(200,169,110,.1);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--gold);flex-shrink:0}
     .adm-name{font-size:.83rem;color:var(--cream)}
     .adm-role{font-size:.65rem;color:var(--mu);text-transform:capitalize}
@@ -469,7 +469,9 @@ function renderCompany(d, fin) {
         const nm   = a.name || '—';
         const init = nm.split(/\s+/).map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
         const role = (a.role || 'administrator').toLowerCase();
-        return `<div class="adm">
+        const qn=nm.replace(/'/g,chr(39)chr(39));
+const fn=qn.split(/\s+/)[0];
+return `<div class="adm" onclick="searchPerson(`${qn}`,`${fn}`)" title="Cauta ${nm} in Persoane">
           <div class="adm-av">${init}</div>
           <div>
             <div class="adm-name">${nm}</div>
@@ -751,6 +753,18 @@ async function doCAEN() {
 
 // ══ PERSOANE ══════════════════════════════════════════════════
 let pplTimer = null;
+function searchPerson(fullName,firstName){
+  var q=firstName||fullName;
+  var inp=document.getElementById('ppl-inp');
+  if(!inp)return;
+  inp.value=q;
+  document.querySelectorAll('.tab').forEach(function(t){
+    var oc=t.getAttribute('onclick')||'';
+    if(oc.indexOf('people')>-1)showTab('people',t);
+  });
+  setTimeout(doPeople,80);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function doPeopleDebounce() {
   clearTimeout(pplTimer);
   const q = document.getElementById('ppl-inp').value.trim();
