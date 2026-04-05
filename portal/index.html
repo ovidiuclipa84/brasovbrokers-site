@@ -935,4 +935,721 @@ function showApp(user) {
 checkSession();
 </script>
 </body>
+</html><div style="display:flex;align-items:center;gap:.4rem;flex-shrink:0"><svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 0 260 80" style="display:block"><defs><linearGradient id="pg-cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4af70"/><stop offset="100%" stop-color="#8b6914"/></linearGradient></defs><path d="M18 52 L18 28 L27 38 L40 18 L53 38 L62 28 L62 52 Z" fill="url(#pg-cg)" opacity="0.95"/><path d="M24 52 L24 36 L31 44 L40 26 L49 44 L56 36 L56 52 Z" fill="#0d1f35"/><rect x="16" y="52" width="48" height="5" rx="1" fill="url(#pg-cg)"/><text x="80" y="30" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="600" fill="#ffffff" letter-spacing="0.5">Brasov</text><text x="80" y="54" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-weight="300" fill="#d4af70" letter-spacing="0.5" font-style="italic">Brokers</text><line x1="80" y1="59" x2="248" y2="59" stroke="rgba(184,149,84,0.3)" stroke-width="0.5"/><text x="80" y="70" font-family="DM Sans, Arial, sans-serif" font-size="7.5" fill="rgba(255,255,255,0.4)" letter-spacing="4.5">PORTAL FISCAL</text></svg><div class="logo-dot" title="Live"></div></div>
+    <div class="login-sub">Portal Fiscal</div>
+    <div class="login-ornament"></div>
+    <div class="login-field">
+      <label>Utilizator</label>
+      <input type="text" id="l-user" placeholder="utilizator" autocomplete="username"
+             onkeydown="if(event.key==='Enter')document.getElementById('l-pass').focus()"/>
+    </div>
+    <div class="login-field">
+      <label>Parolă</label>
+      <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-err" id="l-err"></div>
+    <button class="login-btn" onclick="doLogin()">Autentificare</button>
+    <div class="login-note">Acces restricționat — uz intern BV IMM Brokers</div>
+  </div>
+</div>
+
+<!-- ── APP ───────────────────────────────────────────────────── -->
+<div id="app">
+
+<header>
+  <div class="hdr">
+    <div class="logo" style="display:flex;align-items:center">
+      BV IMM Brokers <em>Portal Fiscal</em>
+      <div class="logo-dot" title="Live — worker conectat"></div>
+    </div>
+    <nav>
+      <button class="tab active" onclick="showTab('cui',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Firmă
+      </button>
+      <button class="tab" onclick="showTab('people',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Persoane
+      </button>
+      <button class="tab" onclick="showTab('search',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Căutare
+      </button>
+      <button class="tab" onclick="showTab('cal',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendar
+      </button>
+      <button class="tab" onclick="showTab('caen',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>CAEN
+      </button>
+      <button class="tab" style="color:var(--err);border-color:transparent" onclick="confirmReset()" title="Șterge istoricul de căutări salvat">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>Reset
+      </button>
+    <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="doLogout()" title="Iesire">Iesire</button></nav>
+  </div>
+</header>
+<div class="bnr-fixed" id="bnr-widget">
+  <div class="bnr-pair"><div class="bnr-lbl">EUR/RON</div><div class="bnr-val" id="bnr-eur">-</div></div>
+  <div class="bnr-sep"></div>
+  <div class="bnr-pair"><div class="bnr-lbl">USD/RON</div><div class="bnr-val" id="bnr-usd">-</div></div>
+  <div class="bnr-sep"></div>
+  <div class="bnr-pair"><div class="bnr-lbl">XAU/RON</div><div class="bnr-val" id="bnr-xau">-</div></div>
+  <div class="bnr-date" id="bnr-date"></div>
+</div>
+
+<main>
+
+<!-- ══ CUI ═════════════════════════════════════════════════════ -->
+<section class="sec active" id="sec-cui">
+  <div class="eyebrow">ANAF — Registrul Contribuabililor</div>
+  <h1 class="pgt">Verificare Firmă</h1>
+  <p class="pgs">Stare fiscală, TVA, adresă, administratori și date financiare pe 5 ani.</p>
+  <div id="cui-rec"></div>
+  <div class="row">
+    <input class="inp inp-grow" id="cui-inp" placeholder="CUI sau cod fiscal"
+           onkeydown="if(event.key==='Enter')doCUI()"/>
+    <button class="btn" id="cui-btn" onclick="doCUI()">Verifică</button>
+  </div>
+  <div id="cui-out"></div>
+</section>
+
+<!-- ══ SEARCH ═══════════════════════════════════════════════════ -->
+<section class="sec" id="sec-search">
+  <div class="eyebrow">ONRC — 4 milioane+ firme</div>
+  <h1 class="pgt">Căutare după Nume</h1>
+  <p class="pgs">Full-text search pe baza ONRC. Click pe orice rezultat pentru fișa completă.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="sr-inp" placeholder="Denumire firmă"
+           onkeydown="if(event.key==='Enter')doSearch()"/>
+    <select class="inp" id="sr-limit" style="width:78px">
+      <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option>
+    </select>
+    <button class="btn" id="sr-btn" onclick="doSearch()">Caută</button>
+  </div>
+  <div id="sr-out"></div>
+</section>
+
+<!-- ══ CALENDAR ══════════════════════════════════════════════════ -->
+<section class="sec" id="sec-cal">
+  <div class="eyebrow">Ministerul Finanțelor</div>
+  <h1 class="pgt">Calendar Fiscal</h1>
+  <p class="pgs">Scadențe declarații și obligații fiscale lunare.</p>
+  <div class="cal-nav">
+    <div class="nvbtns">
+      <button class="nvb" onclick="moveMo(-1)">‹</button>
+      <div class="cal-mo" id="cal-lbl"></div>
+      <button class="nvb" onclick="moveMo(1)">›</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="goNow()">Luna curentă</button>
+  </div>
+  <div class="dls" id="dl-list"></div>
+</section>
+
+<!-- ══ CAEN ════════════════════════════════════════════════════════ -->
+<section class="sec" id="sec-caen">
+  <div class="eyebrow">CAEN Rev.2 — 615 coduri</div>
+  <h1 class="pgt">Căutare Coduri CAEN</h1>
+  <p class="pgs">Cod numeric sau cuvânt cheie din denumirea activității.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="caen-inp" placeholder="Cod CAEN sau activitate"
+           onkeydown="if(event.key==='Enter')doCAEN()"/>
+    <button class="btn" onclick="doCAEN()">Caută</button>
+  </div>
+  <div id="caen-out"></div>
+</section>
+
+<!-- ══ PERSOANE ════════════════════════════════════════════════════ -->
+<section class="sec" id="sec-people">
+  <div class="eyebrow">ONRC — 3.6 milioane înregistrări</div>
+  <h1 class="pgt">Căutare Persoane</h1>
+  <p class="pgs">Administratori, directori și reprezentanți legali. Caută o persoană și vezi toate funcțiile deținute în firme.</p>
+  <div class="row">
+    <input class="inp inp-grow" id="ppl-inp" placeholder="Nume persoană (minim 3 caractere)"
+           oninput="doPeopleDebounce()" onkeydown="if(event.key==='Enter')doPeople()"/>
+  </div>
+  <div id="ppl-out"></div>
+</section>
+
+<!-- ══ COMUNICATE ══════════════════════════════════════════════════ -->
+
+</main>
+
+</div><!-- /#app -->
+
+<div class="fnote">
+  Date live — ANAF · BNR · ONRC local · BV IMM Brokers SRL<br>
+  Nu înlocuiește consultanța fiscală autorizată.
+</div>
+
+<script>
+async function loadBNR(){
+  try{
+    const r=await fetch('https://portal-fiscal-brasov-brokers.ovidiu-clipa.workers.dev/api/bnr');
+    const d=await r.json();
+    if(!d.success)return;
+    const rates=d.data;
+    if(rates.EUR)document.getElementById('bnr-eur').textContent=rates.EUR;
+    if(rates.USD)document.getElementById('bnr-usd').textContent=rates.USD;
+    if(rates.XDR)document.getElementById('bnr-xau').textContent=rates.XDR;
+    if(rates.date)document.getElementById('bnr-date').textContent='BNR '+rates.date;
+  }catch(e){}
+}
+loadBNR();
+function doLogout(){
+  var TK='bvimm_token_v1';
+  var d=JSON.parse(localStorage.getItem(TK)||'{}');
+  if(d.token)fetch(W+'/api/auth/logout',{headers:{'X-Auth-Token':d.token}}).catch(()=>{});
+  localStorage.removeItem(TK);
+  window.location.replace('./login.html');
+}
+const W = 'https://portal-fiscal-brasov-brokers.ovidiu-clipa.workers.dev';
+const RK = 'bvimm_rec_v4';
+
+async function api(path) {
+  const r = await fetch(W + '/api' + path);
+  const d = await r.json();
+  if (!d.success) throw new Error(d.error?.message || 'Eroare API');
+  return d.data;
+}
+
+function setOut(id, html) { document.getElementById(id + '-out').innerHTML = html; }
+function loading(id, msg) { setOut(id, `<div class="loading"><div class="spin"></div>${msg}</div>`); }
+
+function showTab(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══ CUI ═══════════════════════════════════════════════════════
+function getRec() { try { return JSON.parse(localStorage.getItem(RK)||'[]'); } catch { return []; } }
+function saveRec(cui, name) {
+  let r = getRec().filter(x => x.cui !== String(cui));
+  r.unshift({ cui: String(cui), name: name || String(cui) });
+  localStorage.setItem(RK, JSON.stringify(r.slice(0,12)));
+  renderRec();
+}
+function renderRec() {
+  const r = getRec();
+  document.getElementById('cui-rec').innerHTML = r.length
+    ? `<div class="chips">${r.map(x=>`<div class="chip" onclick="cuiDirect('${x.cui}')">${x.name}</div>`).join('')}</div>` : '';
+}
+function cuiDirect(v) { document.getElementById('cui-inp').value = v; doCUI(); }
+
+async function doCUI() {
+  const raw = document.getElementById('cui-inp').value.trim();
+  if (!raw) return;
+  const cui = raw.replace(/^RO/i,'').replace(/\D/g,'');
+  if (!cui || !/^\d{1,10}$/.test(cui)) {
+    setOut('cui','<div class="msg err">CUI invalid — introduceți doar cifre (ex: 25165241)</div>'); return;
+  }
+  document.getElementById('cui-btn').disabled = true;
+  loading('cui', `Se verifică CUI ${cui}…`);
+  try {
+    const [co, fin] = await Promise.all([
+      api(`/company/${cui}`),
+      api(`/company/${cui}/financials`).catch(() => [])
+    ]);
+    saveRec(co.cui, co.name);
+    setOut('cui', renderCompany(co, fin));
+  } catch(e) {
+    setOut('cui', `<div class="msg err">CUI ${cui} nu a fost găsit sau eroare: ${e.message}</div>`);
+  } finally { document.getElementById('cui-btn').disabled = false; }
+}
+
+function renderCompany(d, fin) {
+  // Badges
+  const isActive = !d.inactive && !(/radiat|suspen|inactiv|dizolvat/i.test(d.onrcStatusLabel || ''));
+  const hasTVA   = d.vatRegistered;
+  const tvaInc   = d.cashBasisVat;
+  const eFactura = d.eFacturaRegistered;
+  const insolv   = d.isInsolvent;
+
+  const badges = [
+    isActive  ? '<span class="b b-ok">Activ</span>'           : '<span class="b b-off">Inactiv / Radiat</span>',
+    hasTVA    ? '<span class="b b-ok">Plătitor TVA</span>'    : '<span class="b b-off">Neplătitor TVA</span>',
+    tvaInc    ? '<span class="b b-gold">TVA la Încasare</span>' : '',
+    eFactura  ? '<span class="b b-blue">e-Factura</span>'     : '',
+    insolv    ? '<span class="b b-off">Insolvență</span>'     : '',
+  ].filter(Boolean).join('');
+
+  // Address
+  const hq   = d.headquartersAddress || {};
+  const loc  = [hq.locality, hq.county].filter(Boolean).join(', ') || '—';
+  const adr  = [hq.street, hq.number].filter(Boolean).join(' ') || d.address || '—';
+  const cp   = hq.postalCode || d.postalCode || '—';
+
+  // Fields
+  const fields = [
+    ['Adresă',         adr],
+    ['Localitate',     loc],
+    ['Cod Poștal',     cp],
+    ['Formă Juridică', d.legalForm || '—'],
+    ['Cod CAEN',       d.caenCode || '—'],
+    ['Data Înreg.',    d.registrationDate || '—'],
+    ['Nr. Reg. Com.',  d.registrationNumber || '—'],
+    ['Stare ONRC',     d.onrcStatusLabel || (isActive ? 'Funcțiune' : '—')],
+    ['Autoritate Fiscală', d.fiscalAuthority || '—'],
+    ['Telefon',        d.phone || '—'],
+  ];
+
+  // ── PERSOANE (Administratori) — mereu vizibil
+  const admins = d.administrators || [];
+  const adminsHTML = `
+    <div class="dvd" style="margin:.4rem 0 0"></div>
+    <div class="ch">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Persoane (${admins.length || '—'})
+    </div>
+    <div class="adm-wrap">
+      ${admins.length ? admins.map(a => {
+        const nm   = a.name || '—';
+        const init = nm.split(/\s+/).map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+        const role = (a.role || 'administrator').toLowerCase();
+        return `<div class="adm">
+          <div class="adm-av">${init}</div>
+          <div>
+            <div class="adm-name">${nm}</div>
+            <div class="adm-role">${role}</div>
+          </div>
+        </div>`;
+      }).join('') : '<div style="padding:.5rem;font-size:.75rem;color:var(--mu2)">Date persoane indisponibile pentru această firmă.</div>'}
+    </div>`;
+
+  // ── TVA Periods
+  const vatP = d.vatPeriods || [];
+  let vatHTML = '';
+  if (vatP.length) {
+    vatHTML = `
+      <div class="dvd" style="margin:.4rem 0 0"></div>
+      <div class="ch">Istoric TVA</div>
+      <div style="padding:.6rem 1.1rem;display:flex;flex-direction:column;gap:.35rem">
+        ${vatP.map(p => {
+          const active = !p.end;
+          return `<div style="display:flex;gap:.75rem;align-items:baseline;font-size:.78rem;padding:.35rem .65rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px">
+            <span class="${active ? 'b b-ok' : 'b b-off'}" style="font-size:.55rem">${active ? 'Activ' : 'Încetat'}</span>
+            <span style="color:var(--mu)">${p.start || '—'}</span>
+            ${p.end ? `<span style="color:var(--mu2)">→</span><span style="color:var(--mu)">${p.end}</span>` : ''}
+            ${p.message ? `<span style="color:var(--mu2);font-size:.68rem;flex:1">${p.message.substring(0,90)}${p.message.length>90?'…':''}</span>` : ''}
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  // ── CAEN autorizate
+  const caenAuth = d.authorizedCaenCodes || [];
+  let caenAuthHTML = '';
+  if (caenAuth.length) {
+    caenAuthHTML = `
+      <div class="dvd" style="margin:.4rem 0 0"></div>
+      <div class="ch">CAEN Autorizate (${caenAuth.length})</div>
+      <div style="padding:.6rem 1.1rem">
+        <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+          ${caenAuth.map(c => `<span class="b b-gold" style="font-size:.82rem;font-family:'Cormorant Garamond',serif;cursor:pointer;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" onclick="showCaenDesc('${c}')">${c}</span>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  // ── Financiare — toți indicatorii relevanți
+  let finHTML = '';
+  if (fin && fin.length) {
+    const sorted = [...fin].sort((a,b) => b.year - a.year).slice(0, 6);
+    const ind = (yr, code) => (yr.indicators||[]).find(i=>i.code===code)?.value || 0;
+    finHTML = `
+      <div class="dvd" style="margin:.4rem 0 0"></div>
+      <div class="ch">Date Financiare (${sorted[0]?.year}–${sorted[sorted.length-1]?.year})</div>
+      <div class="fin-grid">
+        ${sorted.map(yr => {
+          const ca   = ind(yr,'I13');
+          const rev  = ind(yr,'I14');
+          const np   = ind(yr,'I18') - ind(yr,'I19');
+          const gp   = ind(yr,'I16') - ind(yr,'I17');
+          const emp  = ind(yr,'I20');
+          const dat  = ind(yr,'I7');
+          const cap  = ind(yr,'I10');
+          const act  = ind(yr,'I1') + ind(yr,'I2');
+          return `<div class="fin-yr">
+            <div class="fin-hd">
+              <span>${yr.year}</span>
+              <span class="${np>=0?'b b-ok':'b b-off'}" style="font-size:.52rem">${np>=0?'▲ Profit':'▼ Pierdere'}</span>
+            </div>
+            <div class="fin-row"><span class="fin-lbl">Cifră afaceri</span><span class="fin-val">${fmt(ca)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Venituri totale</span><span class="fin-val">${fmt(rev)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Profit brut</span><span class="fin-val ${gp>=0?'pos':'neg'}">${fmt(gp)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Profit net</span><span class="fin-val ${np>=0?'pos':'neg'}">${fmt(np)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Total active</span><span class="fin-val">${fmt(act)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Datorii</span><span class="fin-val">${fmt(dat)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Capitaluri proprii</span><span class="fin-val">${fmt(cap)}</span></div>
+            <div class="fin-row"><span class="fin-lbl">Angajați</span><span class="fin-val">${emp || '—'}</span></div>
+          </div>`;
+        }).join('')}
+      </div>
+      ${finChart(sorted,ind)}`;
+  }
+
+  return `<div class="card">
+    <div class="co-top">
+      <div>
+        <div class="co-name">${d.name || '—'}</div>
+        <div class="co-sub">CUI RO${d.cui}${d.registrationNumber ? ' · ' + d.registrationNumber : ''}</div>
+      </div>
+      <div class="co-badges">${badges}</div>
+    </div>
+    <div class="fgrid">
+      ${fields.map(([l,v])=>`<div class="fi"><div class="fl">${l}</div><div class="fv">${v||'—'}</div></div>`).join('')}
+    </div>
+    ${adminsHTML}
+    ${vatHTML}
+    ${caenAuthHTML}
+    <div id="caen-desc-inline"></div>
+    ${finHTML}
+  </div>`;
+}
+
+function fmt(n) {
+  if (!n && n !== 0) return '—';
+  const s = n < 0 ? '-' : '', a = Math.abs(n);
+  if (a >= 1e9) return s + (a/1e9).toFixed(2) + ' Mld';
+  if (a >= 1e6) return s + (a/1e6).toFixed(2) + ' M RON';
+  if (a >= 1e3) return s + (a/1e3).toFixed(0) + ' K RON';
+  return s + a.toLocaleString('ro-RO') + ' RON';
+}
+function fmtK(n){
+  var a=Math.abs(n),s=n<0?'-':'';
+  if(a>=1e9)return s+(a/1e9).toFixed(1)+'Mld';
+  if(a>=1e6)return s+(a/1e6).toFixed(2)+'M';
+  if(a>=1e3)return s+(a/1e3).toFixed(0)+'K';
+  return s+Math.round(a);
+}
+function finChart(sorted,ind){
+  var data=[...sorted].reverse();
+  if(data.length<2)return '';
+  var W=560,H=140,PL=52,PR=12,PT=12,PB=26,cw=W-PL-PR,ch=H-PT-PB;
+  var cas=data.map(function(yr){return ind(yr,'I13');}),prf=data.map(function(yr){return ind(yr,'I18')-ind(yr,'I19');});
+  var all=cas.concat(prf),minV=Math.min.apply(null,[0].concat(all)),maxV=Math.max.apply(null,all),range=maxV-minV||1;
+  function sx(i){return PL+(i/(data.length-1))*cw;}
+  function sy(v){return PT+ch-((v-minV)/range)*ch;}
+  function pts(arr){return data.map(function(_,i){return sx(i)+','+sy(arr[i]);}).join(' ');}
+  var ticks=[],tN=4;for(var ti=0;ti<tN;ti++)ticks.push(minV+(range/(tN-1))*ti);
+  var gl=ticks.map(function(t){return '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(t)+'" y2="'+sy(t)+'" stroke="rgba(184,149,84,.12)" stroke-width="1"/><text x="'+(PL-4)+'" y="'+(sy(t)+3.5)+'" text-anchor="end" font-size="8.5" fill="rgba(245,240,232,.35)">'+fmtK(t)+'</text>';}).join('');
+  var zl=minV<0?'<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(0)+'" y2="'+sy(0)+'" stroke="rgba(245,240,232,.18)" stroke-width="1" stroke-dasharray="3,3"/>':'';
+  var dots=data.map(function(yr,i){return '<circle cx="'+sx(i)+'" cy="'+sy(cas[i])+'" r="3" fill="#c8a96e"/><circle cx="'+sx(i)+'" cy="'+sy(prf[i])+'" r="2.5" fill="#4ade80"/><text x="'+sx(i)+'" y="'+(H-4)+'" text-anchor="middle" font-size="8.5" fill="rgba(245,240,232,.45)">'+yr.year+'</text>';}).join('');
+  return '<div style="padding:.3rem 1.2rem .7rem"><div style="font-size:.57rem;letter-spacing:.13em;text-transform:uppercase;color:#c8a96e;margin-bottom:.5rem">Evolutie CA &amp; Profit Net</div><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;overflow:visible">'+gl+zl+'<polyline points="'+pts(cas)+'" fill="none" stroke="#c8a96e" stroke-width="2" stroke-linejoin="round"/><polyline points="'+pts(prf)+'" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linejoin="round" stroke-dasharray="4,2"/>'+dots+'<line x1="'+PL+'" x2="'+PL+'" y1="'+PT+'" y2="'+(H-PB)+'" stroke="rgba(184,149,84,.18)" stroke-width="1"/></svg><div style="display:flex;gap:1rem;margin-top:.35rem"><span style="font-size:.6rem;color:rgba(245,240,232,.48)"><span style="color:#c8a96e">&mdash;</span> Cifra afaceri</span><span style="font-size:.6rem;color:rgba(245,240,232,.48)"><span style="color:#4ade80">&mdash;</span> Profit net</span></div></div>';
+}
+// ══ SEARCH ════════════════════════════════════════════════════
+async function doSearch() {
+  const q = document.getElementById('sr-inp').value.trim();
+  if (q.length < 2) { setOut('sr','<div class="msg">Introduceți minim 2 caractere.</div>'); return; }
+  const limit = document.getElementById('sr-limit').value;
+  document.getElementById('sr-btn').disabled = true;
+  loading('sr', `Se caută „${q}"…`);
+  try {
+    const data = await api(`/search?q=${encodeURIComponent(q)}&limit=${limit}`);
+    const list = Array.isArray(data) ? data : (data.results || []);
+    if (!list.length) { setOut('sr','<div class="msg">Niciun rezultat pentru „'+q+'".</div>'); return; }
+    setOut('sr', `
+      <p style="font-size:.68rem;color:var(--mu);margin-bottom:.72rem">${list.length} rezultate</p>
+      <div class="sr-list">
+        ${list.map(c => {
+          const name = c.name || '—';
+          const cui  = c.cui || '—';
+          const loc  = [c.locality, c.county].filter(Boolean).join(', ');
+          const st   = c.statusLabel || '';
+          const ins  = c.isInsolvent ? ' <span class="b b-off" style="font-size:.54rem">Insolvență</span>' : '';
+          const stBadge = st && !/funcți/i.test(st) ? ` <span class="b b-warn" style="font-size:.54rem">${st}</span>` : '';
+          return `<div class="sr" onclick="goToCUI('${cui}')">
+            <div style="flex:1">
+              <div class="sr-name">${name}${ins}${stBadge}</div>
+              <div class="sr-sub">CUI ${cui}${loc ? ' · ' + loc : ''}${c.legalForm ? ' · ' + c.legalForm : ''}</div>
+            </div>
+            <div style="color:var(--mu);font-size:1rem">›</div>
+          </div>`;
+        }).join('')}
+      </div>`);
+  } catch(e) {
+    setOut('sr', `<div class="msg err">Eroare: ${e.message}</div>`);
+  } finally { document.getElementById('sr-btn').disabled = false; }
+}
+
+function goToCUI(cui) {
+  document.getElementById('cui-inp').value = String(cui);
+  showTab('cui', document.querySelector('.tab'));
+  doCUI();
+}
+
+// ══ CALENDAR ══════════════════════════════════════════════════
+const MO=['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
+let cY = new Date().getFullYear(), cM = new Date().getMonth();
+const TC = {
+  tva:       {fg:'#3b82f6', lbl:'TVA'},
+  impozit:   {fg:'#f59e0b', lbl:'Impozit'},
+  social:    {fg:'#a855f7', lbl:'Contribuții'},
+  anual:     {fg:'#22c55e', lbl:'Anual'},
+  declarativ:{fg:'#14b8a6', lbl:'Declarativ'},
+};
+
+function getDL(y,m) {
+  const m1 = m+1, isQ = [1,4,7,10].includes(m1);
+  const all = [], a = (day,title,desc,type) => all.push({day,title,desc,type});
+
+  a(25,'D112 — Salarii și contribuții','CAS, CASS, impozit salariu — luna precedentă.','social');
+  a(25,'D100 — Impozit reținut la sursă','Dividende, chirii, drepturi de autor, comisioane.','impozit');
+  a(25,'D300 — Decont TVA (lunar)','TVA de plată sau de recuperat — plătitori lunari.','tva');
+  a(25,'D406 — SAF-T (mari contribuabili)','Fișier standard de control fiscal.','declarativ');
+
+  if(isQ){
+    a(25,'D300 — Decont TVA (trimestrial)','TVA trimestrial — plătitori cu perioadă trimestrială.','tva');
+    a(25,'D390 — TVA intracomunitar','Livrări și achiziții intracomunitare — trimestrul precedent.','tva');
+    a(25,'D101 / D700 — Impozit profit / micro','Plată anticipată trimestrială.','impozit');
+    a(25,'D394 — Declarație informativă','Livrări/achiziții pe teritoriul național — trim. precedent.','tva');
+  }
+  if(m1===1)  a(25,'D205 — Impozit reținut anual','Declarație anuală impozit reținut la sursă.','anual');
+  if(m1===2)  a(28,'D207 — Venituri externe PF','Venituri din surse externe — persoane fizice rezidente.','anual');
+  if(m1===3) {
+    a(25,'D101 — Impozit pe profit anual','Declarație finală + diferența de plată — an precedent.','anual');
+    a(31,'Situații financiare anuale','Bilanț + cont profit/pierdere — Ministerul Finanțelor.','anual');
+  }
+  if(m1===5) {
+    a(25,'D200 / D212 — Declarație unică PF','Venituri din activități independente, chirii, investiții.','anual');
+    a(25,'D204 — Entități asociative','Asocieri fără personalitate juridică, co-titulari.','declarativ');
+  }
+  if(m1===6)  a(25,'Plată anticipată impozit PF — tranșa 1','Prima tranșă din plăți anticipate impozit venit.','impozit');
+  if(m1===9)  a(25,'D406 SAF-T — contribuabili mijlocii','Extindere obligație SAF-T.','declarativ');
+  if(m1===12) a(31,'Inventariere anuală patrimoniu','Inventarierea activelor, datoriilor și capitalurilor.','anual');
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  return all.sort((a,b)=>a.day-b.day).map(d => {
+    const dl   = new Date(y,m,d.day);
+    const diff = Math.ceil((dl-today)/86400000);
+    const urg  = diff < 0 ? 'past' : diff <= 4 ? 'urg' : diff <= 12 ? 'soon' : 'done';
+    return {...d, diff, urg};
+  });
+}
+
+function renderCal() {
+  document.getElementById('cal-lbl').textContent = MO[cM]+' '+cY;
+  const dl = getDL(cY,cM);
+  document.getElementById('dl-list').innerHTML = !dl.length
+    ? '<div class="msg">Nicio scadență identificată.</div>'
+    : dl.map(d => {
+        const t = TC[d.type] || TC.impozit;
+        const dz = d.urg !== 'past'
+          ? `<span class="dl-dz" style="color:${d.urg==='urg'?'var(--err)':d.urg==='soon'?'var(--warn)':'var(--ok)'}">${d.diff===0?'AZI':d.diff+'z'}</span>` : '';
+        return `<div class="dl ${d.urg}">
+          <div class="dl-d"><div class="dl-day">${d.day}</div><div class="dl-mo">${MO[cM].slice(0,3)}</div></div>
+          <div class="dl-body"><div class="dl-title">${d.title}</div><div class="dl-desc">${d.desc}</div></div>
+          <div class="dl-meta"><span class="b" style="background:${t.fg}18;color:${t.fg};border:1px solid ${t.fg}30">${t.lbl}</span>${dz}</div>
+        </div>`;
+      }).join('');
+}
+function moveMo(d){cM+=d;if(cM>11){cM=0;cY++;}if(cM<0){cM=11;cY--;}renderCal();}
+function goNow(){cY=new Date().getFullYear();cM=new Date().getMonth();renderCal();}
+
+// ══ CAEN ══════════════════════════════════════════════════════
+async function showCaenDesc(code){
+  var el=document.getElementById('caen-desc-inline');
+  if(!el)return;
+  // Toggle: daca e deja deschis cu acelasi cod, inchide
+  if(el.dataset.code===String(code)&&el.innerHTML!==''){el.innerHTML='';el.dataset.code='';return;}
+  el.innerHTML='<div class="loading"><div class="spin"></div>Se incarca...</div>';
+  el.dataset.code=String(code);
+  try{
+    const d=await api('/caen?q='+encodeURIComponent(code));
+    const list=Array.isArray(d)?d:(d.items||d.results||[]);
+    const item=list.find(x=>(x.code||x.cod||'').toString()===String(code))||list[0];
+    if(!item){el.innerHTML='';return;}
+    const name=item.name||item.denumire||item.description||'';
+    const sec=item.section||item.sec||'';
+    el.innerHTML='<div style="margin:.3rem 0 0;padding:.75rem 1.2rem 1rem;background:var(--ink3);border-left:2px solid var(--gold);">'+
+      '<div style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem">CAEN '+code+(sec?' &mdash; Sec. '+sec:'')+'</div>'+
+      '<div style="font-size:.9rem;color:var(--cream);line-height:1.6">'+name+'</div>'+
+    '</div>';
+  }catch(e){el.innerHTML='';}
+}
+async function doCAEN() {
+  const q = document.getElementById('caen-inp').value.trim();
+  if (!q) { setOut('caen','<div class="msg">Introduceți un cod sau termen.</div>'); return; }
+  loading('caen','Se caută în CAEN Rev.2…');
+  try {
+    const d = await api(`/caen?q=${encodeURIComponent(q)}`);
+    const list = Array.isArray(d) ? d : (d.items || d.results || []);
+    if (!list.length) { setOut('caen','<div class="msg">Niciun cod CAEN găsit.</div>'); return; }
+    setOut('caen', `
+      <p style="font-size:.68rem;color:var(--mu);margin-bottom:.68rem">${list.length} coduri</p>
+      <div class="caen-list">
+        ${list.map(c => `<div class="caen-it">
+          <div class="caen-code">${c.code||c.cod||''}</div>
+          <div class="caen-name">${c.name||c.denumire||c.description||''}</div>
+          ${c.section||c.sec?`<div class="caen-sec">Secțiunea ${c.section||c.sec}</div>`:''}
+        </div>`).join('')}
+      </div>`);
+  } catch(e) { setOut('caen',`<div class="msg err">${e.message}</div>`); }
+}
+
+// ══ PERSOANE ══════════════════════════════════════════════════
+let pplTimer = null;
+function doPeopleDebounce() {
+  clearTimeout(pplTimer);
+  const q = document.getElementById('ppl-inp').value.trim();
+  if (q.length < 3) { setOut('ppl',''); return; }
+  pplTimer = setTimeout(doPeople, 380);
+}
+
+async function doPeople() {
+  const q = document.getElementById('ppl-inp').value.trim();
+  if (q.length < 3) { setOut('ppl','<div class="msg">Introduceți minim 3 caractere.</div>'); return; }
+  loading('ppl', `Se caută persoane pentru „${q}"…`);
+  try {
+    const data = await api(`/search/people?q=${encodeURIComponent(q)}&limit=20`);
+    const list = Array.isArray(data) ? data : (data.results || []);
+    if (!list.length) {
+      setOut('ppl', `<div class="msg">Niciun rezultat pentru „${q}".</div>`); return;
+    }
+    const totalAssoc = list.reduce((s, p) => s + (p.companies||[]).length, 0);
+    setOut('ppl', `
+      <p style="font-size:.68rem;color:var(--mu);margin-bottom:.85rem">
+        ${list.length} ${list.length===1?'persoană':'persoane'} · ${totalAssoc} asocieri în firme
+      </p>
+      <div style="display:flex;flex-direction:column;gap:.65rem">
+        ${list.map(p => renderPerson(p)).join('')}
+      </div>
+    `);
+  } catch(e) {
+    setOut('ppl', `<div class="msg err">Eroare: ${e.message}</div>`);
+  }
+}
+
+function renderPerson(p) {
+  const name = p.name || '—';
+  const init = name.split(/\s+/).map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+  const cos  = p.companies || [];
+  const show = cos.slice(0, 3);
+  const more = cos.length - show.length;
+
+  const meta = [p.birthDate, p.birthPlace].filter(Boolean).join(' · ');
+
+  return `<div class="card">
+    <div style="padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:.9rem">
+      <div class="adm-av" style="width:36px;height:36px;font-size:.95rem;flex-shrink:0;margin-top:.1rem">${init}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.2rem">
+          <span style="font-size:.95rem;color:var(--cream);font-weight:400">${name}</span>
+          <span class="b b-gold">${cos.length} ${cos.length===1?'firmă':'firme'}</span>
+        </div>
+        ${meta ? `<div style="font-size:.68rem;color:var(--mu2);margin-bottom:.75rem">${meta}</div>` : '<div style="margin-bottom:.65rem"></div>'}
+        <div style="display:flex;flex-direction:column;gap:.32rem">
+          ${show.map(c => `
+            <div onclick="goToCUI('${c.companyCui}')"
+                 style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem .8rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px;cursor:pointer;transition:border-color .2s"
+                 onmouseover="this.style.borderColor='rgba(184,149,84,.32)'" onmouseout="this.style.borderColor='var(--bd2)'">
+              <div style="min-width:0">
+                <div style="font-size:.82rem;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.companyName || '—'}</div>
+                <div style="font-size:.65rem;color:var(--mu)">CUI ${c.companyCui}${c.county ? ' · ' + c.county : ''}</div>
+              </div>
+              <span class="b b-purple" style="flex-shrink:0">${c.role || 'administrator'}</span>
+            </div>`).join('')}
+          ${more > 0 ? `
+            <div style="font-size:.7rem;color:var(--mu);padding:.35rem .8rem;text-align:center;cursor:pointer;border:1px dashed var(--bd2);border-radius:2px"
+                 onclick="expandPerson(this, '${encodeURIComponent(JSON.stringify(cos))}')">
+              + ${more} ${more===1?'firmă':'firme'} — arată tot
+            </div>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function expandPerson(el, encoded) {
+  const cos = JSON.parse(decodeURIComponent(encoded));
+  el.parentElement.innerHTML = cos.map(c => `
+    <div onclick="goToCUI('${c.companyCui}')"
+         style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem .8rem;background:var(--ink3);border:1px solid var(--bd2);border-radius:2px;cursor:pointer;transition:border-color .2s"
+         onmouseover="this.style.borderColor='rgba(184,149,84,.32)'" onmouseout="this.style.borderColor='var(--bd2)'">
+      <div style="min-width:0">
+        <div style="font-size:.82rem;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.companyName || '—'}</div>
+        <div style="font-size:.65rem;color:var(--mu)">CUI ${c.companyCui}${c.county ? ' · ' + c.county : ''}</div>
+      </div>
+      <span class="b b-purple" style="flex-shrink:0">${c.role || 'administrator'}</span>
+    </div>`).join('');
+}
+
+
+function confirmReset() {
+  const modal = document.createElement('div');
+  modal.id='reset-modal';modal.style.cssText = 'position:fixed;inset:0;background:rgba(13,10,8,.88);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)';
+  modal.innerHTML = `
+    <div style="background:var(--ink2);border:1px solid var(--bd);border-radius:3px;padding:2rem;max-width:360px;width:90%;text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:1rem">⚠</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--cream);margin-bottom:.5rem">Reset Date</div>
+      <div style="font-size:.78rem;color:var(--mu);line-height:1.7;margin-bottom:1.5rem">
+        Șterge istoricul de CUI-uri căutate (recent searches).<br>
+        Datele din ANAF și ONRC nu sunt afectate.
+      </div>
+      <div style="display:flex;gap:.75rem;justify-content:center">
+        <button onclick="doReset();document.getElementById('reset-modal').remove()"
+          style="padding:.65rem 1.5rem;background:var(--err);color:var(--cream);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer">
+          Confirmă Reset
+        </button>
+        <button onclick="this.closest('[style]').remove()"
+          style="padding:.65rem 1.2rem;background:transparent;color:var(--mu);border:1px solid var(--bd);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">
+          Anulează
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function doReset() {
+  localStorage.removeItem(RK);
+  document.getElementById('cui-rec').innerHTML = '';
+  document.getElementById('cui-inp').value = '';
+  document.getElementById('cui-out').innerHTML = '';
+  document.getElementById('ppl-inp').value = '';
+  document.getElementById('ppl-out').innerHTML = '';
+}
+
+// ── LOGIN ─────────────────────────────────────────────────────
+// Credentiale stocate ca perechi user:parola
+// Pentru a schimba parola: modifici valoarea din CREDS direct
+
+
+const SK = 'bvimm_auth_v4';
+
+function doLogin() {
+  const user = document.getElementById('l-user').value.trim().toLowerCase();
+  const pass = document.getElementById('l-pass').value;
+  const err  = document.getElementById('l-err');
+
+  if (!user || !pass) { err.textContent = 'Completați ambele câmpuri.'; return; }
+
+  if (!CREDS[user] || CREDS[user] !== pass) {
+    err.textContent = 'Credențiale incorecte.';
+    document.getElementById('l-pass').value = '';
+    document.getElementById('l-pass').focus();
+    return;
+  }
+
+  const session = { user, exp: Date.now() + 8 * 3600 * 1000 };
+  sessionStorage.setItem(SK, JSON.stringify(session));
+  showApp(user);
+}
+
+function checkSession() {
+  try {
+    const s = JSON.parse(sessionStorage.getItem(SK));
+    if (s && s.exp > Date.now()) { showApp(s.user); return; }
+  } catch {}
+}
+
+function showApp(user) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  renderRec();
+  renderCal();
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+checkSession();
+</script>
+</body>
 </html>
