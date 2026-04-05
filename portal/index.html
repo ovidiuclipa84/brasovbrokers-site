@@ -757,7 +757,7 @@ document.addEventListener('click', function(e) {
   if (!adm) return;
   var nm = adm.getAttribute('data-nm');
   if (!nm) return;
-  var fn = nm.split(/\s+/)[0];
+  var fn = nm;
   var inp = document.getElementById('ppl-inp');
   if (inp) inp.value = fn;
   document.querySelectorAll('.tab').forEach(function(t){
@@ -768,6 +768,32 @@ document.addEventListener('click', function(e) {
   window.scrollTo({top:0, behavior:'smooth'});
 });
 
+
+async function filterByBirth(encoded) {
+  const parts = decodeURIComponent(encoded).split(',');
+  const bd = parts[0];
+  const nm = parts.slice(1).join(',');
+  const inp = document.getElementById('ppl-inp');
+  if (inp) inp.value = nm;
+  loading('ppl', 'Se cauta persoana...');
+  try {
+    const data = await api(`/search/people?q=${encodeURIComponent(nm)}&limit=50`);
+    const list = Array.isArray(data) ? data : (data.results || []);
+    const exact = list.filter(p => p.birthDate === bd);
+    const show = exact.length ? exact : list;
+    if (!show.length) { setOut('ppl', '<div class="msg">Persoana negasita.</div>'); return; }
+    const totalAssoc = show.reduce((s,p) => s + (p.companies||[]).length, 0);
+    setOut('ppl', `
+      <p style="font-size:.68rem;color:var(--mu);margin-bottom:.85rem">
+        ${show.length} ${show.length===1?'persoana':'persoane'} &middot; ${totalAssoc} asocieri
+        ${exact.length ? '<span style="color:var(--gold)"> &middot; filtrat exact</span>' : ''}
+      </p>
+      <div style="display:flex;flex-direction:column;gap:.65rem">
+        ${show.map(p => renderPerson(p)).join('')}
+      </div>
+    `);
+  } catch(e) { setOut('ppl', `<div class="msg err">${e.message}</div>`); }
+}
 function doPeopleDebounce() {
   clearTimeout(pplTimer);
   const q = document.getElementById('ppl-inp').value.trim();
@@ -816,7 +842,7 @@ function renderPerson(p) {
           <span style="font-size:.95rem;color:var(--cream);font-weight:400">${name}</span>
           <span class="b b-gold">${cos.length} ${cos.length===1?'firmă':'firme'}</span>
         </div>
-        ${meta ? `<div style="font-size:.68rem;color:var(--mu2);margin-bottom:.75rem">${meta}</div>` : '<div style="margin-bottom:.65rem"></div>'}
+        ${p.birthDate ? `<div style="font-size:.68rem;color:var(--mu);margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem">`<span class="b b-gold" onclick="filterByBirth('${encodeURIComponent(p.birthDate)},${encodeURIComponent(p.name)}')`" title="Filtreaza exact aceasta persoana" style="cursor:pointer">`${p.birthDate}</span>`${p.birthPlace ? `<span style="color:var(--mu2)">&middot; ${p.birthPlace}</span>` : ""}`</div>` : '<div style="margin-bottom:.65rem"></div>'}
         <div style="display:flex;flex-direction:column;gap:.32rem">
           ${show.map(c => `
             <div onclick="goToCUI('${c.companyCui}')"
