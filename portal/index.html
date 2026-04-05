@@ -757,7 +757,7 @@ document.addEventListener('click', function(e) {
   if (!adm) return;
   var nm = adm.getAttribute('data-nm');
   if (!nm) return;
-  var fn = nm.split(/\s+/)[0];  // primul cuvant - evita mismatch cu cratima
+  var fn = nm;  // nume complet
   var inp = document.getElementById('ppl-inp');
   if (inp) inp.value = fn;
   document.querySelectorAll('.tab').forEach(function(t){
@@ -774,7 +774,7 @@ async function filterExact(bd, nm) {
   document.getElementById('ppl-inp').value = nm;
   loading('ppl', 'Se cauta persoana exacta...');
   try {
-    var q = nm.split(/\s+/)[0];  // primul cuvant evita mismatch cratima
+    var q = nm;  // nume complet - PHP spliteaza corect pe spatiu si cratima
   document.getElementById('ppl-inp').value = q;
   const data = await api('/search/people?q=' + encodeURIComponent(q) + '&limit=200');
     const list = Array.isArray(data) ? data : (data.results || []);
