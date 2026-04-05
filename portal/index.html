@@ -276,7 +276,7 @@
     <div class="bnr-sep"></div>
     <div class="bnr-pair"><div class="bnr-lbl">USD / RON</div><div class="bnr-val" id="bnr-usd">-</div></div>
     <div class="bnr-sep"></div>
-    <div class="bnr-pair"><div class="bnr-lbl">XDR / RON</div><div class="bnr-val" id="bnr-xdr">-</div></div>
+    <div class="bnr-pair"><div class="bnr-lbl">XAU / RON</div><div class="bnr-val" id="bnr-xau">-</div></div>
     <div class="bnr-date" id="bnr-date"></div>
   </div>
   <div id="cui-rec"></div>
@@ -365,7 +365,7 @@ async function loadBNR(){
     const rates=d.data;
     if(rates.EUR)document.getElementById('bnr-eur').textContent=rates.EUR;
     if(rates.USD)document.getElementById('bnr-usd').textContent=rates.USD;
-    if(rates.XDR)document.getElementById('bnr-xdr').textContent=rates.XDR;
+    if(rates.XDR)document.getElementById('bnr-xau').textContent=rates.XDR;
     if(rates.date)document.getElementById('bnr-date').textContent='BNR '+rates.date;
   }catch(e){}
 }
