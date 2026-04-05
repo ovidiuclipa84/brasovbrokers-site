@@ -494,7 +494,7 @@ function renderCompany(d, fin) {
       <div class="ch">CAEN Autorizate (${caenAuth.length})</div>
       <div style="padding:.6rem 1.1rem">
         <div style="display:flex;flex-wrap:wrap;gap:.3rem">
-          ${caenAuth.map(c => `<span class="b b-gold" style="font-size:.62rem;font-family:'Cormorant Garamond',serif;font-size:.82rem">${c}</span>`).join('')}
+          ${caenAuth.map(c => `<span class="b b-gold" style="font-size:.82rem;font-family:'Cormorant Garamond',serif;cursor:pointer;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" onclick="showCaenDesc('${c}')">${c}</span>`).join('')}
         </div>
       </div>`;
   }
@@ -550,6 +550,7 @@ function renderCompany(d, fin) {
     ${adminsHTML}
     ${vatHTML}
     ${caenAuthHTML}
+    <div id="caen-desc-inline"></div>
     ${finHTML}
   </div>`;
 }
@@ -694,6 +695,26 @@ function moveMo(d){cM+=d;if(cM>11){cM=0;cY++;}if(cM<0){cM=11;cY--;}renderCal();}
 function goNow(){cY=new Date().getFullYear();cM=new Date().getMonth();renderCal();}
 
 // ══ CAEN ══════════════════════════════════════════════════════
+async function showCaenDesc(code){
+  var el=document.getElementById('caen-desc-inline');
+  if(!el)return;
+  // Toggle: daca e deja deschis cu acelasi cod, inchide
+  if(el.dataset.code===String(code)&&el.innerHTML!==''){el.innerHTML='';el.dataset.code='';return;}
+  el.innerHTML='<div class="loading"><div class="spin"></div>Se incarca...</div>';
+  el.dataset.code=String(code);
+  try{
+    const d=await api('/caen?q='+encodeURIComponent(code));
+    const list=Array.isArray(d)?d:(d.items||d.results||[]);
+    const item=list.find(x=>(x.code||x.cod||'').toString()===String(code))||list[0];
+    if(!item){el.innerHTML='';return;}
+    const name=item.name||item.denumire||item.description||'';
+    const sec=item.section||item.sec||'';
+    el.innerHTML='<div style="margin:.3rem 0 0;padding:.75rem 1.2rem 1rem;background:var(--ink3);border-left:2px solid var(--gold);">'+
+      '<div style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem">CAEN '+code+(sec?' &mdash; Sec. '+sec:'')+'</div>'+
+      '<div style="font-size:.9rem;color:var(--cream);line-height:1.6">'+name+'</div>'+
+    '</div>';
+  }catch(e){el.innerHTML='';}
+}
 async function doCAEN() {
   const q = document.getElementById('caen-inp').value.trim();
   if (!q) { setOut('caen','<div class="msg">Introduceți un cod sau termen.</div>'); return; }
