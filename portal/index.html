@@ -30,7 +30,7 @@
       --teal:   #14b8a6;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{font-size:15px;scroll-behavior:smooth}
+    html{font-size:16px;scroll-behavior:smooth}
     body{background:var(--ink);color:var(--cream);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.65;min-height:100vh}
     ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--wine);border-radius:3px}
 
@@ -38,12 +38,12 @@
     header{position:sticky;top:0;z-index:200;background:rgba(13,10,8,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
     .hdr{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:0 1.5rem;height:52px}
     .logo{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:500;color:var(--gold);letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
-    .logo em{font-style:normal;color:var(--mu);font-size:.7rem;font-family:'DM Sans',sans-serif;margin-left:.35rem}
+    .logo em{font-style:normal;color:var(--mu);font-size:.75rem;font-family:'DM Sans',sans-serif;margin-left:.35rem}
     .logo-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);margin-left:.5rem;animation:pulse 2.5s ease-in-out infinite;flex-shrink:0}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
     nav{display:flex;overflow-x:auto;scrollbar-width:none;flex:1;justify-content:flex-end}
     nav::-webkit-scrollbar{display:none}
-    .tab{height:52px;padding:0 .85rem;display:flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0}
+    .tab{height:52px;padding:0 .85rem;display:flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0}
     .tab svg{opacity:.45;transition:opacity .2s}
     .tab:hover{color:var(--cream)}.tab:hover svg{opacity:.75}
     .tab.active{color:var(--gold);border-bottom-color:var(--gold)}.tab.active svg{opacity:1}
@@ -53,14 +53,14 @@
     .sec{display:none;animation:fi .28s ease}
     .sec.active{display:block}
     @keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-    .eyebrow{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+    .eyebrow{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
     .eyebrow::before{content:'';width:18px;height:1px;background:var(--gold);flex-shrink:0}
     h1.pgt{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:400;color:var(--cream);margin-bottom:.35rem;line-height:1.15}
-    .pgs{font-size:.8rem;color:var(--mu);margin-bottom:2rem}
+    .pgs{font-size:.87rem;color:var(--mu);line-height:1.75;margin-bottom:2rem}
 
     /* CARDS */
     .card{background:var(--ink2);border:1px solid var(--bd);border-radius:3px}
-    .ch{padding:.68rem 1.2rem;border-bottom:1px solid var(--bd);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);display:flex;align-items:center;gap:.45rem}
+    .ch{padding:.68rem 1.2rem;border-bottom:1px solid var(--bd);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);display:flex;align-items:center;gap:.45rem}
 
     /* INPUTS */
     .row{display:flex;gap:.55rem;margin-bottom:1.5rem;flex-wrap:wrap}
@@ -68,14 +68,14 @@
     .inp::placeholder{color:var(--mu2)}.inp:focus{border-color:var(--gold)}
     .inp-grow{flex:1;min-width:200px}
     select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23c8a96e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center;padding-right:2rem}
-    .btn{padding:.7rem 1.4rem;background:var(--wine);color:var(--cream);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.63rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap;flex-shrink:0}
+    .btn{padding:.7rem 1.4rem;background:var(--wine);color:var(--cream);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap;flex-shrink:0}
     .btn:hover{background:var(--wine2)}.btn:disabled{opacity:.38;cursor:not-allowed}
     .btn-ghost{background:transparent;border:1px solid var(--bd);color:var(--mu)}
     .btn-ghost:hover{background:transparent;border-color:var(--gold);color:var(--gold)}
-    .btn-sm{padding:.5rem .9rem;font-size:.6rem}
+    .btn-sm{padding:.5rem .9rem;font-size:.68rem}
 
     /* BADGES */
-    .b{display:inline-flex;align-items:center;padding:.17rem .55rem;border-radius:2px;font-size:.57rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+    .b{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:2px;font-size:.65rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
     .b-ok    {background:rgba(34,197,94,.11);color:var(--ok);border:1px solid rgba(34,197,94,.2)}
     .b-off   {background:rgba(239,68,68,.11);color:var(--err);border:1px solid rgba(239,68,68,.2)}
     .b-gold  {background:rgba(200,169,110,.1);color:var(--gold);border:1px solid var(--bd)}
@@ -85,7 +85,7 @@
     .b-warn  {background:rgba(245,158,11,.11);color:var(--warn);border:1px solid rgba(245,158,11,.2)}
 
     /* STATES */
-    .loading{display:flex;align-items:center;gap:.65rem;padding:2.5rem;justify-content:center;color:var(--mu);font-size:.8rem}
+    .loading{display:flex;align-items:center;gap:.65rem;padding:2.5rem;justify-content:center;color:var(--mu);font-size:.87rem}
     .spin{width:15px;height:15px;border:2px solid var(--bd);border-top-color:var(--gold);border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
     @keyframes spin{to{transform:rotate(360deg)}}
     .msg{padding:1.4rem;border:1px solid var(--bd);border-radius:3px;background:var(--ink2);font-size:.8rem;color:var(--mu);text-align:center;line-height:1.75}
