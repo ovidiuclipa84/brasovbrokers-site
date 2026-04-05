@@ -774,7 +774,9 @@ async function filterExact(bd, nm) {
   document.getElementById('ppl-inp').value = nm;
   loading('ppl', 'Se cauta persoana exacta...');
   try {
-    const data = await api('/search/people?q=' + encodeURIComponent(nm) + '&limit=50');
+    var q = nm.split(/\s+/)[0];  // primul cuvant evita mismatch cratima
+  document.getElementById('ppl-inp').value = q;
+  const data = await api('/search/people?q=' + encodeURIComponent(q) + '&limit=50');
     const list = Array.isArray(data) ? data : (data.results || []);
     const exact = list.filter(function(p) { return p.birthDate === bd; });
     const show = exact.length ? exact : list;
