@@ -757,7 +757,7 @@ document.addEventListener('click', function(e) {
   if (!adm) return;
   var nm = adm.getAttribute('data-nm');
   if (!nm) return;
-  var fn = nm.split(/\s+/)[0];
+  var fn = nm;
   var inp = document.getElementById('ppl-inp');
   if (inp) inp.value = fn;
   document.querySelectorAll('.tab').forEach(function(t){
@@ -768,6 +768,22 @@ document.addEventListener('click', function(e) {
   window.scrollTo({top:0, behavior:'smooth'});
 });
 
+
+async function filterExact(bd, nm) {
+  if (!bd || !nm) return;
+  document.getElementById('ppl-inp').value = nm;
+  loading('ppl', 'Se cauta persoana exacta...');
+  try {
+    const data = await api('/search/people?q=' + encodeURIComponent(nm) + '&limit=50');
+    const list = Array.isArray(data) ? data : (data.results || []);
+    const exact = list.filter(function(p) { return p.birthDate === bd; });
+    const show = exact.length ? exact : list;
+    if (!show.length) { setOut('ppl', '<div class="msg">Persoana negasita.</div>'); return; }
+    const tot = show.reduce(function(s,p){return s+(p.companies||[]).length;},0);
+    const badge = exact.length ? ' <span style="color:var(--gold)">&middot; filtrat exact</span>' : '';
+    setOut('ppl', '<p style="font-size:.68rem;color:var(--mu);margin-bottom:.85rem">' + show.length + ' persoane &middot; ' + tot + ' asocieri' + badge + '</p><div style="display:flex;flex-direction:column;gap:.65rem">' + show.map(function(p){return renderPerson(p);}).join('') + '</div>');
+  } catch(e) { setOut('ppl', '<div class="msg err">' + e.message + '</div>'); }
+}
 function doPeopleDebounce() {
   clearTimeout(pplTimer);
   const q = document.getElementById('ppl-inp').value.trim();
@@ -806,7 +822,9 @@ function renderPerson(p) {
   const show = cos.slice(0, 3);
   const more = cos.length - show.length;
 
-  const meta = [p.birthDate, p.birthPlace].filter(Boolean).join(' · ');
+  const meta = p.birthDate || '';
+const birthBadge = p.birthDate ? `<span class="b b-gold" style="cursor:pointer" onclick="filterExact('${encodeURIComponent(p.birthDate+','+p.name)}')" title="Filtreaza exact">${p.birthDate}</span>` : '';
+const birthPlace = p.birthPlace ? `<span style="color:var(--mu2)">&middot; ${p.birthPlace}</span>` : '';
 
   return `<div class="card">
     <div style="padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:.9rem">
@@ -816,7 +834,7 @@ function renderPerson(p) {
           <span style="font-size:.95rem;color:var(--cream);font-weight:400">${name}</span>
           <span class="b b-gold">${cos.length} ${cos.length===1?'firmă':'firme'}</span>
         </div>
-        ${meta ? `<div style="font-size:.68rem;color:var(--mu2);margin-bottom:.75rem">${meta}</div>` : '<div style="margin-bottom:.65rem"></div>'}
+        ${meta ? `<div class="birth-badge" data-bd="${p.birthDate}" data-bname="${p.name}" style="font-size:.68rem;color:var(--mu);margin-bottom:.65rem;cursor:pointer" onclick="filterExact(this.dataset.bd,this.dataset.bname)" title="Filtreaza exact aceasta persoana">${meta}</div>` : '<div style="margin-bottom:.65rem"></div>'}
         <div style="display:flex;flex-direction:column;gap:.32rem">
           ${show.map(c => `
             <div onclick="goToCUI('${c.companyCui}')"
