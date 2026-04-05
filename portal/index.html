@@ -119,6 +119,12 @@
     .fin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;padding:.9rem}
     .fin-yr{background:var(--ink3);border:1px solid var(--bd);border-radius:3px;padding:.85rem}
     .fin-hd{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;justify-content:space-between;align-items:center}
+    .bnr-widget{display:flex;gap:1.2rem;align-items:center;padding:.55rem 1rem;background:var(--ink3);border:1px solid var(--bd);border-radius:3px;margin-bottom:.9rem;flex-wrap:wrap}
+    .bnr-lbl{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.1rem}
+    .bnr-val{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--cream);font-weight:400;line-height:1}
+    .bnr-pair{text-align:center}
+    .bnr-sep{width:1px;height:28px;background:var(--bd);flex-shrink:0}
+    .bnr-date{font-size:.58rem;color:var(--mu2);margin-left:auto;white-space:nowrap;align-self:center}
     .fin-row{display:flex;justify-content:space-between;align-items:baseline;padding:.26rem 0;border-bottom:1px solid var(--bd2);font-size:.73rem}
     .fin-row:last-child{border:none}
     .fin-lbl{color:var(--mu)}
@@ -265,6 +271,14 @@
   <div class="eyebrow">ANAF — Registrul Contribuabililor</div>
   <h1 class="pgt">Verificare Firmă</h1>
   <p class="pgs">Stare fiscală, TVA, adresă, administratori și date financiare pe 5 ani.</p>
+  <div class="bnr-widget" id="bnr-widget">
+    <div class="bnr-pair"><div class="bnr-lbl">EUR / RON</div><div class="bnr-val" id="bnr-eur">-</div></div>
+    <div class="bnr-sep"></div>
+    <div class="bnr-pair"><div class="bnr-lbl">USD / RON</div><div class="bnr-val" id="bnr-usd">-</div></div>
+    <div class="bnr-sep"></div>
+    <div class="bnr-pair"><div class="bnr-lbl">XDR / RON</div><div class="bnr-val" id="bnr-xdr">-</div></div>
+    <div class="bnr-date" id="bnr-date"></div>
+  </div>
   <div id="cui-rec"></div>
   <div class="row">
     <input class="inp inp-grow" id="cui-inp" placeholder="CUI sau cod fiscal"
@@ -343,6 +357,19 @@
 </div>
 
 <script>
+async function loadBNR(){
+  try{
+    const r=await fetch('https://portal-fiscal-brasov-brokers.ovidiu-clipa.workers.dev/api/bnr');
+    const d=await r.json();
+    if(!d.success)return;
+    const rates=d.data;
+    if(rates.EUR)document.getElementById('bnr-eur').textContent=rates.EUR;
+    if(rates.USD)document.getElementById('bnr-usd').textContent=rates.USD;
+    if(rates.XDR)document.getElementById('bnr-xdr').textContent=rates.XDR;
+    if(rates.date)document.getElementById('bnr-date').textContent='BNR '+rates.date;
+  }catch(e){}
+}
+loadBNR();
 function doLogout(){
   var TK='bvimm_token_v1';
   var d=JSON.parse(localStorage.getItem(TK)||'{}');
