@@ -776,10 +776,14 @@ async function filterExact(bd, nm) {
   try {
     var q = nm.split(/\s+/)[0];  // primul cuvant evita mismatch cratima
   document.getElementById('ppl-inp').value = q;
-  const data = await api('/search/people?q=' + encodeURIComponent(q) + '&limit=50');
+  const data = await api('/search/people?q=' + encodeURIComponent(q) + '&limit=200');
     const list = Array.isArray(data) ? data : (data.results || []);
     const exact = list.filter(function(p) { return p.birthDate === bd; });
-    const show = exact.length ? exact : list;
+    if (!exact.length) {
+      setOut('ppl', '<div class="msg">Persoana cu aceasta data nastere nu a fost gasita. Incearca cautarea manuala.</div>');
+      return;
+    }
+    const show = exact;
     if (!show.length) { setOut('ppl', '<div class="msg">Persoana negasita.</div>'); return; }
     const tot = show.reduce(function(s,p){return s+(p.companies||[]).length;},0);
     const badge = exact.length ? ' <span style="color:var(--gold)">&middot; filtrat exact</span>' : '';
