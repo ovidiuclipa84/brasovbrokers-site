@@ -757,7 +757,7 @@ document.addEventListener('click', function(e) {
   if (!adm) return;
   var nm = adm.getAttribute('data-nm');
   if (!nm) return;
-  var fn = nm;
+  var fn = nm.split(/\s+/)[0];  // primul cuvant - evita mismatch cu cratima
   var inp = document.getElementById('ppl-inp');
   if (inp) inp.value = fn;
   document.querySelectorAll('.tab').forEach(function(t){
