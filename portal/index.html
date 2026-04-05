@@ -119,7 +119,12 @@
     .fin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;padding:.9rem}
     .fin-yr{background:var(--ink3);border:1px solid var(--bd);border-radius:3px;padding:.85rem}
     .fin-hd{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;justify-content:space-between;align-items:center}
-    .bnr-widget{display:flex;gap:1.2rem;align-items:center;padding:.55rem 1rem;background:var(--ink3);border:1px solid var(--bd);border-radius:3px;margin-bottom:.9rem;flex-wrap:wrap}
+    .bnr-fixed{position:fixed;top:62px;right:1.5rem;z-index:150;display:flex;gap:1rem;align-items:center;padding:.45rem 1rem;background:rgba(15,26,46,.96);border:1px solid var(--bd);border-radius:3px;backdrop-filter:blur(8px);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+    .bnr-lbl{font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.08rem}
+    .bnr-val{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--cream);font-weight:400;line-height:1}
+    .bnr-pair{text-align:center}
+    .bnr-sep{width:1px;height:24px;background:var(--bd);flex-shrink:0}
+    .bnr-date{font-size:.52rem;color:var(--mu2);padding-left:.5rem;border-left:1px solid var(--bd);white-space:nowrap}
     .bnr-lbl{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.1rem}
     .bnr-val{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--cream);font-weight:400;line-height:1}
     .bnr-pair{text-align:center}
@@ -263,6 +268,14 @@
     <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="doLogout()" title="Iesire">Iesire</button></nav>
   </div>
 </header>
+<div class="bnr-fixed" id="bnr-widget">
+  <div class="bnr-pair"><div class="bnr-lbl">EUR/RON</div><div class="bnr-val" id="bnr-eur">-</div></div>
+  <div class="bnr-sep"></div>
+  <div class="bnr-pair"><div class="bnr-lbl">USD/RON</div><div class="bnr-val" id="bnr-usd">-</div></div>
+  <div class="bnr-sep"></div>
+  <div class="bnr-pair"><div class="bnr-lbl">XAU/RON</div><div class="bnr-val" id="bnr-xau">-</div></div>
+  <div class="bnr-date" id="bnr-date"></div>
+</div>
 
 <main>
 
@@ -271,14 +284,6 @@
   <div class="eyebrow">ANAF — Registrul Contribuabililor</div>
   <h1 class="pgt">Verificare Firmă</h1>
   <p class="pgs">Stare fiscală, TVA, adresă, administratori și date financiare pe 5 ani.</p>
-  <div class="bnr-widget" id="bnr-widget">
-    <div class="bnr-pair"><div class="bnr-lbl">EUR / RON</div><div class="bnr-val" id="bnr-eur">-</div></div>
-    <div class="bnr-sep"></div>
-    <div class="bnr-pair"><div class="bnr-lbl">USD / RON</div><div class="bnr-val" id="bnr-usd">-</div></div>
-    <div class="bnr-sep"></div>
-    <div class="bnr-pair"><div class="bnr-lbl">XAU / RON</div><div class="bnr-val" id="bnr-xau">-</div></div>
-    <div class="bnr-date" id="bnr-date"></div>
-  </div>
   <div id="cui-rec"></div>
   <div class="row">
     <input class="inp inp-grow" id="cui-inp" placeholder="CUI sau cod fiscal"
