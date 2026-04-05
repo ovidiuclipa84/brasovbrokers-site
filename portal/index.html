@@ -364,7 +364,7 @@ async function loadBNR(){
     const rates=d.data;
     if(rates.EUR)document.getElementById('bnr-eur').textContent=rates.EUR;
     if(rates.USD)document.getElementById('bnr-usd').textContent=rates.USD;
-    if(rates.XDR)document.getElementById('bnr-xau').textContent=rates.XDR;
+    if(rates.XAU)document.getElementById('bnr-xau').textContent=rates.XAU;
     if(rates.date)document.getElementById('bnr-date').textContent='BNR '+rates.date;
   }catch(e){}
 }
