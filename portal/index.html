@@ -469,7 +469,7 @@ function renderCompany(d, fin) {
         const nm   = a.name || '—';
         const init = nm.split(/\s+/).map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
         const role = (a.role || 'administrator').toLowerCase();
-        return `<div class="adm" data-nm="${nm}" style="cursor:pointer">
+        return `<div class="adm" data-nm="${nm}" data-dob="${a.birthDate||''}" style="cursor:pointer">
           <div class="adm-av">${init}</div>
           <div>
             <div class="adm-name">${nm}</div>
@@ -757,15 +757,19 @@ document.addEventListener('click', function(e) {
   if (!adm) return;
   var nm = adm.getAttribute('data-nm');
   if (!nm) return;
-  var fn = nm;  // nume complet
-  var inp = document.getElementById('ppl-inp');
-  if (inp) inp.value = fn;
+  var dob = adm.getAttribute('data-dob') || '';
   document.querySelectorAll('.tab').forEach(function(t){
     var oc = t.getAttribute('onclick') || '';
     if (oc.indexOf('people') > -1) showTab('people', t);
   });
-  setTimeout(doPeople, 80);
   window.scrollTo({top:0, behavior:'smooth'});
+  if (dob) {
+    setTimeout(function(){ filterExact(dob, nm); }, 80);
+  } else {
+    var inp = document.getElementById('ppl-inp');
+    if (inp) inp.value = nm;
+    setTimeout(doPeople, 80);
+  }
 });
 
 
