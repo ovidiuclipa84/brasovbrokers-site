@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="description" content="Broker de asigurari autorizat ASF in Brasov, parte a Grupului MIB. Solutii specializate pentru IMM-uri, CAR/EAR, D&O, Cyber Insurance si credit comercial. 21 ani experienta." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://www.google.com/recaptcha/api.js?render=6LeXh5EsAAAAAEIPHp9KByo_tOfM9F1sy_R8rTtu"></script>
+  
   <title>BV IMM Brokers – Brokeraj de Asigurări | Parte a Millenium Insurance Broker</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="shortcut icon" href="favicon.svg" />
@@ -930,6 +930,22 @@
 <script type="text/javascript" data-cmp-ab="2">
   var cForm = document.getElementById('contactForm');
   if (cForm) {
+    var RC_SITEKEY = '6LeXh5EsAAAAAEIPHp9KByo_tOfM9F1sy_R8rTtu';
+    var rcPromise = null;
+    function loadRecaptcha(){
+      if (rcPromise) return rcPromise;
+      rcPromise = new Promise(function(resolve){
+        var s = document.createElement('script');
+        s.src = 'https://www.google.com/recaptcha/api.js?render=' + RC_SITEKEY;
+        s.onload = function(){ resolve(); };
+        s.onerror = function(){ resolve(); };
+        document.head.appendChild(s);
+      });
+      return rcPromise;
+    }
+    cForm.querySelectorAll('input,select,textarea').forEach(function(el){
+      el.addEventListener('focus', loadRecaptcha, {once:true});
+    });
     cForm.addEventListener('submit', function(e) {
       e.preventDefault();
       var n=cForm.querySelector('[name=name]').value.trim();
@@ -953,8 +969,10 @@
           btn.textContent='Trimite solicitarea →';btn.disabled=false;
         });
       }
-      if(typeof grecaptcha!=='undefined'){grecaptcha.ready(function(){grecaptcha.execute('6LeXh5EsAAAAAEIPHp9KByo_tOfM9F1sy_R8rTtu',{action:'contact'}).then(send);});}
-      else{send(null);}
+      loadRecaptcha().then(function(){
+        if(typeof grecaptcha!=='undefined'){grecaptcha.ready(function(){grecaptcha.execute(RC_SITEKEY,{action:'contact'}).then(send);});}
+        else{send(null);}
+      });
     });
   }
 </script>
