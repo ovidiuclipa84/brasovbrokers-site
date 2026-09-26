@@ -16,6 +16,7 @@
     --accent-dim: #1f6b3f;
     --protein: #60a5fa;
     --carbs: #fbbf24;
+    --sugar: #f472b6;
     --fat: #f87171;
     --danger: #f87171;
     --radius: 12px;
@@ -150,7 +151,7 @@
   }
   .totals-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
     gap: 8px;
     margin-top: 10px;
   }
@@ -166,6 +167,7 @@
   .total-box.protein .val { color: var(--protein); }
   .total-box.carbs .val { color: var(--carbs); }
   .total-box.fat .val { color: var(--fat); }
+  .total-box.sugar .val { color: var(--sugar); }
   .progress-wrap { margin-top: 10px; }
   .progress-label {
     display: flex; justify-content: space-between;
@@ -298,6 +300,9 @@
       <input type="number" id="newQuickKcal" placeholder="kcal/100g">
       <input type="number" id="newQuickProt" placeholder="proteină/100g">
       <input type="number" id="newQuickCarb" placeholder="carbo/100g">
+    </div>
+    <div class="row" style="margin-top:6px;">
+      <input type="number" id="newQuickSugar" placeholder="din care zahăr/100g">
       <input type="number" id="newQuickFat" placeholder="grăsime/100g">
     </div>
     <div class="row" style="margin-top:6px;">
@@ -325,6 +330,7 @@
     <div class="total-box kcal"><div class="val" id="totKcal">0</div><div class="lbl">kcal</div></div>
     <div class="total-box protein"><div class="val" id="totProt">0</div><div class="lbl">proteină g</div></div>
     <div class="total-box carbs"><div class="val" id="totCarb">0</div><div class="lbl">carbo g</div></div>
+    <div class="total-box sugar"><div class="val" id="totSugar">0</div><div class="lbl">din care zahăr g</div></div>
     <div class="total-box fat"><div class="val" id="totFat">0</div><div class="lbl">grăsime g</div></div>
   </div>
 
@@ -356,14 +362,14 @@
   const quickKey = "macrotracker_quickfoods";
 
   const defaultQuickFoods = [
-    { name: "Ouă (întregi, crude)", kcal: 143, prot: 12.6, carb: 0.7, fat: 9.5 },
-    { name: "Telemea (brânză sărată)", kcal: 264, prot: 17, carb: 1, fat: 21 },
-    { name: "Sana / lapte prins", kcal: 62, prot: 3.3, carb: 4.7, fat: 3.2 },
-    { name: "Vită (mușchi, slabă)", kcal: 158, prot: 26, carb: 0, fat: 5.4 },
-    { name: "Piept de pui (fără piele)", kcal: 165, prot: 31, carb: 0, fat: 3.6 },
-    { name: "Merluciu (file)", kcal: 90, prot: 17.7, carb: 0, fat: 1.3 },
-    { name: "Ciorbă de burtă", kcal: 95, prot: 8, carb: 3, fat: 5.5 },
-    { name: "Rucola", kcal: 25, prot: 2.6, carb: 3.7, fat: 0.7 },
+    { name: "Ouă (întregi, crude)", kcal: 143, prot: 12.6, carb: 0.7, sugar: 0.4, fat: 9.5 },
+    { name: "Telemea (brânză sărată)", kcal: 264, prot: 17, carb: 1, sugar: 1, fat: 21 },
+    { name: "Sana / lapte prins", kcal: 62, prot: 3.3, carb: 4.7, sugar: 4.7, fat: 3.2 },
+    { name: "Vită (mușchi, slabă)", kcal: 158, prot: 26, carb: 0, sugar: 0, fat: 5.4 },
+    { name: "Piept de pui (fără piele)", kcal: 165, prot: 31, carb: 0, sugar: 0, fat: 3.6 },
+    { name: "Merluciu (file)", kcal: 90, prot: 17.7, carb: 0, sugar: 0, fat: 1.3 },
+    { name: "Ciorbă de burtă", kcal: 95, prot: 8, carb: 3, sugar: 1, fat: 5.5 },
+    { name: "Rucola", kcal: 25, prot: 2.6, carb: 3.7, sugar: 2, fat: 0.7 },
   ];
 
   let state = {
@@ -404,8 +410,9 @@
     state.quickFoods.forEach((f, idx) => {
       const div = document.createElement("div");
       div.className = "quick-item";
+      const sug = f.sugar || 0;
       div.innerHTML = `<div class="qname">${escapeHtml(f.name)}</div>
-        <div class="qmacro">${f.kcal} kcal · P${f.prot} C${f.carb} G${f.fat} /100g</div>`;
+        <div class="qmacro">${f.kcal} kcal · P${f.prot} C${f.carb} (Z${sug}) G${f.fat} /100g</div>`;
       div.addEventListener("click", () => selectFood(f));
       grid.appendChild(div);
     });
@@ -418,6 +425,7 @@
   }
 
   function selectFood(food) {
+    if (food.sugar == null) food.sugar = 0;
     state.selectedFood = food;
     document.getElementById("selectedFoodName").textContent = food.name;
     const macrosEl = document.getElementById("selectedFoodMacros");
@@ -426,8 +434,10 @@
       macrosEl.textContent = "Atenție: acest produs nu are date nutriționale în Open Food Facts (0 pe toate valorile). Verifică pe etichetă sau adaugă manual din \"Alimentele mele\".";
       macrosEl.className = "status-msg error";
     } else {
-      macrosEl.textContent = food.kcal + " kcal · Proteină " + food.prot + "g · Carbo " + food.carb + "g · Grăsime " + food.fat + "g  (per 100g)";
-      macrosEl.className = "status-msg";
+      const highSugar = food.sugar >= 10;
+      macrosEl.innerHTML = food.kcal + " kcal · Proteină " + food.prot + "g · Carbo " + food.carb +
+        "g (din care zahăr " + food.sugar + "g" + (highSugar ? " ⚠️" : "") + ") · Grăsime " + food.fat + "g  (per 100g)";
+      macrosEl.className = highSugar ? "status-msg error" : "status-msg";
     }
     document.getElementById("addAmountCard").style.display = "block";
     document.getElementById("gramsInput").value = 100;
@@ -446,6 +456,7 @@
       kcal: round1(f.kcal * ratio),
       prot: round1(f.prot * ratio),
       carb: round1(f.carb * ratio),
+      sugar: round1((f.sugar || 0) * ratio),
       fat: round1(f.fat * ratio)
     };
     state.log.push(entry);
@@ -469,7 +480,7 @@
             <div class="log-name">${escapeHtml(entry.name)}</div>
             <div class="log-sub">${entry.grams}g</div>
           </div>
-          <div class="log-vals">${entry.kcal} kcal · P${entry.prot} C${entry.carb} G${entry.fat}</div>
+          <div class="log-vals">${entry.kcal} kcal · P${entry.prot} C${entry.carb} (Z${entry.sugar || 0}) G${entry.fat}</div>
           <button class="del-btn" data-idx="${idx}">✕</button>
         `;
         list.appendChild(div);
@@ -485,13 +496,14 @@
     }
 
     const totals = state.log.reduce((acc, e) => {
-      acc.kcal += e.kcal; acc.prot += e.prot; acc.carb += e.carb; acc.fat += e.fat;
+      acc.kcal += e.kcal; acc.prot += e.prot; acc.carb += e.carb; acc.sugar += (e.sugar || 0); acc.fat += e.fat;
       return acc;
-    }, { kcal: 0, prot: 0, carb: 0, fat: 0 });
+    }, { kcal: 0, prot: 0, carb: 0, sugar: 0, fat: 0 });
 
     document.getElementById("totKcal").textContent = Math.round(totals.kcal);
     document.getElementById("totProt").textContent = round1(totals.prot);
     document.getElementById("totCarb").textContent = round1(totals.carb);
+    document.getElementById("totSugar").textContent = round1(totals.sugar);
     document.getElementById("totFat").textContent = round1(totals.fat);
 
     const weight = parseFloat(document.getElementById("weightInput").value) || 0;
@@ -506,81 +518,81 @@
   // --- Bibliotecă locală RO: alimente generice de bază (nu depinde de rețea) ---
   const genericFoodsRO = [
     // Carne
-    { name: "Cotlet de porc, crud", kcal: 137, prot: 21.9, carb: 0, fat: 5.4 },
-    { name: "Mușchiuleț de porc, crud", kcal: 143, prot: 22, carb: 0, fat: 5.6 },
-    { name: "Ceafă de porc, crudă", kcal: 263, prot: 17, carb: 0, fat: 21 },
-    { name: "Slănină, crudă", kcal: 541, prot: 9, carb: 0, fat: 53 },
-    { name: "Cârnați proaspeți de porc, cruzi", kcal: 300, prot: 12, carb: 1, fat: 27 },
-    { name: "Piept de pui, crud, fără piele", kcal: 120, prot: 22.5, carb: 0, fat: 2.6 },
-    { name: "Pulpe de pui, crude, cu piele", kcal: 177, prot: 16.7, carb: 0, fat: 11.9 },
-    { name: "Pulpe de pui, crude, fără piele", kcal: 119, prot: 18.5, carb: 0, fat: 4.6 },
-    { name: "Aripioare de pui, crude", kcal: 203, prot: 18.1, carb: 0, fat: 14 },
-    { name: "Piept de curcan, crud", kcal: 104, prot: 22, carb: 0, fat: 1.5 },
-    { name: "Mușchi de vită (file), crud", kcal: 143, prot: 21, carb: 0, fat: 6 },
-    { name: "Vită tocată (80/20), crudă", kcal: 254, prot: 17.2, carb: 0, fat: 20 },
-    { name: "Vită tocată slabă (90/10), crudă", kcal: 176, prot: 20, carb: 0, fat: 10 },
-    { name: "Cotlet de miel, crud", kcal: 259, prot: 16, carb: 0, fat: 21 },
+    { name: "Cotlet de porc, crud", kcal: 137, prot: 21.9, carb: 0, sugar: 0, fat: 5.4 },
+    { name: "Mușchiuleț de porc, crud", kcal: 143, prot: 22, carb: 0, sugar: 0, fat: 5.6 },
+    { name: "Ceafă de porc, crudă", kcal: 263, prot: 17, carb: 0, sugar: 0, fat: 21 },
+    { name: "Slănină, crudă", kcal: 541, prot: 9, carb: 0, sugar: 0, fat: 53 },
+    { name: "Cârnați proaspeți de porc, cruzi", kcal: 300, prot: 12, carb: 1, sugar: 0.5, fat: 27 },
+    { name: "Piept de pui, crud, fără piele", kcal: 120, prot: 22.5, carb: 0, sugar: 0, fat: 2.6 },
+    { name: "Pulpe de pui, crude, cu piele", kcal: 177, prot: 16.7, carb: 0, sugar: 0, fat: 11.9 },
+    { name: "Pulpe de pui, crude, fără piele", kcal: 119, prot: 18.5, carb: 0, sugar: 0, fat: 4.6 },
+    { name: "Aripioare de pui, crude", kcal: 203, prot: 18.1, carb: 0, sugar: 0, fat: 14 },
+    { name: "Piept de curcan, crud", kcal: 104, prot: 22, carb: 0, sugar: 0, fat: 1.5 },
+    { name: "Mușchi de vită (file), crud", kcal: 143, prot: 21, carb: 0, sugar: 0, fat: 6 },
+    { name: "Vită tocată (80/20), crudă", kcal: 254, prot: 17.2, carb: 0, sugar: 0, fat: 20 },
+    { name: "Vită tocată slabă (90/10), crudă", kcal: 176, prot: 20, carb: 0, sugar: 0, fat: 10 },
+    { name: "Cotlet de miel, crud", kcal: 259, prot: 16, carb: 0, sugar: 0, fat: 21 },
     // Pește
-    { name: "Somon, crud", kcal: 208, prot: 20, carb: 0, fat: 13 },
-    { name: "Ton, crud", kcal: 132, prot: 28, carb: 0, fat: 1.3 },
-    { name: "Merluciu, file, crud", kcal: 90, prot: 17.7, carb: 0, fat: 1.3 },
-    { name: "Cod, file, crud", kcal: 82, prot: 18, carb: 0, fat: 0.7 },
-    { name: "Crap, crud", kcal: 127, prot: 17.8, carb: 0, fat: 5.6 },
-    { name: "Păstrăv, crud", kcal: 141, prot: 20, carb: 0, fat: 6.6 },
-    { name: "Sardine în ulei (conservă)", kcal: 208, prot: 24.6, carb: 0, fat: 11.5 },
+    { name: "Somon, crud", kcal: 208, prot: 20, carb: 0, sugar: 0, fat: 13 },
+    { name: "Ton, crud", kcal: 132, prot: 28, carb: 0, sugar: 0, fat: 1.3 },
+    { name: "Merluciu, file, crud", kcal: 90, prot: 17.7, carb: 0, sugar: 0, fat: 1.3 },
+    { name: "Cod, file, crud", kcal: 82, prot: 18, carb: 0, sugar: 0, fat: 0.7 },
+    { name: "Crap, crud", kcal: 127, prot: 17.8, carb: 0, sugar: 0, fat: 5.6 },
+    { name: "Păstrăv, crud", kcal: 141, prot: 20, carb: 0, sugar: 0, fat: 6.6 },
+    { name: "Sardine în ulei (conservă)", kcal: 208, prot: 24.6, carb: 0, sugar: 0, fat: 11.5 },
     // Ouă și lactate
-    { name: "Ouă întregi, crude", kcal: 143, prot: 12.6, carb: 0.7, fat: 9.5 },
-    { name: "Albuș de ou, crud", kcal: 52, prot: 10.9, carb: 0.7, fat: 0.2 },
-    { name: "Gălbenuș de ou, crud", kcal: 322, prot: 15.9, carb: 3.6, fat: 26.5 },
-    { name: "Lapte integral 3.5%", kcal: 61, prot: 3.2, carb: 4.8, fat: 3.3 },
-    { name: "Lapte degresat", kcal: 34, prot: 3.4, carb: 5, fat: 0.1 },
-    { name: "Iaurt grecesc simplu", kcal: 97, prot: 9, carb: 4, fat: 5 },
-    { name: "Iaurt simplu 3.5%", kcal: 61, prot: 3.5, carb: 4.7, fat: 3.3 },
-    { name: "Sana / lapte prins", kcal: 62, prot: 3.3, carb: 4.7, fat: 3.2 },
-    { name: "Brânză de vaci", kcal: 98, prot: 11, carb: 3.4, fat: 4.3 },
-    { name: "Cașcaval", kcal: 371, prot: 25, carb: 1.3, fat: 29 },
-    { name: "Telemea (brânză sărată)", kcal: 264, prot: 17, carb: 1, fat: 21 },
-    { name: "Smântână 20%", kcal: 193, prot: 2.8, carb: 3.4, fat: 20 },
-    { name: "Unt", kcal: 717, prot: 0.9, carb: 0.1, fat: 81 },
+    { name: "Ouă întregi, crude", kcal: 143, prot: 12.6, carb: 0.7, sugar: 0.4, fat: 9.5 },
+    { name: "Albuș de ou, crud", kcal: 52, prot: 10.9, carb: 0.7, sugar: 0.7, fat: 0.2 },
+    { name: "Gălbenuș de ou, crud", kcal: 322, prot: 15.9, carb: 3.6, sugar: 0.6, fat: 26.5 },
+    { name: "Lapte integral 3.5%", kcal: 61, prot: 3.2, carb: 4.8, sugar: 4.8, fat: 3.3 },
+    { name: "Lapte degresat", kcal: 34, prot: 3.4, carb: 5, sugar: 5, fat: 0.1 },
+    { name: "Iaurt grecesc simplu", kcal: 97, prot: 9, carb: 4, sugar: 4, fat: 5 },
+    { name: "Iaurt simplu 3.5%", kcal: 61, prot: 3.5, carb: 4.7, sugar: 4.7, fat: 3.3 },
+    { name: "Sana / lapte prins", kcal: 62, prot: 3.3, carb: 4.7, sugar: 4.7, fat: 3.2 },
+    { name: "Brânză de vaci", kcal: 98, prot: 11, carb: 3.4, sugar: 3.4, fat: 4.3 },
+    { name: "Cașcaval", kcal: 371, prot: 25, carb: 1.3, sugar: 0.5, fat: 29 },
+    { name: "Telemea (brânză sărată)", kcal: 264, prot: 17, carb: 1, sugar: 1, fat: 21 },
+    { name: "Smântână 20%", kcal: 193, prot: 2.8, carb: 3.4, sugar: 3.4, fat: 20 },
+    { name: "Unt", kcal: 717, prot: 0.9, carb: 0.1, sugar: 0.1, fat: 81 },
     // Cereale, leguminoase, paste
-    { name: "Orez alb, fiert", kcal: 130, prot: 2.7, carb: 28, fat: 0.3 },
-    { name: "Orez brun, fiert", kcal: 123, prot: 2.7, carb: 25.6, fat: 1 },
-    { name: "Paste, fierte", kcal: 131, prot: 5, carb: 25, fat: 1.1 },
-    { name: "Cartofi, fierți", kcal: 87, prot: 1.9, carb: 20, fat: 0.1 },
-    { name: "Cartofi dulci, fierți", kcal: 90, prot: 2, carb: 20.7, fat: 0.1 },
-    { name: "Fasole boabe, fiartă", kcal: 127, prot: 8.7, carb: 22.8, fat: 0.5 },
-    { name: "Linte, fiartă", kcal: 116, prot: 9, carb: 20, fat: 0.4 },
-    { name: "Năut, fiert", kcal: 164, prot: 8.9, carb: 27.4, fat: 2.6 },
-    { name: "Ovăz (fulgi), uscat", kcal: 389, prot: 16.9, carb: 66, fat: 6.9 },
-    { name: "Pâine albă", kcal: 265, prot: 9, carb: 49, fat: 3.2 },
-    { name: "Pâine integrală", kcal: 247, prot: 13, carb: 41, fat: 4.2 },
+    { name: "Orez alb, fiert", kcal: 130, prot: 2.7, carb: 28, sugar: 0.1, fat: 0.3 },
+    { name: "Orez brun, fiert", kcal: 123, prot: 2.7, carb: 25.6, sugar: 0.2, fat: 1 },
+    { name: "Paste, fierte", kcal: 131, prot: 5, carb: 25, sugar: 0.6, fat: 1.1 },
+    { name: "Cartofi, fierți", kcal: 87, prot: 1.9, carb: 20, sugar: 0.9, fat: 0.1 },
+    { name: "Cartofi dulci, fierți", kcal: 90, prot: 2, carb: 20.7, sugar: 4.2, fat: 0.1 },
+    { name: "Fasole boabe, fiartă", kcal: 127, prot: 8.7, carb: 22.8, sugar: 0.3, fat: 0.5 },
+    { name: "Linte, fiartă", kcal: 116, prot: 9, carb: 20, sugar: 1.8, fat: 0.4 },
+    { name: "Năut, fiert", kcal: 164, prot: 8.9, carb: 27.4, sugar: 4.8, fat: 2.6 },
+    { name: "Ovăz (fulgi), uscat", kcal: 389, prot: 16.9, carb: 66, sugar: 1, fat: 6.9 },
+    { name: "Pâine albă", kcal: 265, prot: 9, carb: 49, sugar: 5, fat: 3.2 },
+    { name: "Pâine integrală", kcal: 247, prot: 13, carb: 41, sugar: 4.3, fat: 4.2 },
     // Legume
-    { name: "Roșii", kcal: 18, prot: 0.9, carb: 3.9, fat: 0.2 },
-    { name: "Castraveți", kcal: 15, prot: 0.7, carb: 3.6, fat: 0.1 },
-    { name: "Ardei gras", kcal: 31, prot: 1, carb: 6, fat: 0.3 },
-    { name: "Ceapă", kcal: 40, prot: 1.1, carb: 9.3, fat: 0.1 },
-    { name: "Usturoi", kcal: 149, prot: 6.4, carb: 33, fat: 0.5 },
-    { name: "Morcov", kcal: 41, prot: 0.9, carb: 9.6, fat: 0.2 },
-    { name: "Broccoli", kcal: 34, prot: 2.8, carb: 6.6, fat: 0.4 },
-    { name: "Rucola", kcal: 25, prot: 2.6, carb: 3.7, fat: 0.7 },
-    { name: "Spanac", kcal: 23, prot: 2.9, carb: 3.6, fat: 0.4 },
-    { name: "Varză albă", kcal: 25, prot: 1.3, carb: 5.8, fat: 0.1 },
-    { name: "Vânătă", kcal: 25, prot: 1, carb: 6, fat: 0.2 },
+    { name: "Roșii", kcal: 18, prot: 0.9, carb: 3.9, sugar: 2.6, fat: 0.2 },
+    { name: "Castraveți", kcal: 15, prot: 0.7, carb: 3.6, sugar: 1.7, fat: 0.1 },
+    { name: "Ardei gras", kcal: 31, prot: 1, carb: 6, sugar: 4.2, fat: 0.3 },
+    { name: "Ceapă", kcal: 40, prot: 1.1, carb: 9.3, sugar: 4.2, fat: 0.1 },
+    { name: "Usturoi", kcal: 149, prot: 6.4, carb: 33, sugar: 1, fat: 0.5 },
+    { name: "Morcov", kcal: 41, prot: 0.9, carb: 9.6, sugar: 4.7, fat: 0.2 },
+    { name: "Broccoli", kcal: 34, prot: 2.8, carb: 6.6, sugar: 1.7, fat: 0.4 },
+    { name: "Rucola", kcal: 25, prot: 2.6, carb: 3.7, sugar: 2, fat: 0.7 },
+    { name: "Spanac", kcal: 23, prot: 2.9, carb: 3.6, sugar: 0.4, fat: 0.4 },
+    { name: "Varză albă", kcal: 25, prot: 1.3, carb: 5.8, sugar: 3.2, fat: 0.1 },
+    { name: "Vânătă", kcal: 25, prot: 1, carb: 6, sugar: 3.5, fat: 0.2 },
     // Fructe
-    { name: "Măr", kcal: 52, prot: 0.3, carb: 14, fat: 0.2 },
-    { name: "Banană", kcal: 89, prot: 1.1, carb: 23, fat: 0.3 },
-    { name: "Portocală", kcal: 47, prot: 0.9, carb: 12, fat: 0.1 },
-    { name: "Căpșuni", kcal: 32, prot: 0.7, carb: 7.7, fat: 0.3 },
-    { name: "Pepene roșu", kcal: 30, prot: 0.6, carb: 7.6, fat: 0.2 },
-    { name: "Struguri", kcal: 69, prot: 0.7, carb: 18, fat: 0.2 },
-    { name: "Avocado", kcal: 160, prot: 2, carb: 8.5, fat: 14.7 },
+    { name: "Măr", kcal: 52, prot: 0.3, carb: 14, sugar: 10.4, fat: 0.2 },
+    { name: "Banană", kcal: 89, prot: 1.1, carb: 23, sugar: 12.2, fat: 0.3 },
+    { name: "Portocală", kcal: 47, prot: 0.9, carb: 12, sugar: 9.4, fat: 0.1 },
+    { name: "Căpșuni", kcal: 32, prot: 0.7, carb: 7.7, sugar: 4.9, fat: 0.3 },
+    { name: "Pepene roșu", kcal: 30, prot: 0.6, carb: 7.6, sugar: 6.2, fat: 0.2 },
+    { name: "Struguri", kcal: 69, prot: 0.7, carb: 18, sugar: 16, fat: 0.2 },
+    { name: "Avocado", kcal: 160, prot: 2, carb: 8.5, sugar: 0.7, fat: 14.7 },
     // Grăsimi și nuci
-    { name: "Ulei de măsline", kcal: 884, prot: 0, carb: 0, fat: 100 },
-    { name: "Ulei de floarea-soarelui", kcal: 884, prot: 0, carb: 0, fat: 100 },
-    { name: "Migdale", kcal: 579, prot: 21.2, carb: 21.6, fat: 49.9 },
-    { name: "Nuci", kcal: 654, prot: 15.2, carb: 13.7, fat: 65.2 },
-    { name: "Caju", kcal: 553, prot: 18.2, carb: 30.2, fat: 43.9 },
-    { name: "Semințe de floarea-soarelui", kcal: 584, prot: 20.8, carb: 20, fat: 51.5 },
+    { name: "Ulei de măsline", kcal: 884, prot: 0, carb: 0, sugar: 0, fat: 100 },
+    { name: "Ulei de floarea-soarelui", kcal: 884, prot: 0, carb: 0, sugar: 0, fat: 100 },
+    { name: "Migdale", kcal: 579, prot: 21.2, carb: 21.6, sugar: 4.4, fat: 49.9 },
+    { name: "Nuci", kcal: 654, prot: 15.2, carb: 13.7, sugar: 2.6, fat: 65.2 },
+    { name: "Caju", kcal: 553, prot: 18.2, carb: 30.2, sugar: 5.9, fat: 43.9 },
+    { name: "Semințe de floarea-soarelui", kcal: 584, prot: 20.8, carb: 20, sugar: 2.6, fat: 51.5 },
   ];
 
   function stripDiacritics(s) {
@@ -607,15 +619,17 @@
     localMatches.forEach(f => {
       const div = document.createElement("div");
       div.className = "result-item";
+      const sug = f.sugar || 0;
+      const flag = sug >= 10 ? " ⚠️" : "";
       div.innerHTML = `
         <div style="flex:1;">
           <div class="result-name">🏠 ${escapeHtml(f.name)}</div>
-          <div class="result-macros">${f.kcal} kcal · P${f.prot} C${f.carb} G${f.fat} /100g · Bibliotecă RO</div>
+          <div class="result-macros">${f.kcal} kcal · P${f.prot} C${f.carb} (Z${sug}${flag}) G${f.fat} /100g · Bibliotecă RO</div>
         </div>
         <button class="small">Alege</button>
       `;
       div.querySelector("button").addEventListener("click", () => {
-        selectFood({ name: f.name, kcal: f.kcal, prot: f.prot, carb: f.carb, fat: f.fat });
+        selectFood({ name: f.name, kcal: f.kcal, prot: f.prot, carb: f.carb, sugar: sug, fat: f.fat });
       });
       resultsBox.appendChild(div);
     });
@@ -637,19 +651,21 @@
           (n["energy_100g"] != null ? n["energy_100g"] / 4.184 : 0);
         const prot = n["proteins_100g"] || 0;
         const carb = n["carbohydrates_100g"] || 0;
+        const sugar = n["sugars_100g"] || 0;
         const fat = n["fat_100g"] || 0;
         const div = document.createElement("div");
         div.className = "result-item";
         const label = p.product_name + (p.brands ? " — " + p.brands : "");
+        const flag = sugar >= 10 ? " ⚠️" : "";
         div.innerHTML = `
           <div style="flex:1;">
             <div class="result-name">🌐 ${escapeHtml(label)}</div>
-            <div class="result-macros">${round1(kcal)} kcal · P${round1(prot)} C${round1(carb)} G${round1(fat)} /100g · Open Food Facts</div>
+            <div class="result-macros">${round1(kcal)} kcal · P${round1(prot)} C${round1(carb)} (Z${round1(sugar)}${flag}) G${round1(fat)} /100g · Open Food Facts</div>
           </div>
           <button class="small">Alege</button>
         `;
         div.querySelector("button").addEventListener("click", () => {
-          selectFood({ name: label, kcal: round1(kcal), prot: round1(prot), carb: round1(carb), fat: round1(fat) });
+          selectFood({ name: label, kcal: round1(kcal), prot: round1(prot), carb: round1(carb), sugar: round1(sugar), fat: round1(fat) });
         });
         resultsBox.appendChild(div);
       });
@@ -684,10 +700,11 @@
         (n["energy_100g"] != null ? n["energy_100g"] / 4.184 : 0);
       const prot = n["proteins_100g"] || 0;
       const carb = n["carbohydrates_100g"] || 0;
+      const sugar = n["sugars_100g"] || 0;
       const fat = n["fat_100g"] || 0;
       const label = (p.product_name || "Produs fără nume") + (p.brands ? " — " + p.brands : "");
       statusBox.textContent = "Găsit.";
-      selectFood({ name: label, kcal: round1(kcal), prot: round1(prot), carb: round1(carb), fat: round1(fat) });
+      selectFood({ name: label, kcal: round1(kcal), prot: round1(prot), carb: round1(carb), sugar: round1(sugar), fat: round1(fat) });
     } catch (e) {
       statusBox.textContent = "Eroare la căutarea codului de bare: " + e.message;
       statusBox.className = "status-msg error";
@@ -777,15 +794,17 @@
     const kcal = parseFloat(document.getElementById("newQuickKcal").value);
     const prot = parseFloat(document.getElementById("newQuickProt").value) || 0;
     const carb = parseFloat(document.getElementById("newQuickCarb").value) || 0;
+    const sugar = parseFloat(document.getElementById("newQuickSugar").value) || 0;
     const fat = parseFloat(document.getElementById("newQuickFat").value) || 0;
     if (!name || isNaN(kcal)) return;
-    state.quickFoods.push({ name, kcal, prot, carb, fat });
+    state.quickFoods.push({ name, kcal, prot, carb, sugar, fat });
     saveQuickFoods();
     renderQuickGrid();
     document.getElementById("newQuickName").value = "";
     document.getElementById("newQuickKcal").value = "";
     document.getElementById("newQuickProt").value = "";
     document.getElementById("newQuickCarb").value = "";
+    document.getElementById("newQuickSugar").value = "";
     document.getElementById("newQuickFat").value = "";
   });
 
