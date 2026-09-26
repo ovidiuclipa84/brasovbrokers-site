@@ -236,7 +236,6 @@
 </head>
 <body>
 
-<img src="Header.png" alt="Macro Tracker" style="width:100%;height:auto;border-radius:12px;display:block;margin-bottom:14px;">
 <h1>🥚 Tracker Macronutrienți</h1>
 <div class="subtitle">Date din Open Food Facts · rulează local, fără server</div>
 
@@ -734,10 +733,26 @@
     statusBox.textContent = "Se pornește camera...";
     statusBox.className = "status-msg";
     try {
-      html5QrCode = new Html5Qrcode("qrReader");
+      const scannerConfig = (typeof Html5QrcodeSupportedFormats !== "undefined") ? {
+        formatsToSupport: [
+          Html5QrcodeSupportedFormats.EAN_13,
+          Html5QrcodeSupportedFormats.EAN_8,
+          Html5QrcodeSupportedFormats.UPC_A,
+          Html5QrcodeSupportedFormats.UPC_E,
+          Html5QrcodeSupportedFormats.CODE_128,
+          Html5QrcodeSupportedFormats.CODE_39
+        ],
+        verbose: false
+      } : {};
+      html5QrCode = new Html5Qrcode("qrReader", scannerConfig);
       await html5QrCode.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: { width: 250, height: 150 } },
+        { facingMode: "environment", advanced: [{ focusMode: "continuous" }] },
+        {
+          fps: 15,
+          qrbox: { width: 280, height: 120 },
+          disableFlip: true,
+          experimentalFeatures: { useBarCodeDetectorIfSupported: true }
+        },
         (decodedText) => {
           statusBox.textContent = "Cod detectat: " + decodedText;
           lookupBarcode(decodedText);
