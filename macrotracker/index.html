@@ -747,7 +747,7 @@
       } : {};
       html5QrCode = new Html5Qrcode("qrReader", scannerConfig);
       await html5QrCode.start(
-        { facingMode: "environment", advanced: [{ focusMode: "continuous" }] },
+        { facingMode: "environment" },
         {
           fps: 15,
           qrbox: { width: 280, height: 120 },
