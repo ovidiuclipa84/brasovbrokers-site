@@ -308,7 +308,8 @@
 
 <div class="card" id="addAmountCard" style="display:none;">
   <h2>Adaugă în jurnal</h2>
-  <div id="selectedFoodName" style="font-size:0.95rem;font-weight:600;margin-bottom:8px;"></div>
+  <div id="selectedFoodName" style="font-size:0.95rem;font-weight:600;margin-bottom:2px;"></div>
+  <div id="selectedFoodMacros" class="status-msg" style="margin-top:0;margin-bottom:8px;"></div>
   <div class="row">
     <input type="number" id="gramsInput" placeholder="grame" value="100">
     <button id="confirmAddBtn">Adaugă</button>
@@ -419,6 +420,15 @@
   function selectFood(food) {
     state.selectedFood = food;
     document.getElementById("selectedFoodName").textContent = food.name;
+    const macrosEl = document.getElementById("selectedFoodMacros");
+    const allZero = !food.kcal && !food.prot && !food.carb && !food.fat;
+    if (allZero) {
+      macrosEl.textContent = "Atenție: acest produs nu are date nutriționale în Open Food Facts (0 pe toate valorile). Verifică pe etichetă sau adaugă manual din \"Alimentele mele\".";
+      macrosEl.className = "status-msg error";
+    } else {
+      macrosEl.textContent = food.kcal + " kcal · Proteină " + food.prot + "g · Carbo " + food.carb + "g · Grăsime " + food.fat + "g  (per 100g)";
+      macrosEl.className = "status-msg";
+    }
     document.getElementById("addAmountCard").style.display = "block";
     document.getElementById("gramsInput").value = 100;
     document.getElementById("addAmountCard").scrollIntoView({ behavior: "smooth", block: "center" });
