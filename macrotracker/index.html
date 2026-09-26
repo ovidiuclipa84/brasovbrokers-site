@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tracker Macronutrienți</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --bg-card: #1a1d24;
+    --bg-card-2: #21252e;
+    --border: #2c313c;
+    --text: #e8eaed;
+    --text-dim: #9aa0ac;
+    --accent: #4ade80;
+    --accent-dim: #1f6b3f;
+    --protein: #60a5fa;
+    --carbs: #fbbf24;
+    --fat: #f87171;
+    --danger: #f87171;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    padding: 16px;
+    padding-top: max(16px, env(safe-area-inset-top, 16px));
+    padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.4rem;
+    margin: 0 0 4px 0;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .card h2 {
+    font-size: 0.95rem;
+    margin: 0 0 12px 0;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    background: var(--bg-card-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 12px;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+  }
+  input:focus { border-color: var(--accent); }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+  button {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button:hover { filter: brightness(1.15); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.secondary {
+    background: var(--bg-card-2);
+    color: var(--text);
+    border-color: var(--border);
+  }
+  button.small {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  .search-results {
+    margin-top: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+  }
+  .result-item:last-child { border-bottom: none; }
+  .result-name { font-size: 0.88rem; flex: 1; }
+  .result-macros { font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
+  .quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .quick-item {
+    background: var(--bg-card-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+  }
+  .quick-item:active { background: var(--accent-dim); }
+  .quick-item .qname { font-size: 0.85rem; font-weight: 600; }
+  .quick-item .qmacro { font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
+  .log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+  }
+  .log-item:last-child { border-bottom: none; }
+  .log-name { font-size: 0.88rem; }
+  .log-sub { font-size: 0.72rem; color: var(--text-dim); }
+  .log-vals { text-align: right; font-size: 0.78rem; color: var(--text-dim); white-space: nowrap; }
+  .del-btn {
+    background: none;
+    border: none;
+    color: var(--danger);
+    font-size: 1rem;
+    padding: 2px 6px;
+    cursor: pointer;
+  }
+  .totals-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .total-box {
+    background: var(--bg-card-2);
+    border-radius: 8px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+  .total-box .val { font-size: 1.1rem; font-weight: 700; }
+  .total-box .lbl { font-size: 0.68rem; color: var(--text-dim); margin-top: 2px; }
+  .total-box.kcal .val { color: var(--text); }
+  .total-box.protein .val { color: var(--protein); }
+  .total-box.carbs .val { color: var(--carbs); }
+  .total-box.fat .val { color: var(--fat); }
+  .progress-wrap { margin-top: 10px; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px;
+  }
+  .progress-bar-bg {
+    background: var(--bg-card-2);
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--protein);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+  }
+  .empty-msg {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 14px 0;
+  }
+  .status-msg {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+  .status-msg.error { color: var(--danger); }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .tab-btn {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+  .tab-btn.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-color: var(--accent-dim);
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  #cameraWrap {
+    margin-top: 10px;
+    display: none;
+  }
+  #cameraWrap.active { display: block; }
+  #qrReader { width: 100%; border-radius: 8px; overflow: hidden; }
+  .footer-note {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<h1>🥚 Tracker Macronutrienți</h1>
+<div class="subtitle">Date din Open Food Facts · rulează local, fără server</div>
+
+<div class="card">
+  <h2>Setări zi</h2>
+  <div class="row">
+    <div>
+      <label style="font-size:0.75rem;color:var(--text-dim)">Greutate azi (kg)</label>
+      <input type="number" id="weightInput" step="0.1" placeholder="ex: 86.6">
+    </div>
+    <div>
+      <label style="font-size:0.75rem;color:var(--text-dim)">Tip zi</label>
+      <select id="dayType" style="width:100%;background:var(--bg-card-2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;color:var(--text);font-size:0.9rem;">
+        <option value="1.5">Normal (1.5g/kg)</option>
+        <option value="1.75" selected>HPR standard (1.75g/kg)</option>
+        <option value="2.0">HPR agresiv (2.0g/kg)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="search">Caută aliment</button>
+  <button class="tab-btn" data-tab="quick">Alimentele mele</button>
+</div>
+
+<div class="tab-content active" id="tab-search">
+  <div class="card">
+    <h2>Cod de bare</h2>
+    <div class="row">
+      <input type="text" id="barcodeInput" placeholder="ex: 5941234567890" inputmode="numeric">
+      <button id="barcodeLookupBtn">Caută</button>
+    </div>
+    <div class="row" style="margin-top:8px;">
+      <button class="secondary" id="cameraToggleBtn" style="flex:1;">📷 Scanează cu camera</button>
+    </div>
+    <div id="cameraWrap">
+      <div id="qrReader"></div>
+      <div class="status-msg" id="cameraStatus"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Căutare după nume</h2>
+    <div class="row">
+      <input type="text" id="searchInput" placeholder="ex: piept de pui">
+      <button id="searchBtn">Caută</button>
+    </div>
+    <div class="status-msg" id="searchStatus"></div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<div class="tab-content" id="tab-quick">
+  <div class="card">
+    <h2>Alimentele mele (rapid)</h2>
+    <div class="quick-grid" id="quickGrid"></div>
+    <div class="row" style="margin-top:10px;">
+      <input type="text" id="newQuickName" placeholder="Nume aliment nou">
+    </div>
+    <div class="row" style="margin-top:6px;">
+      <input type="number" id="newQuickKcal" placeholder="kcal/100g">
+      <input type="number" id="newQuickProt" placeholder="proteină/100g">
+      <input type="number" id="newQuickCarb" placeholder="carbo/100g">
+      <input type="number" id="newQuickFat" placeholder="grăsime/100g">
+    </div>
+    <div class="row" style="margin-top:6px;">
+      <button id="addQuickBtn" style="flex:1;">+ Adaugă la lista mea</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="addAmountCard" style="display:none;">
+  <h2>Adaugă în jurnal</h2>
+  <div id="selectedFoodName" style="font-size:0.95rem;font-weight:600;margin-bottom:8px;"></div>
+  <div class="row">
+    <input type="number" id="gramsInput" placeholder="grame" value="100">
+    <button id="confirmAddBtn">Adaugă</button>
+    <button class="secondary" id="cancelAddBtn">Anulează</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Jurnal azi</h2>
+  <div id="logList"><div class="empty-msg">Niciun aliment adăugat încă</div></div>
+
+  <div class="totals-grid">
+    <div class="total-box kcal"><div class="val" id="totKcal">0</div><div class="lbl">kcal</div></div>
+    <div class="total-box protein"><div class="val" id="totProt">0</div><div class="lbl">proteină g</div></div>
+    <div class="total-box carbs"><div class="val" id="totCarb">0</div><div class="lbl">carbo g</div></div>
+    <div class="total-box fat"><div class="val" id="totFat">0</div><div class="lbl">grăsime g</div></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Proteină vs. target</span>
+      <span id="proteinTargetLabel">0 / 0g</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="proteinProgressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="row" style="margin-top:14px;">
+    <button class="secondary" id="clearLogBtn" style="flex:1;">Golește jurnalul de azi</button>
+  </div>
+</div>
+
+<div class="footer-note">
+  Date nutriționale din <strong>Open Food Facts</strong> (bază deschisă, contribuții comunitare) — verifică pe etichetă pentru produse critice.<br>
+  Scanarea cu camera necesită https sau localhost (nu funcționează la deschidere directă ca fișier în majoritatea browserelor).<br>
+  Datele jurnalului se salvează local în acest browser (localStorage) — nu sunt trimise nicăieri.
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+(function() {
+  "use strict";
+
+  const todayKey = () => "macrotracker_log_" + new Date().toISOString().slice(0,10);
+  const quickKey = "macrotracker_quickfoods";
+
+  const defaultQuickFoods = [
+    { name: "Ouă (întregi, crude)", kcal: 143, prot: 12.6, carb: 0.7, fat: 9.5 },
+    { name: "Telemea (brânză sărată)", kcal: 264, prot: 17, carb: 1, fat: 21 },
+    { name: "Sana / lapte prins", kcal: 62, prot: 3.3, carb: 4.7, fat: 3.2 },
+    { name: "Vită (mușchi, slabă)", kcal: 158, prot: 26, carb: 0, fat: 5.4 },
+    { name: "Piept de pui (fără piele)", kcal: 165, prot: 31, carb: 0, fat: 3.6 },
+    { name: "Merluciu (file)", kcal: 90, prot: 17.7, carb: 0, fat: 1.3 },
+    { name: "Ciorbă de burtă", kcal: 95, prot: 8, carb: 3, fat: 5.5 },
+    { name: "Rucola", kcal: 25, prot: 2.6, carb: 3.7, fat: 0.7 },
+  ];
+
+  let state = {
+    activeTab: "search",
+    selectedFood: null, // { name, kcal, prot, carb, fat } per 100g
+    quickFoods: [],
+    log: [] // { name, grams, kcal, prot, carb, fat }
+  };
+
+  function loadQuickFoods() {
+    try {
+      const raw = localStorage.getItem(quickKey);
+      state.quickFoods = raw ? JSON.parse(raw) : defaultQuickFoods.slice();
+    } catch (e) {
+      state.quickFoods = defaultQuickFoods.slice();
+    }
+  }
+  function saveQuickFoods() {
+    try { localStorage.setItem(quickKey, JSON.stringify(state.quickFoods)); }
+    catch (e) { console.error("Nu am putut salva lista de alimente", e); }
+  }
+  function loadLog() {
+    try {
+      const raw = localStorage.getItem(todayKey());
+      state.log = raw ? JSON.parse(raw) : [];
+    } catch (e) { state.log = []; }
+  }
+  function saveLog() {
+    try { localStorage.setItem(todayKey(), JSON.stringify(state.log)); }
+    catch (e) { console.error("Nu am putut salva jurnalul", e); }
+  }
+
+  function round1(n) { return Math.round(n * 10) / 10; }
+
+  function renderQuickGrid() {
+    const grid = document.getElementById("quickGrid");
+    grid.innerHTML = "";
+    state.quickFoods.forEach((f, idx) => {
+      const div = document.createElement("div");
+      div.className = "quick-item";
+      div.innerHTML = `<div class="qname">${escapeHtml(f.name)}</div>
+        <div class="qmacro">${f.kcal} kcal · P${f.prot} C${f.carb} G${f.fat} /100g</div>`;
+      div.addEventListener("click", () => selectFood(f));
+      grid.appendChild(div);
+    });
+  }
+
+  function escapeHtml(s) {
+    const d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function selectFood(food) {
+    state.selectedFood = food;
+    document.getElementById("selectedFoodName").textContent = food.name;
+    document.getElementById("addAmountCard").style.display = "block";
+    document.getElementById("gramsInput").value = 100;
+    document.getElementById("addAmountCard").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function confirmAdd() {
+    if (!state.selectedFood) return;
+    const grams = parseFloat(document.getElementById("gramsInput").value);
+    if (!grams || grams <= 0) return;
+    const f = state.selectedFood;
+    const ratio = grams / 100;
+    const entry = {
+      name: f.name,
+      grams: grams,
+      kcal: round1(f.kcal * ratio),
+      prot: round1(f.prot * ratio),
+      carb: round1(f.carb * ratio),
+      fat: round1(f.fat * ratio)
+    };
+    state.log.push(entry);
+    saveLog();
+    renderLog();
+    document.getElementById("addAmountCard").style.display = "none";
+    state.selectedFood = null;
+  }
+
+  function renderLog() {
+    const list = document.getElementById("logList");
+    if (state.log.length === 0) {
+      list.innerHTML = '<div class="empty-msg">Niciun aliment adăugat încă</div>';
+    } else {
+      list.innerHTML = "";
+      state.log.forEach((entry, idx) => {
+        const div = document.createElement("div");
+        div.className = "log-item";
+        div.innerHTML = `
+          <div>
+            <div class="log-name">${escapeHtml(entry.name)}</div>
+            <div class="log-sub">${entry.grams}g</div>
+          </div>
+          <div class="log-vals">${entry.kcal} kcal · P${entry.prot} C${entry.carb} G${entry.fat}</div>
+          <button class="del-btn" data-idx="${idx}">✕</button>
+        `;
+        list.appendChild(div);
+      });
+      list.querySelectorAll(".del-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const idx = parseInt(btn.getAttribute("data-idx"));
+          state.log.splice(idx, 1);
+          saveLog();
+          renderLog();
+        });
+      });
+    }
+
+    const totals = state.log.reduce((acc, e) => {
+      acc.kcal += e.kcal; acc.prot += e.prot; acc.carb += e.carb; acc.fat += e.fat;
+      return acc;
+    }, { kcal: 0, prot: 0, carb: 0, fat: 0 });
+
+    document.getElementById("totKcal").textContent = Math.round(totals.kcal);
+    document.getElementById("totProt").textContent = round1(totals.prot);
+    document.getElementById("totCarb").textContent = round1(totals.carb);
+    document.getElementById("totFat").textContent = round1(totals.fat);
+
+    const weight = parseFloat(document.getElementById("weightInput").value) || 0;
+    const ratio = parseFloat(document.getElementById("dayType").value) || 1.5;
+    const target = weight > 0 ? Math.round(weight * ratio) : 0;
+    document.getElementById("proteinTargetLabel").textContent =
+      target > 0 ? `${round1(totals.prot)} / ${target}g` : `${round1(totals.prot)}g (setează greutatea)`;
+    const pct = target > 0 ? Math.min(100, (totals.prot / target) * 100) : 0;
+    document.getElementById("proteinProgressFill").style.width = pct + "%";
+  }
+
+  // --- Open Food Facts search ---
+  function statusEl(id) { return document.getElementById(id); }
+
+  async function searchByName(query) {
+    const statusBox = statusEl("searchStatus");
+    const resultsBox = statusEl("searchResults");
+    resultsBox.innerHTML = "";
+    statusBox.textContent = "Se caută...";
+    statusBox.className = "status-msg";
+    try {
+      const url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
+        encodeURIComponent(query) +
+        "&search_simple=1&action=process&json=1&page_size=15&fields=product_name,brands,nutriments,code";
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error("Răspuns HTTP " + resp.status);
+      const data = await resp.json();
+      const products = (data.products || []).filter(p => p.product_name && p.nutriments);
+      if (products.length === 0) {
+        statusBox.textContent = "Niciun rezultat găsit.";
+        return;
+      }
+      statusBox.textContent = products.length + " rezultate";
+      products.forEach(p => {
+        const n = p.nutriments || {};
+        const kcal = n["energy-kcal_100g"] != null ? n["energy-kcal_100g"] :
+          (n["energy_100g"] != null ? n["energy_100g"] / 4.184 : 0);
+        const prot = n["proteins_100g"] || 0;
+        const carb = n["carbohydrates_100g"] || 0;
+        const fat = n["fat_100g"] || 0;
+        const div = document.createElement("div");
+        div.className = "result-item";
+        const label = p.product_name + (p.brands ? " — " + p.brands : "");
+        div.innerHTML = `
+          <div style="flex:1;">
+            <div class="result-name">${escapeHtml(label)}</div>
+            <div class="result-macros">${round1(kcal)} kcal · P${round1(prot)} C${round1(carb)} G${round1(fat)} /100g</div>
+          </div>
+          <button class="small">Alege</button>
+        `;
+        div.querySelector("button").addEventListener("click", () => {
+          selectFood({ name: label, kcal: round1(kcal), prot: round1(prot), carb: round1(carb), fat: round1(fat) });
+        });
+        resultsBox.appendChild(div);
+      });
+    } catch (e) {
+      statusBox.textContent = "Eroare la căutare: " + e.message;
+      statusBox.className = "status-msg error";
+    }
+  }
+
+  async function lookupBarcode(code) {
+    const statusBox = statusEl("searchStatus");
+    statusBox.textContent = "Se caută codul " + code + "...";
+    statusBox.className = "status-msg";
+    document.getElementById("searchResults").innerHTML = "";
+    try {
+      const url = "https://world.openfoodfacts.org/api/v2/product/" + encodeURIComponent(code) +
+        ".json?fields=product_name,brands,nutriments";
+      const resp = await fetch(url);
+      const data = await resp.json();
+      if (data.status !== 1 || !data.product) {
+        statusBox.textContent = "Produs negăsit pentru acest cod de bare.";
+        statusBox.className = "status-msg error";
+        return;
+      }
+      const p = data.product;
+      const n = p.nutriments || {};
+      const kcal = n["energy-kcal_100g"] != null ? n["energy-kcal_100g"] :
+        (n["energy_100g"] != null ? n["energy_100g"] / 4.184 : 0);
+      const prot = n["proteins_100g"] || 0;
+      const carb = n["carbohydrates_100g"] || 0;
+      const fat = n["fat_100g"] || 0;
+      const label = (p.product_name || "Produs fără nume") + (p.brands ? " — " + p.brands : "");
+      statusBox.textContent = "Găsit.";
+      selectFood({ name: label, kcal: round1(kcal), prot: round1(prot), carb: round1(carb), fat: round1(fat) });
+    } catch (e) {
+      statusBox.textContent = "Eroare la căutarea codului de bare: " + e.message;
+      statusBox.className = "status-msg error";
+    }
+  }
+
+  // --- Camera barcode scanning ---
+  let html5QrCode = null;
+  let cameraActive = false;
+
+  async function toggleCamera() {
+    const wrap = document.getElementById("cameraWrap");
+    const statusBox = document.getElementById("cameraStatus");
+    if (cameraActive) {
+      try { await html5QrCode.stop(); } catch (e) {}
+      wrap.classList.remove("active");
+      cameraActive = false;
+      return;
+    }
+    if (typeof Html5Qrcode === "undefined") {
+      statusBox.textContent = "Biblioteca de scanare nu s-a putut încărca (necesită conexiune la internet pentru CDN).";
+      statusBox.className = "status-msg error";
+      return;
+    }
+    wrap.classList.add("active");
+    statusBox.textContent = "Se pornește camera...";
+    statusBox.className = "status-msg";
+    try {
+      html5QrCode = new Html5Qrcode("qrReader");
+      await html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 250, height: 150 } },
+        (decodedText) => {
+          statusBox.textContent = "Cod detectat: " + decodedText;
+          lookupBarcode(decodedText);
+          html5QrCode.stop().catch(() => {});
+          wrap.classList.remove("active");
+          cameraActive = false;
+        },
+        () => { /* ignorăm erorile de scanare per-frame */ }
+      );
+      cameraActive = true;
+      statusBox.textContent = "Camera activă — îndreaptă spre codul de bare.";
+    } catch (e) {
+      statusBox.textContent = "Nu am putut accesa camera. Necesită https sau localhost, și permisiune acordată. (" + e.message + ")";
+      statusBox.className = "status-msg error";
+      wrap.classList.remove("active");
+    }
+  }
+
+  // --- Event wiring ---
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const q = document.getElementById("searchInput").value.trim();
+    if (q) searchByName(q);
+  });
+  document.getElementById("searchInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("searchBtn").click();
+  });
+
+  document.getElementById("barcodeLookupBtn").addEventListener("click", () => {
+    const code = document.getElementById("barcodeInput").value.trim();
+    if (code) lookupBarcode(code);
+  });
+  document.getElementById("barcodeInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("barcodeLookupBtn").click();
+  });
+
+  document.getElementById("cameraToggleBtn").addEventListener("click", toggleCamera);
+
+  document.getElementById("confirmAddBtn").addEventListener("click", confirmAdd);
+  document.getElementById("cancelAddBtn").addEventListener("click", () => {
+    document.getElementById("addAmountCard").style.display = "none";
+    state.selectedFood = null;
+  });
+
+  document.getElementById("addQuickBtn").addEventListener("click", () => {
+    const name = document.getElementById("newQuickName").value.trim();
+    const kcal = parseFloat(document.getElementById("newQuickKcal").value);
+    const prot = parseFloat(document.getElementById("newQuickProt").value) || 0;
+    const carb = parseFloat(document.getElementById("newQuickCarb").value) || 0;
+    const fat = parseFloat(document.getElementById("newQuickFat").value) || 0;
+    if (!name || isNaN(kcal)) return;
+    state.quickFoods.push({ name, kcal, prot, carb, fat });
+    saveQuickFoods();
+    renderQuickGrid();
+    document.getElementById("newQuickName").value = "";
+    document.getElementById("newQuickKcal").value = "";
+    document.getElementById("newQuickProt").value = "";
+    document.getElementById("newQuickCarb").value = "";
+    document.getElementById("newQuickFat").value = "";
+  });
+
+  document.getElementById("clearLogBtn").addEventListener("click", () => {
+    if (confirm("Golești jurnalul de azi?")) {
+      state.log = [];
+      saveLog();
+      renderLog();
+    }
+  });
+
+  document.getElementById("weightInput").addEventListener("input", renderLog);
+  document.getElementById("dayType").addEventListener("change", renderLog);
+
+  // --- Init ---
+  loadQuickFoods();
+  loadLog();
+  renderQuickGrid();
+  renderLog();
+
+})();
+</script>
+</body>
+</html>

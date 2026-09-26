@@ -4,3 +4,5 @@ Disallow: /cdn-cgi/
 
 Sitemap: https://www.brasovbrokers.ro/sitemap.xml
 Disallow: /portal/
+
+Disallow: /macrotracker/
