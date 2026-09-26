@@ -361,6 +361,8 @@
 
   const todayKey = () => "macrotracker_log_" + new Date().toISOString().slice(0,10);
   const quickKey = "macrotracker_quickfoods";
+  const weightKey = "macrotracker_weight";
+  const dayTypeKey = "macrotracker_daytype";
 
   const defaultQuickFoods = [
     { name: "Ouă (întregi, crude)", kcal: 143, prot: 12.6, carb: 0.7, sugar: 0.4, fat: 9.5 },
@@ -392,6 +394,25 @@
     try { localStorage.setItem(quickKey, JSON.stringify(state.quickFoods)); }
     catch (e) { console.error("Nu am putut salva lista de alimente", e); }
   }
+  function loadWeightAndDayType() {
+    try {
+      const w = localStorage.getItem(weightKey);
+      if (w) document.getElementById("weightInput").value = w;
+    } catch (e) {}
+    try {
+      const d = localStorage.getItem(dayTypeKey);
+      if (d) document.getElementById("dayType").value = d;
+    } catch (e) {}
+  }
+  function saveWeight() {
+    try { localStorage.setItem(weightKey, document.getElementById("weightInput").value); }
+    catch (e) {}
+  }
+  function saveDayType() {
+    try { localStorage.setItem(dayTypeKey, document.getElementById("dayType").value); }
+    catch (e) {}
+  }
+
   function loadLog() {
     try {
       const raw = localStorage.getItem(todayKey());
@@ -832,11 +853,12 @@
     }
   });
 
-  document.getElementById("weightInput").addEventListener("input", renderLog);
-  document.getElementById("dayType").addEventListener("change", renderLog);
+  document.getElementById("weightInput").addEventListener("input", () => { saveWeight(); renderLog(); });
+  document.getElementById("dayType").addEventListener("change", () => { saveDayType(); renderLog(); });
 
   // --- Init ---
   loadQuickFoods();
+  loadWeightAndDayType();
   loadLog();
   renderQuickGrid();
   renderLog();
