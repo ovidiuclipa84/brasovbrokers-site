@@ -503,6 +503,94 @@
     document.getElementById("proteinProgressFill").style.width = pct + "%";
   }
 
+  // --- Bibliotecă locală RO: alimente generice de bază (nu depinde de rețea) ---
+  const genericFoodsRO = [
+    // Carne
+    { name: "Cotlet de porc, crud", kcal: 137, prot: 21.9, carb: 0, fat: 5.4 },
+    { name: "Mușchiuleț de porc, crud", kcal: 143, prot: 22, carb: 0, fat: 5.6 },
+    { name: "Ceafă de porc, crudă", kcal: 263, prot: 17, carb: 0, fat: 21 },
+    { name: "Slănină, crudă", kcal: 541, prot: 9, carb: 0, fat: 53 },
+    { name: "Cârnați proaspeți de porc, cruzi", kcal: 300, prot: 12, carb: 1, fat: 27 },
+    { name: "Piept de pui, crud, fără piele", kcal: 120, prot: 22.5, carb: 0, fat: 2.6 },
+    { name: "Pulpe de pui, crude, cu piele", kcal: 177, prot: 16.7, carb: 0, fat: 11.9 },
+    { name: "Pulpe de pui, crude, fără piele", kcal: 119, prot: 18.5, carb: 0, fat: 4.6 },
+    { name: "Aripioare de pui, crude", kcal: 203, prot: 18.1, carb: 0, fat: 14 },
+    { name: "Piept de curcan, crud", kcal: 104, prot: 22, carb: 0, fat: 1.5 },
+    { name: "Mușchi de vită (file), crud", kcal: 143, prot: 21, carb: 0, fat: 6 },
+    { name: "Vită tocată (80/20), crudă", kcal: 254, prot: 17.2, carb: 0, fat: 20 },
+    { name: "Vită tocată slabă (90/10), crudă", kcal: 176, prot: 20, carb: 0, fat: 10 },
+    { name: "Cotlet de miel, crud", kcal: 259, prot: 16, carb: 0, fat: 21 },
+    // Pește
+    { name: "Somon, crud", kcal: 208, prot: 20, carb: 0, fat: 13 },
+    { name: "Ton, crud", kcal: 132, prot: 28, carb: 0, fat: 1.3 },
+    { name: "Merluciu, file, crud", kcal: 90, prot: 17.7, carb: 0, fat: 1.3 },
+    { name: "Cod, file, crud", kcal: 82, prot: 18, carb: 0, fat: 0.7 },
+    { name: "Crap, crud", kcal: 127, prot: 17.8, carb: 0, fat: 5.6 },
+    { name: "Păstrăv, crud", kcal: 141, prot: 20, carb: 0, fat: 6.6 },
+    { name: "Sardine în ulei (conservă)", kcal: 208, prot: 24.6, carb: 0, fat: 11.5 },
+    // Ouă și lactate
+    { name: "Ouă întregi, crude", kcal: 143, prot: 12.6, carb: 0.7, fat: 9.5 },
+    { name: "Albuș de ou, crud", kcal: 52, prot: 10.9, carb: 0.7, fat: 0.2 },
+    { name: "Gălbenuș de ou, crud", kcal: 322, prot: 15.9, carb: 3.6, fat: 26.5 },
+    { name: "Lapte integral 3.5%", kcal: 61, prot: 3.2, carb: 4.8, fat: 3.3 },
+    { name: "Lapte degresat", kcal: 34, prot: 3.4, carb: 5, fat: 0.1 },
+    { name: "Iaurt grecesc simplu", kcal: 97, prot: 9, carb: 4, fat: 5 },
+    { name: "Iaurt simplu 3.5%", kcal: 61, prot: 3.5, carb: 4.7, fat: 3.3 },
+    { name: "Sana / lapte prins", kcal: 62, prot: 3.3, carb: 4.7, fat: 3.2 },
+    { name: "Brânză de vaci", kcal: 98, prot: 11, carb: 3.4, fat: 4.3 },
+    { name: "Cașcaval", kcal: 371, prot: 25, carb: 1.3, fat: 29 },
+    { name: "Telemea (brânză sărată)", kcal: 264, prot: 17, carb: 1, fat: 21 },
+    { name: "Smântână 20%", kcal: 193, prot: 2.8, carb: 3.4, fat: 20 },
+    { name: "Unt", kcal: 717, prot: 0.9, carb: 0.1, fat: 81 },
+    // Cereale, leguminoase, paste
+    { name: "Orez alb, fiert", kcal: 130, prot: 2.7, carb: 28, fat: 0.3 },
+    { name: "Orez brun, fiert", kcal: 123, prot: 2.7, carb: 25.6, fat: 1 },
+    { name: "Paste, fierte", kcal: 131, prot: 5, carb: 25, fat: 1.1 },
+    { name: "Cartofi, fierți", kcal: 87, prot: 1.9, carb: 20, fat: 0.1 },
+    { name: "Cartofi dulci, fierți", kcal: 90, prot: 2, carb: 20.7, fat: 0.1 },
+    { name: "Fasole boabe, fiartă", kcal: 127, prot: 8.7, carb: 22.8, fat: 0.5 },
+    { name: "Linte, fiartă", kcal: 116, prot: 9, carb: 20, fat: 0.4 },
+    { name: "Năut, fiert", kcal: 164, prot: 8.9, carb: 27.4, fat: 2.6 },
+    { name: "Ovăz (fulgi), uscat", kcal: 389, prot: 16.9, carb: 66, fat: 6.9 },
+    { name: "Pâine albă", kcal: 265, prot: 9, carb: 49, fat: 3.2 },
+    { name: "Pâine integrală", kcal: 247, prot: 13, carb: 41, fat: 4.2 },
+    // Legume
+    { name: "Roșii", kcal: 18, prot: 0.9, carb: 3.9, fat: 0.2 },
+    { name: "Castraveți", kcal: 15, prot: 0.7, carb: 3.6, fat: 0.1 },
+    { name: "Ardei gras", kcal: 31, prot: 1, carb: 6, fat: 0.3 },
+    { name: "Ceapă", kcal: 40, prot: 1.1, carb: 9.3, fat: 0.1 },
+    { name: "Usturoi", kcal: 149, prot: 6.4, carb: 33, fat: 0.5 },
+    { name: "Morcov", kcal: 41, prot: 0.9, carb: 9.6, fat: 0.2 },
+    { name: "Broccoli", kcal: 34, prot: 2.8, carb: 6.6, fat: 0.4 },
+    { name: "Rucola", kcal: 25, prot: 2.6, carb: 3.7, fat: 0.7 },
+    { name: "Spanac", kcal: 23, prot: 2.9, carb: 3.6, fat: 0.4 },
+    { name: "Varză albă", kcal: 25, prot: 1.3, carb: 5.8, fat: 0.1 },
+    { name: "Vânătă", kcal: 25, prot: 1, carb: 6, fat: 0.2 },
+    // Fructe
+    { name: "Măr", kcal: 52, prot: 0.3, carb: 14, fat: 0.2 },
+    { name: "Banană", kcal: 89, prot: 1.1, carb: 23, fat: 0.3 },
+    { name: "Portocală", kcal: 47, prot: 0.9, carb: 12, fat: 0.1 },
+    { name: "Căpșuni", kcal: 32, prot: 0.7, carb: 7.7, fat: 0.3 },
+    { name: "Pepene roșu", kcal: 30, prot: 0.6, carb: 7.6, fat: 0.2 },
+    { name: "Struguri", kcal: 69, prot: 0.7, carb: 18, fat: 0.2 },
+    { name: "Avocado", kcal: 160, prot: 2, carb: 8.5, fat: 14.7 },
+    // Grăsimi și nuci
+    { name: "Ulei de măsline", kcal: 884, prot: 0, carb: 0, fat: 100 },
+    { name: "Ulei de floarea-soarelui", kcal: 884, prot: 0, carb: 0, fat: 100 },
+    { name: "Migdale", kcal: 579, prot: 21.2, carb: 21.6, fat: 49.9 },
+    { name: "Nuci", kcal: 654, prot: 15.2, carb: 13.7, fat: 65.2 },
+    { name: "Caju", kcal: 553, prot: 18.2, carb: 30.2, fat: 43.9 },
+    { name: "Semințe de floarea-soarelui", kcal: 584, prot: 20.8, carb: 20, fat: 51.5 },
+  ];
+
+  function stripDiacritics(s) {
+    return (s || "").toLowerCase()
+      .replace(/[ăâ]/g, "a")
+      .replace(/î/g, "i")
+      .replace(/ș/g, "s")
+      .replace(/ț/g, "t");
+  }
+
   // --- Open Food Facts search ---
   function statusEl(id) { return document.getElementById(id); }
 
@@ -512,6 +600,27 @@
     resultsBox.innerHTML = "";
     statusBox.textContent = "Se caută...";
     statusBox.className = "status-msg";
+
+    // 1. Bibliotecă locală RO (instant, offline)
+    const qNorm = stripDiacritics(query);
+    const localMatches = genericFoodsRO.filter(f => stripDiacritics(f.name).includes(qNorm));
+    localMatches.forEach(f => {
+      const div = document.createElement("div");
+      div.className = "result-item";
+      div.innerHTML = `
+        <div style="flex:1;">
+          <div class="result-name">🏠 ${escapeHtml(f.name)}</div>
+          <div class="result-macros">${f.kcal} kcal · P${f.prot} C${f.carb} G${f.fat} /100g · Bibliotecă RO</div>
+        </div>
+        <button class="small">Alege</button>
+      `;
+      div.querySelector("button").addEventListener("click", () => {
+        selectFood({ name: f.name, kcal: f.kcal, prot: f.prot, carb: f.carb, fat: f.fat });
+      });
+      resultsBox.appendChild(div);
+    });
+
+    // 2. Open Food Facts (produse ambalate, cu brand)
     try {
       const url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" +
         encodeURIComponent(query) +
@@ -520,11 +629,8 @@
       if (!resp.ok) throw new Error("Răspuns HTTP " + resp.status);
       const data = await resp.json();
       const products = (data.products || []).filter(p => p.product_name && p.nutriments);
-      if (products.length === 0) {
-        statusBox.textContent = "Niciun rezultat găsit.";
-        return;
-      }
-      statusBox.textContent = products.length + " rezultate";
+      const totalCount = localMatches.length + products.length;
+      statusBox.textContent = totalCount > 0 ? totalCount + " rezultate" : "Niciun rezultat găsit.";
       products.forEach(p => {
         const n = p.nutriments || {};
         const kcal = n["energy-kcal_100g"] != null ? n["energy-kcal_100g"] :
@@ -537,8 +643,8 @@
         const label = p.product_name + (p.brands ? " — " + p.brands : "");
         div.innerHTML = `
           <div style="flex:1;">
-            <div class="result-name">${escapeHtml(label)}</div>
-            <div class="result-macros">${round1(kcal)} kcal · P${round1(prot)} C${round1(carb)} G${round1(fat)} /100g</div>
+            <div class="result-name">🌐 ${escapeHtml(label)}</div>
+            <div class="result-macros">${round1(kcal)} kcal · P${round1(prot)} C${round1(carb)} G${round1(fat)} /100g · Open Food Facts</div>
           </div>
           <button class="small">Alege</button>
         `;
@@ -548,8 +654,12 @@
         resultsBox.appendChild(div);
       });
     } catch (e) {
-      statusBox.textContent = "Eroare la căutare: " + e.message;
-      statusBox.className = "status-msg error";
+      if (localMatches.length === 0) {
+        statusBox.textContent = "Eroare la căutare online: " + e.message + " (biblioteca locală nu are rezultate pentru acest termen)";
+        statusBox.className = "status-msg error";
+      } else {
+        statusBox.textContent = localMatches.length + " rezultate din biblioteca locală (căutarea online a eșuat: " + e.message + ")";
+      }
     }
   }
 
